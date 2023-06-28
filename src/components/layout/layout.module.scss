@@ -1,0 +1,10 @@
+.layout {
+    display: grid;
+    place-content: center;
+    gap: 2rem;
+    grid-template-rows: auto minmax(auto, 1fr) auto;
+
+    & > :nth-child(2) {
+        align-content: start;
+    }
+}

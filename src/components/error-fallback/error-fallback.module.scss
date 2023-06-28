@@ -1,0 +1,17 @@
+.error-page {
+    color: var(--error-clr);
+    text-align: center;
+    display: grid;
+    place-content: center;
+    gap: 2rem;
+    padding: 2rem;
+
+    h1 {
+        font-variation-settings: 'wght' 800;
+        font-size: 4rem;
+    }
+
+    p {
+        font-variation-settings: 'wght' 500;
+    }
+}

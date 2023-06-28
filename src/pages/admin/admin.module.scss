@@ -1,0 +1,21 @@
+.admin-page {
+    display: grid;
+    place-content: center;
+    color: white;
+}
+
+table {
+    border-radius: 1rem;
+    border: 1px solid white;
+    overflow: hidden;
+    background-color: white;
+
+    td {
+        background-color: black;
+        padding: 0.5rem;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

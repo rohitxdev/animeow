@@ -1,0 +1,103 @@
+@use '../../app/keyframes' as *;
+
+@media (hover) {
+
+    .card:hover {
+        height: 16em;
+        width: 24em;
+
+        .title {
+            white-space: unset;
+            // animation: showlines 0.4s 1 forwards;
+        }
+
+        .release-date {
+            // animation: showlines 0.4s 1 forwards;
+
+        }
+    }
+}
+
+.card-data {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5em;
+
+    .title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.9em;
+        color: var(--coral-100);
+
+    }
+
+    .release-date {
+        color: grey;
+        font-size: 0.75em;
+        margin-left: 1em;
+        font-weight: 600;
+    }
+
+
+}
+
+
+.card {
+    --height: 14em;
+    --border-radius: 1em;
+    height: var(--height);
+    width: calc(3/4 * var(--height));
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    scroll-snap-align: start;
+    position: relative;
+    transition: all 200ms;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5em;
+    // border: 1px solid transparent;
+
+    .title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0.25em 0.5em;
+        color: var(--coral-100);
+        font-weight: 600;
+
+    }
+
+    .release-date {
+        color: grey;
+        font-size: 0.75em;
+        margin-left: 1em;
+        padding: 0.25em 0.5em;
+        margin-bottom: 0.25em;
+        font-weight: 600;
+    }
+}
+
+.heart {
+    height: 2em;
+    width: 2em;
+    margin: 0.75em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transition: all 0.2s;
+
+    .card-data:hover > & {
+        opacity: 1;
+    }
+
+    svg {
+        stroke: var(--coral-100);
+        fill: var(--coral-100);
+    }
+}

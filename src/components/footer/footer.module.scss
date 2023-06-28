@@ -1,0 +1,54 @@
+.footer {
+    display: grid;
+    gap: 1rem;
+    height: 100%;
+    width: 100%;
+    place-content: center;
+    font-weight: 500;
+    color: grey;
+    font-size: small;
+    text-align: center;
+
+
+
+    .social-media-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        svg {
+            height: 1.5rem;
+            width: 1.5rem;
+            fill: white;
+        }
+
+        img {
+            height: 1.5rem;
+        }
+
+    }
+
+    .enime-link {
+        color: white;
+        position: relative;
+
+        &::after {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            transform: translateY(3px);
+            content: '';
+            height: 1px;
+            width: 0;
+            background-color: white;
+            transition: width 150ms;
+
+        }
+
+        &:is(:active, :focus, :hover):after {
+            width: 100%;
+        }
+
+    }
+}

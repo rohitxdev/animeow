@@ -1,0 +1,189 @@
+.search {
+    --duration: 200ms;
+
+    position: relative;
+    min-width: 20ch;
+
+    &.show {
+        width: min(100%, 40ch);
+        transition: width var(--duration) linear;
+
+        .search-bar + .results {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            transition: grid-template-rows var(--duration) 200ms linear, opacity var(--duration) 200ms linear;
+        }
+    }
+
+    &.hide {
+        width: clamp(20ch, 100%, 30ch);
+        transition: width var(--duration) 200ms linear;
+
+        .search-bar + .results {
+            grid-template-rows: 0fr;
+            opacity: 0;
+            transition: grid-template-rows var(--duration) linear, opacity var(--duration) linear;
+        }
+    }
+
+    .search-bar {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
+        background-color: var(--grey-300);
+
+
+        input {
+            background-color: transparent;
+            width: 100%;
+            text-overflow: ellipsis;
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+
+            &::placeholder {
+                color: var(--grey-100);
+            }
+        }
+
+        label {
+            display: flex;
+        }
+
+        svg {
+            height: 1.5rem;
+            width: 1.5rem;
+            fill: white;
+            cursor: pointer;
+        }
+
+    }
+
+
+
+    .results {
+
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--coral-100);
+        }
+
+        position: absolute;
+        z-index: 100;
+        margin-top: 0.5rem;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: grid;
+        max-height: calc(0.8 * var(--vh) - 4rem);
+        border-radius: 1rem;
+        grid-template-columns: 1fr;
+        background-color: var(--dark);
+        overflow: hidden;
+
+        & > div:first-child {
+            overflow: hidden auto;
+        }
+
+        .no-results-found {
+            background-color: var(--grey-300);
+            text-align: center;
+            padding: 1.5rem 1.25rem;
+            font-variation-settings: 'wght' 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+
+            svg {
+                height: 1.75rem;
+                width: 1.75rem;
+                fill: white;
+            }
+        }
+
+    }
+
+    .loader {
+        background-color: var(--grey-300);
+        height: 150px;
+        width: 100%;
+    }
+
+    .rating {
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-variation-settings: 'wght' 600;
+
+        svg {
+            height: 1rem;
+            width: 1rem;
+        }
+    }
+
+}
+
+.search-result {
+    cursor: pointer;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    background-color: var(--grey-300);
+    margin: 4px 4px 2px 4px;
+    color: white;
+    justify-content: center;
+
+    .title {
+        font-variation-settings: 'wght' 700;
+        color: white;
+    }
+
+    .year {
+        color: var(--grey-100);
+        font-style: italic;
+    }
+
+
+
+
+    & > div {
+        display: grid;
+        gap: 1rem;
+        align-content: start;
+        color: white;
+
+
+        & > img {
+            height: min(120px, 20vh);
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+    }
+
+    .genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        span {
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            color: white;
+            background-color: var(--coral-100);
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+    }
+}

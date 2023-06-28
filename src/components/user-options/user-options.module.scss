@@ -1,0 +1,103 @@
+.options {
+    position: relative;
+    justify-self: right;
+
+    .profile-picture {
+        --size: 2.5rem;
+
+        height: var(--size);
+        width: var(--size);
+        background-color: white;
+        padding: 0.25rem;
+        border-radius: 100%;
+        cursor: pointer;
+
+        & > :is(img, svg) {
+            height: 100%;
+            width: 100%;
+            border-radius: 100%;
+        }
+
+        animation: scale-up 300ms cubic-bezier(.59, 1.12, .75, .98) 1 forwards;
+
+        @keyframes scale-up {
+
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(360deg);
+            }
+        }
+    }
+
+    .drop-down {
+        --duration: 100ms;
+        --timing-function: linear;
+
+        position: absolute;
+        z-index: 100;
+        top: 100%;
+        left: 100%;
+        display: grid;
+        padding: 1rem 0;
+        transform-origin: top right;
+        transition: opacity var(--duration) var(--timing-function), transform var(--duration) var(--timing-function), grid-template-rows var(--duration) var(--timing-function);
+
+
+        &::before {
+            --tip-size: 0.5rem;
+            content: '';
+            position: absolute;
+            z-index: 10;
+            right: 0;
+            // right: calc(var(--size) / 2);
+            transform: translate(-100%, 1px);
+            border-bottom: var(--tip-size) solid white;
+            border-top: var(--tip-size) solid transparent;
+            border-inline: var(--tip-size) solid transparent;
+        }
+
+        &.show {
+            opacity: 1;
+            grid-template-rows: 1fr;
+            transform: translateX(-100%) scale(1);
+        }
+
+        &.hide {
+            opacity: 0;
+            grid-template-rows: 0fr;
+            transform: translateX(-100%) scale(0);
+        }
+
+        & > div {
+            overflow: hidden;
+            background-color: white;
+            width: max-content;
+            color: var(--grey-300);
+            border-radius: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            text-align: center;
+
+
+            & > :is(a, button) {
+                border: none;
+                outline: none;
+                cursor: pointer;
+                font-variation-settings: 'wght' 600;
+                background-color: transparent;
+                border-radius: 0;
+                padding: 0.75rem 1rem;
+                font-size: small;
+                min-width: 16ch;
+            }
+
+
+        }
+
+    }
+}

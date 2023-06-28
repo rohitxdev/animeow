@@ -1,0 +1,15 @@
+@use '../../app/_keyframes.scss' as *;
+
+.home-page {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-content: center;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+}
+
+.react-logo {
+    margin-inline: auto;
+    animation: rotate 30s linear alternate forwards infinite;
+}

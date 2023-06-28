@@ -1,0 +1,43 @@
+.video-player {
+    // height: 100%;
+    // width: 100%;
+    max-width: 75vw;
+    aspect-ratio: 4 / 3;
+}
+
+.play-btn {
+    --size: 4em;
+    position: absolute;
+    top: calc(50% - var(--size) / 2);
+    left: calc(50% - var(--size) / 2);
+    border-radius: 50%;
+    background-color: transparent;
+    height: var(--size);
+    width: var(--size);
+    border: none;
+
+}
+
+.loader {
+    position: absolute;
+    top: calc(50% - 2em);
+    left: calc(50% - 2em);
+    height: 4em;
+    z-index: 100;
+
+    svg {
+        color: var(--coral-100) !important;
+    }
+
+    &.hide {
+        display: none;
+    }
+}
+
+.video-container {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: max(300px, 75vh);
+    aspect-ratio: 16 / 9;
+}
