@@ -1,3 +1,4 @@
+import { ReactComponent as SpinnerIcon } from '@assets/icons/spinner.svg';
 import { useAuthContext } from '@hooks';
 import { getFormData } from '@utils';
 import { AxiosError } from 'axios';
@@ -19,14 +20,14 @@ export const Login = ({
 }: LoginProps) => {
 	const id = useId();
 	const { logIn } = useAuthContext();
-	const [email, setEmail] = useState(
-		defaultEmail ?? 'rohitreddy.gangwar@gmail.com',
-	);
-	const [password, setPassword] = useState(defaultPassword ?? 'Rohit123!');
+	const [email, setEmail] = useState(defaultEmail ?? '');
+	const [password, setPassword] = useState(defaultPassword ?? '');
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		try {
 			e.preventDefault();
+			setIsSubmitting(true);
 			const { email, password } = loginFormSchema.parse(getFormData(e));
 			await logIn({ email, password });
 		} catch (err) {
@@ -36,6 +37,8 @@ export const Login = ({
 			if (err instanceof AxiosError) {
 				console.log(err.message);
 			}
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -61,7 +64,9 @@ export const Login = ({
 					value={password}
 					onInput={(e) => setPassword(e.currentTarget.value)}
 				/>
-				<button type="submit">Submit</button>
+				<button type="submit" disabled={isSubmitting}>
+					{isSubmitting ? <SpinnerIcon /> : 'Submit'}
+				</button>
 			</form>
 		</div>
 	);

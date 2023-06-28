@@ -65,13 +65,16 @@
     }
 }
 
-
-
-
-
-
 @media (hover:none) {
     .scroll-btn {
         display: none;
     }
+}
+
+.card {
+    --height: 14em;
+    --border-radius: 1em;
+    height: var(--height);
+    width: calc(3/4 * var(--height));
+    border-radius: var(--border-radius);
 }

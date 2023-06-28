@@ -2,11 +2,12 @@ import { ReactComponent as BackIcon } from '@assets/icons/chevron-back-outline.s
 import { ReactComponent as ForwardIcon } from '@assets/icons/chevron-forward-outline.svg';
 import { CardData } from '@types';
 import { memo, useRef } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import { Card } from '../card/card';
 import styles from './carousel.module.scss';
 
-export const Carousel = memo(({ data }: { data: CardData[] }) => {
+export const Carousel = memo(({ data }: { data: CardData[] | null }) => {
 	const cardListRef = useRef<HTMLDivElement | null>(null);
 
 	const scrollRight = () => {
@@ -30,7 +31,15 @@ export const Carousel = memo(({ data }: { data: CardData[] }) => {
 					? data.map((anime: any, i: any) => <Card data={anime} key={i} />)
 					: new Array(20)
 							.fill(null)
-							.map((anime, i: any) => <Card data={null} key={i} />)}
+							.map((anime, i: any) => (
+								<Skeleton
+									key={i}
+									duration={1}
+									className={styles.card}
+									baseColor="var(--grey-300)"
+									highlightColor="var(--grey-200)"
+								></Skeleton>
+							))}
 			</section>
 			<button onClick={scrollRight} className={styles.scrollBtn}>
 				<ForwardIcon />

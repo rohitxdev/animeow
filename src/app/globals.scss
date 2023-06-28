@@ -87,11 +87,13 @@
 @font-face {
 	font-family: 'Inter';
 	src: url('/inter-variable-font.woff2') format('woff2');
+	font-display: 'swap';
 }
 
 @font-face {
 	font-family: 'Mona Sans';
 	src: url('/mona-sans.woff2') format('woff2');
+	font-display: 'swap';
 }
 
 @media screen and (prefers-reduced-motion: reduce) {

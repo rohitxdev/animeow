@@ -21,7 +21,7 @@ export const HomePage = () => {
 				animeTitle: val.title.english ?? val.title.native,
 				releaseDate: Number(val.year),
 		  })) as unknown as CardData[])
-		: [];
+		: null;
 	return (
 		<>
 			<Head>

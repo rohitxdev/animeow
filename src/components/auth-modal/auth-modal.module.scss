@@ -43,6 +43,15 @@
         margin-block: 1rem;
         font-variation-settings: 'wght' 600;
         border-radius: 0.5rem;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            height: 1rem;
+            width: 1rem;
+        }
     }
 
 }

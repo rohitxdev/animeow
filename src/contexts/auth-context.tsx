@@ -17,6 +17,7 @@ interface AuthContext {
 	logOut: () => Promise<void>;
 	refreshAccessToken: () => Promise<void>;
 	isLoggedIn: boolean;
+	accessToken: string | null;
 	hasAccess: (requiredAuthRole?: AuthRole) => boolean;
 	showAuthModal: boolean;
 	setShowAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -153,6 +154,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 				refreshAccessToken,
 				isLoggedIn,
 				hasAccess,
+				accessToken,
 				showAuthModal,
 				setShowAuthModal,
 			}}
