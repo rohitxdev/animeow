@@ -7,11 +7,12 @@ import { ReactComponent as UserIcon } from '@assets/icons/user.svg';
 import { useAppContext, useAuthContext } from '@hooks';
 import { axiosInstance } from '@utils';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import styles from './user-options.module.scss';
 
 export const UserOptions = () => {
+	const location = useLocation();
 	const { appState, appDispatch } = useAppContext();
 	const { isLoggedIn, setShowAuthModal, logOut, hasAccess, accessToken } =
 		useAuthContext();
@@ -30,9 +31,7 @@ export const UserOptions = () => {
 	};
 
 	useEffect(() => {
-		if (showOptions) {
-			setShowOptions(false);
-		}
+		setShowOptions(false);
 		clearHideTimer();
 	}, [isLoggedIn]);
 
@@ -48,7 +47,9 @@ export const UserOptions = () => {
 		}
 	}, [isLoggedIn, accessToken]);
 
-	console.log(appState);
+	useEffect(() => {
+		setShowOptions(false);
+	}, [location]);
 
 	return (
 		<>
