@@ -59,15 +59,14 @@
 
 #root {
 	color: white;
-	background-color: var(--dark);
 	overflow: hidden auto;
 	scroll-behavior: smooth;
 	display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 1fr;
 	padding: 1rem;
-	height: var(--vh);
-	width: var(--vw);
+	height: var(--vh, 100vh);
+	width: var(--vw, 100vw);
 }
 
 .toast {
