@@ -1,1 +1,10 @@
 /
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+
+/assets/*.css
+  Content-Type: text/css; charset=utf-8
+
+/assets/*.js
+  Content-Type: application/javascript; charset=utf-8
