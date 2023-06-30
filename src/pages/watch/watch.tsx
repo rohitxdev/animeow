@@ -1,7 +1,9 @@
-import { ReactComponent as LoaderIcon } from '@assets/icons/loader.svg';
+import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg';
+import { ReactComponent as LoaderIcon } from '@assets/icons/loader-2.svg';
 import { ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -15,21 +17,24 @@ export const VideoResolutionPicker = ({
 	setVideoResolution: React.Dispatch<React.SetStateAction<string>>;
 }) => {
 	const id = useId();
-	const [isChecked, setIsChecked] = useState(false);
+	const [showOptions, setShowOptions] = useState(false);
 	return (
 		<div className={styles.videoResolutionPicker}>
-			<label htmlFor={id}>Options</label>
-			<input
-				type="checkbox"
-				checked={isChecked}
-				onClick={() => setIsChecked(!isChecked)}
-				id={id}
-				hidden
-			/>
-			<div className={styles.options}>
+			<button onClick={() => setShowOptions((val) => !val)}>Options</button>
+			<div
+				className={[
+					styles.options,
+					showOptions ? styles.show : styles.hide,
+				].join(' ')}
+			>
 				<div>
 					{availableResolutions.map((val, i) => (
-						<button onClick={() => setVideoResolution(val)} key={val + i}>
+						<button
+							onClick={() => {
+								setVideoResolution(val), setShowOptions(false);
+							}}
+							key={val + i}
+						>
 							{val}
 						</button>
 					))}
@@ -41,7 +46,6 @@ export const VideoResolutionPicker = ({
 
 export const WatchPage = () => {
 	const { animeId, episodeId } = useParams();
-	const [src, setSrc] = useState<string | null>(null);
 	const [videoResolution, setVideoResolution] = useState<string>('default');
 
 	if (!animeId || !episodeId) {
@@ -59,29 +63,35 @@ export const WatchPage = () => {
 		},
 	);
 
-	useEffect(() => {
-		setSrc(
-			data?.sources.find((val) => val.isM3U8 && val.quality === videoResolution)
-				?.url ?? null,
-		);
-	}, [data, videoResolution]);
-
-	if (isError) {
-		return <p style={{ backgroundColor: 'red', color: 'white' }}>Error</p>;
-	}
+	const src =
+		data?.sources.find((val) => val.isM3U8 && val.quality === videoResolution)
+			?.url ?? null;
 
 	return (
 		<div className={styles.watch}>
-			{isLoading && <LoaderIcon height={200} />}
-			{data && src && (
-				<div className={styles.videoWrapper}>
-					<VideoResolutionPicker
-						availableResolutions={data?.sources.map((val) => val.quality)}
-						setVideoResolution={setVideoResolution}
-					/>
-					<VideoPlayer src={src} />
-				</div>
-			)}
+			<div className={styles.videoContainer}>
+				{isLoading && (
+					<div className={styles.loading}>
+						<LoaderIcon />
+						<Skeleton baseColor="black" highlightColor="var(--dark)" />
+					</div>
+				)}
+				{data && src && (
+					<>
+						<VideoResolutionPicker
+							availableResolutions={data?.sources.map((val) => val.quality)}
+							setVideoResolution={setVideoResolution}
+						/>
+						<VideoPlayer src={src} />
+					</>
+				)}
+				{isError && (
+					<div className={styles.error}>
+						<BrokenFileIcon />
+						<p>Could not load video &nbsp;:&#40;</p>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

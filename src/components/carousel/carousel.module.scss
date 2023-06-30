@@ -29,7 +29,7 @@
     .scroll-btn {
         --size: 4em;
         z-index: 20;
-        color: white;
+        color: var(--light);
         background-color: transparent;
         border: none;
         outline: none;

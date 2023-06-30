@@ -4,7 +4,4 @@
     gap: 2rem;
     grid-template-rows: auto minmax(auto, 1fr) auto;
 
-    & > :nth-child(2) {
-        align-content: start;
-    }
 }

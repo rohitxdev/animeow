@@ -2,7 +2,7 @@
     height: 70vh;
     width: 100%;
     position: relative;
-    color: white;
+    color: var(--light);
 
     .gallery {
         z-index: -1000;
@@ -45,7 +45,7 @@
     gap: 1em;
 
     p {
-        color: white;
+        color: var(--light);
         font-size: 2em;
     }
 
@@ -136,7 +136,7 @@
 
 .scroll-btn {
     z-index: 10;
-    color: white;
+    color: var(--light);
     background-color: transparent;
     opacity: 0.8;
     border: none;

@@ -20,7 +20,7 @@
         svg {
             height: 1.5rem;
             width: 1.5rem;
-            fill: white;
+            fill: var(--light);
         }
 
         img {
@@ -30,7 +30,7 @@
     }
 
     .enime-link {
-        color: white;
+        color: var(--light);
         position: relative;
 
         &::after {
@@ -41,7 +41,7 @@
             content: '';
             height: 1px;
             width: 0;
-            background-color: white;
+            background-color: var(--light);
             transition: width 150ms;
 
         }

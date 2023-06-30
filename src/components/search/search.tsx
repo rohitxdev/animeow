@@ -23,15 +23,15 @@ const SearchResult = ({ data, ...props }: SearchResultProps) => {
 					<RatingIcon />
 					{data.averageScore}/100
 				</span>
+				<span className={styles.year}>{data.year}</span>
 			</div>
 			<div>
 				<p className={styles.title}>{title}</p>
 				<div className={styles.genres}>
-					{data.genre.map((val) => (
+					{data.genre.slice(0, 5).map((val) => (
 						<span key={val}>{val}</span>
 					))}
 				</div>
-				<p className={styles.year}>{data.year}</p>
 			</div>
 		</div>
 	);

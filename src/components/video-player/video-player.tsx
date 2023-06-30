@@ -5,7 +5,6 @@ import styles from './video-player.module.scss';
 
 export const VideoPlayer = ({ src }: { src: string }) => {
 	const playerRef = useRef<HTMLVideoElement | null>(null);
-	const isPlaying = useRef(false);
 	const currentTimeStamp = useRef(
 		Number(sessionStorage.getItem(`timestamp-${src}`)) ?? 0,
 	);
@@ -22,19 +21,11 @@ export const VideoPlayer = ({ src }: { src: string }) => {
 	}, [src]);
 
 	return (
-		<div className={styles.videoContainer}>
+		<div className={styles.videoPlayer}>
 			<HlsPlayer
-				src={src}
 				controls
+				src={src}
 				playerRef={playerRef}
-				className={styles.videoPlayer}
-				autoPlay={isPlaying.current}
-				onPlay={() => {
-					isPlaying.current = true;
-				}}
-				onPause={() => {
-					isPlaying.current = false;
-				}}
 				onProgress={(e) => {
 					setCurrentTimeStamp(e.currentTarget.currentTime);
 				}}

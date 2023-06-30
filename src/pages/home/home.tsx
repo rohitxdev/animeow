@@ -1,24 +1,27 @@
 import { Banner, Carousel, Head } from '@components';
 import { CardData } from '@types';
 import { api } from '@utils';
+import { useCallback } from 'react';
 import { useQuery } from 'react-query';
 
 import styles from './home.module.scss';
 
 export const HomePage = () => {
-	const { data: popularData } = useQuery(
-		['popular'],
-		({ signal }) => api.getPopularAnime({ signal }),
-		{ cacheTime: Infinity },
+	const getData = useCallback(
+		({ signal }: { signal?: AbortSignal }) =>
+			Promise.all([
+				api.getPopularAnime({ signal }),
+				api.getRecentAnime({ signal }),
+			]),
+		[],
 	);
 
-	const { data: recentData } = useQuery(
-		['recent'],
-		({ signal }) => api.getRecentAnime({ signal }),
-		{ cacheTime: Infinity },
-	);
-	const popularCarouselData = popularData
-		? (popularData.data.map((val) => ({
+	const { data } = useQuery(['home'], getData, {
+		cacheTime: Infinity,
+	});
+
+	const popularData = data
+		? (data[0].data.map((val) => ({
 				animeId: val.id,
 				animeImg: val.coverImage,
 				animeTitle: val.title.english ?? val.title.native,
@@ -26,8 +29,8 @@ export const HomePage = () => {
 		  })) as CardData[])
 		: null;
 
-	const recentCarouselData = recentData
-		? (recentData.data.map((val) => ({
+	const recentData = data
+		? (data[1].data.map((val) => ({
 				animeId: val.animeId,
 				animeImg: val.anime.coverImage,
 				animeTitle:
@@ -48,25 +51,13 @@ export const HomePage = () => {
 				<title>Animeow | Watch HD anime for free</title>
 			</Head>
 			<div className={styles.homePage}>
-				{/* {recentData?.data && (
-					<Banner
-						data={recentData?.data?.map((val) => ({
-							animeId: val.animeId,
-							episodeId: val.id,
-							animeImg: val.image ?? 'https://picsum.photos/800/600',
-							subOrDub: 'sub',
-							animeTitle: val.title ?? '',
-							episodeNum: val.number,
-						}))}
-					/>
-				)} */}
 				<section>
 					<p>Popular Anime</p>
-					<Carousel data={popularCarouselData} />
+					<Carousel data={popularData} />
 				</section>
 				<section>
 					<p>Recently Released</p>
-					<Carousel data={recentCarouselData} />
+					<Carousel data={recentData} />
 				</section>
 			</div>
 		</>

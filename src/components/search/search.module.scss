@@ -39,7 +39,7 @@
             background-color: transparent;
             width: 100%;
             text-overflow: ellipsis;
-            color: white;
+            color: var(--light);
             font-weight: 500;
             font-size: 1rem;
 
@@ -55,7 +55,7 @@
         svg {
             height: 1.5rem;
             width: 1.5rem;
-            fill: white;
+            fill: var(--light);
             cursor: pointer;
         }
 
@@ -73,10 +73,8 @@
         display: grid;
         max-height: calc(0.8 * var(--vh) - 4rem);
         border-radius: 1rem;
-        grid-template-columns: 1fr;
         background-color: var(--dark);
         overflow: hidden;
-
 
         & > div:first-child {
             overflow: hidden auto;
@@ -96,7 +94,7 @@
             svg {
                 height: 1.75rem;
                 width: 1.75rem;
-                fill: white;
+                fill: var(--light);
             }
         }
 
@@ -106,7 +104,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: var(--coral-100);
+            background-color: var(--coral-200);
         }
 
     }
@@ -121,7 +119,7 @@
         font-size: 0.75rem;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.25rem;
         font-variation-settings: 'wght' 600;
 
         svg {
@@ -133,7 +131,6 @@
 }
 
 .search-result {
-    border: 1px solid var(--coral-100);
     cursor: pointer;
     border-radius: 1rem;
     padding: 0.5rem;
@@ -141,18 +138,19 @@
     gap: 1rem;
     background-color: var(--grey-300);
     margin: 0.25rem;
-    color: white;
+    color: var(--light);
     justify-content: left;
     transition: outline 100ms linear;
 
     .title {
         font-variation-settings: 'wght' 700;
-        color: white;
+        color: var(--light);
     }
 
     .year {
         color: var(--grey-100);
-        font-style: italic;
+        font-weight: 500;
+        font-size: 0.75rem;
     }
 
     &:focus {
@@ -161,12 +159,10 @@
 
 
 
-    & > div {
+    & > div:first-child {
         display: grid;
-        gap: 1rem;
+        gap: 0.5rem;
         align-content: start;
-        color: white;
-
 
         & > img {
             height: min(120px, 20vh);
@@ -174,6 +170,12 @@
             object-fit: cover;
             border-radius: 0.5rem;
         }
+    }
+
+    & > div:nth-child(2) {
+        display: grid;
+        gap: 0.75rem;
+        align-content: start;
     }
 
     .genres {
@@ -184,7 +186,7 @@
         span {
             border-radius: 0.25rem;
             padding: 0.25rem 0.5rem;
-            color: white;
+            color: var(--light);
             background-color: var(--coral-100);
             font-size: 0.6rem;
             font-weight: 600;

@@ -1,14 +1,14 @@
 .admin-page {
     display: grid;
     place-content: center;
-    color: white;
+    color: var(--light);
 }
 
 table {
     border-radius: 1rem;
-    border: 1px solid white;
+    border: 1px solid var(--light);
     overflow: hidden;
-    background-color: white;
+    background-color: var(--light);
 
     td {
         background-color: black;

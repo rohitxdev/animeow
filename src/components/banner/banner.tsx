@@ -68,7 +68,7 @@ export const Banner = memo(({ data }: BannerProps) => {
 							style={
 								i === currentBanner
 									? { backgroundColor: 'var(--coral-100)' }
-									: { backgroundColor: 'white' }
+									: { backgroundColor: 'var(--light)' }
 							}
 						></button>
 					);

@@ -116,8 +116,6 @@ export const api = {
 			params: { page, perPage },
 			signal,
 		});
-		console.log(data);
-
 		return recentAnimeSchema.parse(data);
 	},
 	getMyProfile: async (signal?: AbortSignal) => {

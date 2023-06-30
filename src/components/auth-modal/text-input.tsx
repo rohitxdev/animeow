@@ -24,7 +24,7 @@ export const TextInput = ({ className, type, ...props }: InputProps) => {
 						onClick={() => setShowPassword((state) => !state)}
 					>
 						{showPassword ? (
-							<EyeOnIcon fill="white" />
+							<EyeOnIcon fill="var(--light)" />
 						) : (
 							<EyeOffIcon fill="var(--grey-200)" />
 						)}

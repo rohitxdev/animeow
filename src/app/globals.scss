@@ -7,34 +7,27 @@
 
 
 html {
-	--primary-clr: #18171b;
-	--secondary-clr: #ffffff;
-	--success-clr: rgb(8, 161, 8);
+	--success-clr: #08a108;
 	--error-clr: red;
-	--warning-clr: rgb(255, 72, 0);
-	--grey-100: hsl(0, 0%, 75%);
-	--grey-200: hsl(0, 0%, 50%);
-	--grey-300: hsl(0, 0%, 15%);
-	--dark-blue-100: #1f2546;
-	--dark-blue-200: #0f1f3e;
-	--dark-blue-500: #03122e;
-	--purple-100: #824678;
-	--violet-100: #3c2c4f;
+	--warning-clr: #ff4800;
+	--grey-100: #bfbfbf;
+	--grey-200: #808080;
+	--grey-300: #242424;
 	--coral-100: #e31c4e;
-	--coral-200: #471f29;
+	--coral-200: hsl(345, 49%, 35%);
 	--dark: #0a0d12;
-	--blue: #427bff;
+	--light: #ffffff;
 
 	-webkit-tap-highlight-color: transparent;
 
 	::-webkit-scrollbar {
 		background-color: rgba(128, 128, 128, 0.25);
-		width: 0.25rem;
-		height: 0.25rem;
+		width: 0.125rem;
+		height: 0.125rem;
 	}
 
 	::-webkit-scrollbar-thumb {
-		background-color: var(--secondary-clr);
+		background-color: var(--coral-200);
 		border-radius: 1.5rem;
 	}
 
@@ -60,7 +53,7 @@ html {
 }
 
 #root {
-	color: white;
+	color: var(--light);
 	overflow: hidden auto;
 	scroll-behavior: smooth;
 	display: grid;
@@ -75,13 +68,13 @@ html {
 .toast {
 	font-weight: 600;
 	border-radius: 0.5rem !important;
-	color: white;
+	color: var(--light);
 	background-color: var(--coral-200);
-	border: 1px solid white;
+	border: 1px solid var(--light);
 	margin: 0 1rem 1rem 1rem !important;
 
 	svg {
-		fill: white;
+		fill: var(--light);
 	}
 
 	&.success {

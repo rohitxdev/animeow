@@ -7,7 +7,7 @@
 
         height: var(--size);
         width: var(--size);
-        background-color: white;
+        background-color: var(--light);
         padding: 0.25rem;
         border-radius: 100%;
         cursor: pointer;
@@ -55,7 +55,7 @@
             z-index: 10;
             right: 0;
             transform: translate(-100%, 1px);
-            border-bottom: var(--tip-size) solid white;
+            border-bottom: var(--tip-size) solid var(--light);
             border-top: var(--tip-size) solid transparent;
             border-inline: var(--tip-size) solid transparent;
         }
@@ -75,7 +75,7 @@
 
         & > div {
             overflow: hidden;
-            background-color: white;
+            background-color: var(--light);
             width: max-content;
             color: var(--grey-300);
             border-radius: 0.5rem;

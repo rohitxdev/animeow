@@ -24,7 +24,9 @@ export const AnimeDetailsPage = () => {
 	);
 
 	if (isError) {
-		return <p style={{ backgroundColor: 'red', color: 'white' }}>Error</p>;
+		return (
+			<p style={{ backgroundColor: 'red', color: 'var(--light)' }}>Error</p>
+		);
 	}
 
 	// const addToWatchList = async () => {
@@ -72,8 +74,20 @@ export const AnimeDetailsPage = () => {
 							</div>
 						)}
 
-						<h4>{data?.year ?? <Skeleton style={{ width: '5ch' }} />}</h4>
-						<h4>{data?.status ?? <Skeleton style={{ width: '10ch' }} />}</h4>
+						<h4>
+							{data ? (
+								data.year ?? 'N/A'
+							) : (
+								<Skeleton style={{ width: '5ch' }} />
+							)}
+						</h4>
+						<h4>
+							{data ? (
+								data.status ?? 'N/A'
+							) : (
+								<Skeleton style={{ width: '10ch' }} />
+							)}
+						</h4>
 						{/* <p style={{ backgroundColor: `${data?.color}` }}>{data?.color}</p> */}
 					</div>
 				</div>
