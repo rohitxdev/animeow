@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { authRoleSchema } from './auth.schema';
 
-const metaObject = z.object({
+const metaObjectSchema = z.object({
 	total: z.number(),
 	lastPage: z.number(),
 	currentPage: z.number(),
@@ -47,7 +47,7 @@ export const searchResponseSchema = z.object({
 			genre: z.array(z.string().nonempty()),
 		}),
 	),
-	meta: metaObject,
+	meta: metaObjectSchema,
 });
 
 export const episodeObjectSchema = z
@@ -106,4 +106,34 @@ export const animeResponseSchema = z.object({
 	genre: z.array(z.string().nonempty()),
 	format: z.string(),
 	episodes: z.array(episodeObjectSchema),
+});
+
+export const recentAnimeSchema = z.object({
+	data: z.array(
+		z.object({
+			id: z.string().nonempty(),
+			animeId: z.string().nonempty(),
+			number: z.number(),
+			airedAt: z.string().nonempty().nullish(),
+			anime: animeResponseSchema
+				.omit({ episodes: true, description: true })
+				.extend({
+					description: z.string().nonempty().nullable(),
+					updatedAt: z.string().nonempty().nullish(),
+				}),
+			createdAt: z.string().nonempty(),
+			description: z.string().nonempty().nullish(),
+			image: z.string().nonempty().nullish(),
+			title: z.string().nonempty().nullish(),
+			titleVariations: z
+				.object({
+					native: z.string().nonempty().nullish(),
+					english: z.string().nonempty(),
+				})
+				.nullish(),
+			sources: z.array(z.object({ id: z.string().nonempty() })),
+			lastEpisodeUpdate: z.string().nonempty().nullish(),
+		}),
+	),
+	meta: metaObjectSchema,
 });

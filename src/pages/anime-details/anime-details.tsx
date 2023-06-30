@@ -38,22 +38,21 @@ export const AnimeDetailsPage = () => {
 			{data && (
 				<Head>
 					<title>Animeow | {title}</title>
+					<meta property="og:title" content={title} />
+					<meta property="og:description" content={data.description} />
 				</Head>
 			)}
 			<div className={styles.animeDetailsPage}>
 				<div className={styles.animeInfo}>
-					{data?.coverImage ? (
-						<img
-							className={styles.animeImg}
-							src={data.coverImage}
-							alt={animeId}
-						/>
-					) : (
-						<Skeleton duration={1} className={styles.animeImg}></Skeleton>
-					)}
-
 					<div>
-						<h1>{title ?? <Skeleton className={styles.skeleton} />}</h1>
+						{data?.coverImage ? (
+							<img src={data.coverImage} alt={animeId} />
+						) : (
+							<Skeleton></Skeleton>
+						)}
+					</div>
+					<div>
+						<h1>{title ?? <Skeleton />}</h1>
 						{data ? (
 							<div className={styles.genres}>
 								{data?.genre.map((genre: string) => {
@@ -67,13 +66,13 @@ export const AnimeDetailsPage = () => {
 								{new Array(4).fill(null).map((val, i) => (
 									<Skeleton
 										key={i}
-										style={{ height: '1.5rem', width: '8ch' }}
+										style={{ height: '1.75rem', width: '8ch' }}
 									/>
 								))}
 							</div>
 						)}
 
-						<h4>{data?.year ?? <Skeleton style={{ width: '4ch' }} />}</h4>
+						<h4>{data?.year ?? <Skeleton style={{ width: '5ch' }} />}</h4>
 						<h4>{data?.status ?? <Skeleton style={{ width: '10ch' }} />}</h4>
 						{/* <p style={{ backgroundColor: `${data?.color}` }}>{data?.color}</p> */}
 					</div>
@@ -83,7 +82,7 @@ export const AnimeDetailsPage = () => {
 					{data?.description ? (
 						data.description.replace(/<[^>]+>/g, '')
 					) : (
-						<Skeleton style={{ marginBottom: '0.375rem' }} count={5} />
+						<Skeleton count={8} />
 					)}
 				</p>
 
@@ -101,7 +100,6 @@ export const AnimeDetailsPage = () => {
 							<span>{episode.number}</span>
 							<h4>{episode.title}</h4>
 							<PlayIcon />
-							{/* <p>{episode.description}</p> */}
 						</Link>
 					))}
 				</div>

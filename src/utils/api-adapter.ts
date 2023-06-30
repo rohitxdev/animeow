@@ -1,6 +1,7 @@
 import { env } from '@constants';
 import {
 	animeResponseSchema,
+	recentAnimeSchema,
 	searchResponseSchema,
 	sourcesResponseSchema,
 	successfulAuthResponseSchema,
@@ -115,7 +116,9 @@ export const api = {
 			params: { page, perPage },
 			signal,
 		});
-		return data;
+		console.log(data);
+
+		return recentAnimeSchema.parse(data);
 	},
 	getMyProfile: async (signal?: AbortSignal) => {
 		const { data } = await axiosInstance.get('/users/me', { signal });

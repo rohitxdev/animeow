@@ -17,15 +17,31 @@ export const HomePage = () => {
 		({ signal }) => api.getRecentAnime({ signal }),
 		{ cacheTime: Infinity },
 	);
-
-	const carouselData = popularData
+	const popularCarouselData = popularData
 		? (popularData.data.map((val) => ({
 				animeId: val.id,
 				animeImg: val.coverImage,
 				animeTitle: val.title.english ?? val.title.native,
-				releaseDate: Number(val.year),
-		  })) as unknown as CardData[])
+				releaseDate: String(val.year),
+		  })) as CardData[])
 		: null;
+
+	const recentCarouselData = recentData
+		? (recentData.data.map((val) => ({
+				animeId: val.animeId,
+				animeImg: val.anime.coverImage,
+				animeTitle:
+					val.anime.title.userPreferred ??
+					val.anime.title.english ??
+					val.anime.title.native,
+				releaseDate: String(
+					val.anime.year ??
+						new Date(val.anime.updatedAt ?? '').getFullYear() ??
+						'N/A',
+				),
+		  })) as CardData[])
+		: null;
+
 	return (
 		<>
 			<Head>
@@ -45,8 +61,12 @@ export const HomePage = () => {
 					/>
 				)} */}
 				<section>
-					<p>Popular</p>
-					<Carousel data={carouselData} />
+					<p>Popular Anime</p>
+					<Carousel data={popularCarouselData} />
+				</section>
+				<section>
+					<p>Recently Released</p>
+					<Carousel data={recentCarouselData} />
 				</section>
 			</div>
 		</>

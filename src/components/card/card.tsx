@@ -21,19 +21,7 @@ export const Card = ({ data }: { data: CardData | null }) => {
 	return (
 		<Link to={`/details/${animeId}`}>
 			<div className={styles.card}>
-				<div
-					style={{
-						position: 'absolute',
-						zIndex: 10,
-						background:
-							'linear-gradient(0deg, hsl(0, 0%, 5%) 10% 25%, transparent 85%)',
-						width: '100%',
-						height: '100%',
-						display: 'grid',
-						alignContent: 'end',
-						borderRadius: '1rem',
-					}}
-				>
+				<div>
 					<button
 						aria-label={isHearted ? 'Add to list' : 'Remove from list'}
 						className={styles.heart}
