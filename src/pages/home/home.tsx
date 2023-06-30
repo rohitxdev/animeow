@@ -6,12 +6,16 @@ import { useQuery } from 'react-query';
 import styles from './home.module.scss';
 
 export const HomePage = () => {
-	const { data: popularData } = useQuery(['popular'], ({ signal }) =>
-		api.getPopularAnime({ signal }),
+	const { data: popularData } = useQuery(
+		['popular'],
+		({ signal }) => api.getPopularAnime({ signal }),
+		{ cacheTime: Infinity },
 	);
 
-	const { data: recentData } = useQuery(['recent'], ({ signal }) =>
-		api.getRecentAnime({ signal }),
+	const { data: recentData } = useQuery(
+		['recent'],
+		({ signal }) => api.getRecentAnime({ signal }),
+		{ cacheTime: Infinity },
 	);
 
 	const carouselData = popularData
@@ -40,10 +44,10 @@ export const HomePage = () => {
 						}))}
 					/>
 				)} */}
-				<div>
+				<section>
 					<p>Popular</p>
 					<Carousel data={carouselData} />
-				</div>
+				</section>
 			</div>
 		</>
 	);

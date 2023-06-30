@@ -4,13 +4,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ReactComponent as CrossIcon } from '@assets/icons/cross.svg';
 import { AuthModal, ErrorFallback } from '@components';
-import { AppContextProvider, AuthContextProvider } from '@contexts';
+import { AuthContextProvider } from '@contexts';
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
+import { SkeletonTheme } from 'react-loading-skeleton';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import { Router } from './router';
 import { registerServiceWorker } from './service-worker';
@@ -20,33 +21,53 @@ registerServiceWorker();
 const queryClient = new QueryClient();
 
 export const App = () => {
+	useEffect(() => {
+		const onResize = () => {
+			const root = document.getElementById('root');
+			if (root) {
+				root.style.setProperty('--vh', `${window.innerHeight}px`);
+				root.style.setProperty('--vw', `${window.innerWidth}px`);
+			}
+		};
+
+		onResize();
+		window.addEventListener('resize', onResize);
+
+		return () => {
+			window.removeEventListener('resize', onResize);
+		};
+	}, []);
 	return (
 		<StrictMode>
 			<ErrorBoundary fallbackRender={ErrorFallback}>
 				<HelmetProvider>
 					<QueryClientProvider client={queryClient}>
 						<AuthContextProvider>
-							<AppContextProvider>
+							<SkeletonTheme
+								baseColor="var(--grey-300)"
+								highlightColor="var(--grey-200)"
+							>
 								<Router />
 								<AuthModal />
 								<ToastContainer
 									pauseOnHover={false}
 									position="bottom-right"
-									toastClassName="toast"
+									toastClassName={(val) =>
+										[val?.defaultClassName, val?.type, 'toast'].join(' ')
+									}
 									theme="dark"
 									closeButton={() => (
 										<CrossIcon
 											style={{
 												height: '0.875rem',
 												width: '0.875rem',
-												margin: '0.125rem',
 											}}
 										/>
 									)}
 									draggable
 									hideProgressBar
 								/>
-							</AppContextProvider>
+							</SkeletonTheme>
 						</AuthContextProvider>
 					</QueryClientProvider>
 				</HelmetProvider>

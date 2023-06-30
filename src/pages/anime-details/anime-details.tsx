@@ -1,8 +1,10 @@
 import WatchListIcon from '@assets/icons/bookmark-plus.svg';
+import { ReactComponent as PlayIcon } from '@assets/icons/play.svg';
 import { Head } from '@components';
 // import { Carousel, EpisodesList, Loader } from '@components';
 import { api } from '@utils';
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 
@@ -17,7 +19,7 @@ export const AnimeDetailsPage = () => {
 		async ({ signal }) => api.getAnimeDetails({ animeId, signal }),
 		{
 			refetchOnWindowFocus: false,
-			cacheTime: Infinity,
+			cacheTime: 1000 * 60 * 5,
 		},
 	);
 
@@ -39,44 +41,70 @@ export const AnimeDetailsPage = () => {
 				</Head>
 			)}
 			<div className={styles.animeDetailsPage}>
-				{data && (
-					<>
-						<div className={styles.animeInfo}>
-							{data.coverImage && (
-								<img
-									className={styles.animeImg}
-									src={data.coverImage}
-									alt={animeId}
-								/>
-							)}
-							<h2>{title}</h2>
-							<div style={{ display: 'flex', flexWrap: 'wrap' }}>
-								{data.genre.map((genre: string) => {
+				<div className={styles.animeInfo}>
+					{data?.coverImage ? (
+						<img
+							className={styles.animeImg}
+							src={data.coverImage}
+							alt={animeId}
+						/>
+					) : (
+						<Skeleton duration={1} className={styles.animeImg}></Skeleton>
+					)}
+
+					<div>
+						<h1>{title ?? <Skeleton className={styles.skeleton} />}</h1>
+						{data ? (
+							<div className={styles.genres}>
+								{data?.genre.map((genre: string) => {
 									return <span key={genre}>{genre}</span>;
 								})}
-								<h4>{data.year}</h4>
-								<h4>{data.status}</h4>
-								{/* <button className={styles.watchListBtn} onClick={addToWatchList}>
-							<WatchListIcon />
-							Add to watch list
-						</button> */}
 							</div>
-							<p dangerouslySetInnerHTML={{ __html: data.description }}></p>
-							<div className={styles.episodesList}>
-								{data?.episodes.map((episode) => (
-									<div key={episode.id}>
-										<p>{episode.number}</p>
-										<h4>{episode.title}</h4>
-										{/* <p>{episode.description}</p> */}
-										<Link to={`/details/${animeId}/watch/${episode.id}`}>
-											Watch
-										</Link>
-									</div>
+						) : (
+							<div
+								style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}
+							>
+								{new Array(4).fill(null).map((val, i) => (
+									<Skeleton
+										key={i}
+										style={{ height: '1.5rem', width: '8ch' }}
+									/>
 								))}
 							</div>
-						</div>
-					</>
-				)}
+						)}
+
+						<h4>{data?.year ?? <Skeleton style={{ width: '4ch' }} />}</h4>
+						<h4>{data?.status ?? <Skeleton style={{ width: '10ch' }} />}</h4>
+						{/* <p style={{ backgroundColor: `${data?.color}` }}>{data?.color}</p> */}
+					</div>
+				</div>
+
+				<p className={styles.description}>
+					{data?.description ? (
+						data.description.replace(/<[^>]+>/g, '')
+					) : (
+						<Skeleton style={{ marginBottom: '0.375rem' }} count={5} />
+					)}
+				</p>
+
+				<div
+					className={[
+						styles.episodesList,
+						data && data.episodes.length >= 24 && styles.short,
+					].join(' ')}
+				>
+					{data?.episodes.map((episode) => (
+						<Link
+							to={`/details/${animeId}/watch/${episode.id}`}
+							key={episode.id}
+						>
+							<span>{episode.number}</span>
+							<h4>{episode.title}</h4>
+							<PlayIcon />
+							{/* <p>{episode.description}</p> */}
+						</Link>
+					))}
+				</div>
 			</div>
 		</>
 	);

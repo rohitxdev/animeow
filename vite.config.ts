@@ -51,6 +51,7 @@ export default defineConfig(({ mode }) => {
 				'@pages': resolve(__dirname, './src/pages'),
 				'@types': resolve(__dirname, './src/types'),
 				'@utils': resolve(__dirname, './src/utils'),
+				'@schemas': resolve(__dirname, './src/schemas'),
 			},
 		},
 		server: { port: 3000, host: true },

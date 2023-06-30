@@ -23,7 +23,11 @@ export const TextInput = ({ className, type, ...props }: InputProps) => {
 						aria-label={showPassword ? 'Hide password' : 'Show password'}
 						onClick={() => setShowPassword((state) => !state)}
 					>
-						{showPassword ? <EyeOnIcon /> : <EyeOffIcon />}
+						{showPassword ? (
+							<EyeOnIcon fill="white" />
+						) : (
+							<EyeOffIcon fill="var(--grey-200)" />
+						)}
 					</button>
 				</>
 			) : (

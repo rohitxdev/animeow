@@ -17,14 +17,7 @@ export const VideoResolutionPicker = ({
 	const id = useId();
 	const [isChecked, setIsChecked] = useState(false);
 	return (
-		<div
-			className={styles.videoResolutionPicker}
-			onPointerLeave={() => {
-				setTimeout(() => {
-					setIsChecked(false);
-				}, 1000);
-			}}
-		>
+		<div className={styles.videoResolutionPicker}>
 			<label htmlFor={id}>Options</label>
 			<input
 				type="checkbox"
@@ -81,7 +74,7 @@ export const WatchPage = () => {
 		<div className={styles.watch}>
 			{isLoading && <LoaderIcon height={200} />}
 			{data && src && (
-				<div style={{ position: 'relative' }}>
+				<div className={styles.videoWrapper}>
 					<VideoResolutionPicker
 						availableResolutions={data?.sources.map((val) => val.quality)}
 						setVideoResolution={setVideoResolution}

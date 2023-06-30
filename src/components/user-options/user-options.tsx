@@ -4,8 +4,7 @@ import { ReactComponent as LogOutIcon } from '@assets/icons/log-out.svg';
 import { ReactComponent as PersonIcon } from '@assets/icons/person.svg';
 import { ReactComponent as ServerIcon } from '@assets/icons/server.svg';
 import { ReactComponent as UserIcon } from '@assets/icons/user.svg';
-import { useAppContext, useAuthContext } from '@hooks';
-import { axiosInstance } from '@utils';
+import { useAuthContext } from '@hooks';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -13,8 +12,7 @@ import styles from './user-options.module.scss';
 
 export const UserOptions = () => {
 	const location = useLocation();
-	const { appState, appDispatch } = useAppContext();
-	const { isLoggedIn, setShowAuthModal, logOut, hasAccess, accessToken } =
+	const { isLoggedIn, setShowAuthModal, logOut, hasAccess, user } =
 		useAuthContext();
 	const [showOptions, setShowOptions] = useState(false);
 	const timerIdRef = useRef<number | null>(null);
@@ -33,89 +31,71 @@ export const UserOptions = () => {
 	useEffect(() => {
 		setShowOptions(false);
 		clearHideTimer();
-	}, [isLoggedIn]);
-
-	useEffect(() => {
-		if (isLoggedIn && accessToken && !Object.keys(appState.user).length) {
-			setTimeout(() => {
-				axiosInstance
-					.get('/users/me')
-					.then(({ data }) =>
-						appDispatch({ type: 'UPDATE_USER_DATA', payload: data }),
-					);
-			}, 100);
-		}
-	}, [isLoggedIn, accessToken]);
-
-	useEffect(() => {
-		setShowOptions(false);
-	}, [location]);
+	}, [isLoggedIn, location]);
 
 	return (
-		<>
-			<div className={styles.options}>
-				<button
-					className={styles.profilePicture}
-					key={String(isLoggedIn)}
-					onClick={() => {
-						setShowOptions(!showOptions);
-						setHideTimer();
-					}}
-					onBlur={() => setShowOptions(false)}
-				>
-					{isLoggedIn ? (
-						appState.user.image_url ? (
-							<img src={appState.user.image_url} alt="Profile picture" />
-						) : (
-							<UserIcon aria-label="User placeholder picture" />
-						)
+		<div className={styles.options}>
+			<button
+				className={styles.profilePicture}
+				key={String(isLoggedIn)}
+				onClick={() => {
+					setShowOptions(!showOptions);
+					setHideTimer();
+				}}
+				onBlur={() => setShowOptions(false)}
+			>
+				{isLoggedIn ? (
+					user?.image_url ? (
+						<img src={user?.image_url} alt="Profile picture" />
 					) : (
-						<AnonymousIcon aria-label="Anonymous placeholder picture" />
+						<UserIcon aria-label="User placeholder picture" />
+					)
+				) : (
+					<AnonymousIcon aria-label="Anonymous placeholder picture" />
+				)}
+			</button>
+			<div
+				className={[
+					styles.dropDown,
+					showOptions ? styles.show : styles.hide,
+				].join(' ')}
+				onMouseDown={(e) => e.preventDefault()}
+				onClick={() => {
+					setHideTimer();
+				}}
+			>
+				<div>
+					{!isLoggedIn && (
+						<button onClick={() => setShowAuthModal(true)}>
+							<LogInIcon />
+							Log In
+						</button>
 					)}
-				</button>
-				<div
-					className={[
-						styles.dropDown,
-						showOptions ? styles.show : styles.hide,
-					].join(' ')}
-					onMouseDown={(e) => e.preventDefault()}
-					onClick={() => {
-						setHideTimer();
-					}}
-				>
-					<div>
-						{!isLoggedIn && (
-							<button onClick={() => setShowAuthModal(true)}>
-								<LogInIcon />
-								Log In
-							</button>
-						)}
-						{hasAccess('user') && (
-							<>
-								<div className={styles.user}>
-									<p>{appState.user.username}</p>
-									<p>{appState.user.email}</p>
-								</div>
-								<span className={styles.hLine}></span>
-								<Link to={'/me'}>
-									<PersonIcon />
-									Profile
-								</Link>
-								<button onClick={logOut}>
-									<LogOutIcon />
-									Log Out
-								</button>
-							</>
-						)}
-						{hasAccess('admin') && (
-							<Link to={'/admin'}>
-								<ServerIcon />
-								Admin Panel
+					{hasAccess('user') && (
+						<>
+							<div className={styles.user}>
+								<p>{user?.username}</p>
+								<p>{user?.email}</p>
+							</div>
+							<span className={styles.hLine}></span>
+							<Link to={'/me'}>
+								<PersonIcon />
+								<span>Profile</span>
 							</Link>
-						)}
-					</div>
+							<button onClick={logOut}>
+								<LogOutIcon />
+								<span>Log Out</span>
+							</button>
+						</>
+					)}
+					{hasAccess('admin') && (
+						<Link to={'/admin'}>
+							<ServerIcon />
+							<span>Admin Panel</span>
+						</Link>
+					)}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };

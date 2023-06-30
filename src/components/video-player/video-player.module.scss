@@ -1,8 +1,6 @@
 .video-player {
-    // height: 100%;
-    // width: 100%;
-    max-width: 75vw;
-    aspect-ratio: 4 / 3;
+    height: 100%;
+    width: 100%;
 }
 
 .play-btn {
@@ -38,6 +36,6 @@
     position: relative;
     display: grid;
     place-items: center;
-    height: max(300px, 75vh);
-    aspect-ratio: 16 / 9;
+    height: 100%;
+    width: 100%;
 }

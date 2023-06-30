@@ -1,11 +1,10 @@
 import { authRoles } from '@constants';
-import { AuthRole } from '@types';
+import { authRoleSchema } from '@schemas';
+import { AuthRole, User } from '@types';
 import { api, axiosInstance } from '@utils';
 import { AxiosError } from 'axios';
 import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-
-import { authRoleSchema } from '../schemas';
 
 interface AuthContext {
 	signUp: (info: {
@@ -17,7 +16,7 @@ interface AuthContext {
 	logOut: () => Promise<void>;
 	refreshAccessToken: () => Promise<void>;
 	isLoggedIn: boolean;
-	accessToken: string | null;
+	user: Partial<User> | null;
 	hasAccess: (requiredAuthRole?: AuthRole) => boolean;
 	showAuthModal: boolean;
 	setShowAuthModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +39,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(parsed.success);
 	const [accessToken, setAccessToken] = useState<string | null>(null);
 	const [showAuthModal, setShowAuthModal] = useState(false);
+	const [user, setUser] = useState<Partial<User> | null>(null);
 
 	const hasAccess = (requiredAuthRole?: AuthRole) => {
 		if (!requiredAuthRole) {
@@ -114,6 +114,23 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		}
 	};
 
+	const updateAccessTokenInInterceptor = (accessToken: string | null) => {
+		if (interceptorId.current) {
+			axiosInstance.interceptors.request.eject(interceptorId.current);
+		}
+		interceptorId.current = axiosInstance.interceptors.request.use((config) => {
+			if (accessToken) {
+				config.headers.Authorization = `Bearer ${accessToken}`;
+			}
+			return config;
+		});
+	};
+
+	const getUser = async () => {
+		const data = await api.getMyProfile();
+		setUser(data);
+	};
+
 	useEffect(() => {
 		if (authRole) {
 			localStorage.setItem('role', authRole);
@@ -133,16 +150,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 				}, refetchIntervalInMs);
 			});
 		}
-
-		if (interceptorId.current) {
-			axiosInstance.interceptors.request.eject(interceptorId.current);
+		updateAccessTokenInInterceptor(accessToken);
+		if (accessToken) {
+			getUser();
 		}
-		interceptorId.current = axiosInstance.interceptors.request.use((config) => {
-			if (accessToken) {
-				config.headers.Authorization = `Bearer ${accessToken}`;
-			}
-			return config;
-		});
 	}, [accessToken]);
 
 	return (
@@ -154,7 +165,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 				refreshAccessToken,
 				isLoggedIn,
 				hasAccess,
-				accessToken,
+				user,
 				showAuthModal,
 				setShowAuthModal,
 			}}

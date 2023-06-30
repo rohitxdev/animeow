@@ -1,2 +1,2 @@
-export * from './use-contexts';
+export * from './use-auth-context';
 export * from './use-debounce';

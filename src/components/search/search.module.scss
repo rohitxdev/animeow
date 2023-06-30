@@ -2,10 +2,9 @@
     --duration: 200ms;
 
     position: relative;
-    min-width: 20ch;
 
     &.show {
-        width: min(100%, 40ch);
+        width: min(100%, 36ch);
         transition: width var(--duration) linear;
 
         .search-bar + .results {
@@ -16,7 +15,7 @@
     }
 
     &.hide {
-        width: clamp(20ch, 100%, 30ch);
+        width: clamp(20ch, 100%, 28ch);
         transition: width var(--duration) 200ms linear;
 
         .search-bar + .results {
@@ -65,16 +64,6 @@
 
 
     .results {
-
-        ::-webkit-scrollbar {
-            width: 2px;
-            height: 2px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--coral-100);
-        }
-
         position: absolute;
         z-index: 100;
         margin-top: 0.5rem;
@@ -87,6 +76,7 @@
         grid-template-columns: 1fr;
         background-color: var(--dark);
         overflow: hidden;
+
 
         & > div:first-child {
             overflow: hidden auto;
@@ -108,6 +98,15 @@
                 width: 1.75rem;
                 fill: white;
             }
+        }
+
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--coral-100);
         }
 
     }
@@ -134,15 +133,17 @@
 }
 
 .search-result {
+    border: 1px solid var(--coral-100);
     cursor: pointer;
     border-radius: 1rem;
     padding: 0.5rem;
     display: flex;
     gap: 1rem;
     background-color: var(--grey-300);
-    margin: 4px 4px 2px 4px;
+    margin: 0.25rem;
     color: white;
-    justify-content: center;
+    justify-content: left;
+    transition: outline 100ms linear;
 
     .title {
         font-variation-settings: 'wght' 700;
@@ -154,6 +155,9 @@
         font-style: italic;
     }
 
+    &:focus {
+        outline: var(--coral-100) solid 2px;
+    }
 
 
 

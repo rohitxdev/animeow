@@ -1,59 +1,58 @@
-.episodes-list {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 1rem;
-
-    div {
-
-        display: flex;
-        gap: 1rem;
-    }
-}
-
 .anime-details-page {
-    display: flex;
-    gap: 2em;
+    display: grid;
+    gap: 2rem;
+    width: 100%;
 }
 
 .anime-info {
     display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+    gap: 1.5rem;
 
-    h2 {
-        margin: 1em 0;
+    .anime-img {
+        height: 15em;
+        width: 10em;
+        float: left;
+        border-radius: 0.5rem;
+        margin: none;
     }
 
-    h4 {
-        color: grey;
-        border: 1px solid grey;
-        padding: 0.5em;
-        border-radius: 0.25em;
-        margin: 0.5em;
-        width: fit-content;
+    & > div:first-of-type {
+        width: 100%;
+        display: grid;
+        align-content: baseline;
+        gap: 0.75rem;
+
+        h1 {
+            font-size: 1.75rem;
+
+            .skeleton {
+                width: min(16ch, 100%);
+            }
+        }
     }
 
-    span {
-        color: grey;
-        border: 1px solid grey;
-        padding: 0.5em;
-        border-radius: 0.25em;
-        width: fit-content;
-        margin: 0.5em;
-        display: inline;
-    }
+    .genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
 
-    & > p {
-        color: grey;
+        span {
+            color: white;
+            background-color: var(--coral-100);
+            padding: 0.5em;
+            border-radius: 0.25em;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
     }
 }
 
-.anime-img {
-    height: 15em;
-    width: 10em;
-    float: left;
-    border-radius: 0.5rem;
+.description {
+    color: var(--grey-100);
+    line-height: 1.375rem;
+
 }
+
 
 .watch-list-btn {
     background-color: var(--coral-100);
@@ -68,8 +67,77 @@
 
 }
 
-// @media screen and (max-width:400px) {
-//     .anime-details-page {
-//         display: flex;
-//     }
-// }
+.episodes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    a {
+        display: flex;
+        justify-content: left;
+        gap: 1rem;
+        border: 2px solid white;
+        color: white;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        transition: all 200ms linear;
+        width: min(45ch, 100%);
+
+        span,
+        h4 {
+            font-weight: 500;
+        }
+
+        svg {
+            height: 1.5rem;
+            width: 1.5rem;
+            fill: white;
+            margin-left: auto;
+        }
+
+        &:is(:focus, :hover) {
+            outline: none;
+            color: var(--dark);
+            background-color: white;
+            transform: scale(102.5%);
+
+            svg {
+                fill: var(--dark);
+            }
+        }
+    }
+
+    &.short {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        span {
+            font-size: 1rem;
+        }
+
+        a {
+            height: 2.5rem;
+            width: 6ch;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h4,
+        svg {
+            display: none;
+        }
+
+        a:is(:focus, :hover) {
+
+
+            span {
+                display: none;
+            }
+
+            svg {
+                display: initial;
+                margin-inline: auto;
+            }
+        }
+    }
+}

@@ -6,10 +6,12 @@
 }
 
 
-:root {
+html {
 	--primary-clr: #18171b;
 	--secondary-clr: #ffffff;
-	--error-clr: #b71616;
+	--success-clr: rgb(8, 161, 8);
+	--error-clr: red;
+	--warning-clr: rgb(255, 72, 0);
 	--grey-100: hsl(0, 0%, 75%);
 	--grey-200: hsl(0, 0%, 50%);
 	--grey-300: hsl(0, 0%, 15%);
@@ -73,22 +75,30 @@
 .toast {
 	font-weight: 600;
 	border-radius: 0.5rem !important;
-	color: white !important;
-	background-color: var(--dark) !important;
-	filter: brightness(2);
-	border: 2px solid var(--coral-200);
-	margin: 1rem !important;
+	color: white;
+	background-color: var(--coral-200);
+	border: 1px solid white;
+	margin: 0 1rem 1rem 1rem !important;
 
 	svg {
 		fill: white;
 	}
+
+	&.success {
+		border-color: var(--success-clr);
+	}
+
+	&.error {
+		border-color: var(--error-clr);
+	}
+
+	&.warning {
+		border-color: var(--warning-clr);
+	}
+
 }
 
-@font-face {
-	font-family: 'Inter';
-	src: url('/inter-variable-font.woff2') format('woff2');
-	font-display: 'swap';
-}
+
 
 @font-face {
 	font-family: 'Mona Sans';

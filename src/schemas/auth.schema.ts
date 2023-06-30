@@ -25,20 +25,6 @@ export const loginFormSchema = z.object({
 	password: z.string().nonempty(),
 });
 
-export const signUpFormSchema = z
-	.object({
-		email: z.string().nonempty().email(),
-		password: z
-			.string()
-			.nonempty()
-			.regex(
-				/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
-				'Password should contain at least 1 uppercase letter, 1 lowercase letter, 1 special character and should be 8 or more characters in length',
-			),
-		confirmPassword: z.string().nonempty(),
-		username: z.string().nonempty().nullish(),
-	})
-	.refine(
-		(val) => val.password !== val.confirmPassword,
-		'Passwords do not match!',
-	);
+export const signUpFormSchema = loginFormSchema.extend({
+	confirmPassword: z.string().nonempty(),
+});

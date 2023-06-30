@@ -3,17 +3,17 @@
     place-content: center;
 
     .video-wrapper {
-        display: grid;
-        place-items: center;
-        width: 700px;
-        aspect-ratio: 16 / 9;
         position: relative;
-    }
+        display: grid;
+        align-items: center;
+        max-width: 75ch;
 
-    .video-player {
-        width: max(50vw, 300px);
-        height: max(50vh, 200px);
-        border: 5px solid red;
+        &:not(:focus-within, :hover) {
+            .video-resolution-picker {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
     }
 
     .play-btn {
@@ -48,6 +48,7 @@
     right: 0;
     z-index: 10;
     margin: 0.5rem;
+    transition: opacity 200ms linear;
 
     .options {
         display: grid;
@@ -75,7 +76,7 @@
         color: white;
         padding: 0.5rem;
         border-radius: 0.5rem;
-        font-size: 0.75rem;
+        font-size: 0.625rem;
     }
 
 }

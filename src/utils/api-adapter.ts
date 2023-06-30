@@ -1,6 +1,4 @@
 import { env } from '@constants';
-import axios from 'axios';
-
 import {
 	animeResponseSchema,
 	searchResponseSchema,
@@ -8,7 +6,8 @@ import {
 	successfulAuthResponseSchema,
 	userSchema,
 	usersSchema,
-} from '../schemas';
+} from '@schemas';
+import axios from 'axios';
 
 export const axiosInstance = axios.create({
 	baseURL: env.API_URL,
@@ -118,11 +117,11 @@ export const api = {
 		});
 		return data;
 	},
-	getMyProfile: async ({ signal }: { signal?: AbortSignal }) => {
+	getMyProfile: async (signal?: AbortSignal) => {
 		const { data } = await axiosInstance.get('/users/me', { signal });
 		return userSchema.parse(data);
 	},
-	getUsers: async ({ signal }: { signal?: AbortSignal }) => {
+	getUsers: async (signal?: AbortSignal) => {
 		const { data } = await axiosInstance.get('/users', { signal });
 		return usersSchema.parse(data);
 	},

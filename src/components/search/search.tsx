@@ -30,8 +30,8 @@ const SearchResult = ({ data, ...props }: SearchResultProps) => {
 					{data.genre.map((val) => (
 						<span key={val}>{val}</span>
 					))}
-					<p className={styles.year}>{data.year}</p>
 				</div>
+				<p className={styles.year}>{data.year}</p>
 			</div>
 		</div>
 	);
@@ -50,7 +50,7 @@ export const Search = () => {
 		({ signal }) => api.getSearchResults({ query, perPage: 5, signal }),
 		{
 			enabled: searchQuery.length >= 2 && showResults,
-			cacheTime: 1000 * 5,
+			cacheTime: 1000 * 30,
 		},
 	);
 

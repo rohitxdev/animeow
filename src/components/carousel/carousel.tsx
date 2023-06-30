@@ -1,5 +1,5 @@
-import { ReactComponent as BackIcon } from '@assets/icons/chevron-back-outline.svg';
-import { ReactComponent as ForwardIcon } from '@assets/icons/chevron-forward-outline.svg';
+import { ReactComponent as BackwardIcon } from '@assets/icons/arrow-backward.svg';
+import { ReactComponent as ForwardIcon } from '@assets/icons/arrow-forward.svg';
 import { CardData } from '@types';
 import { memo, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -24,7 +24,7 @@ export const Carousel = memo(({ data }: { data: CardData[] | null }) => {
 	return (
 		<div className={styles.carousel}>
 			<button onClick={scrollLeft} className={styles.scrollBtn}>
-				<BackIcon />
+				<BackwardIcon />
 			</button>
 			<section className={styles.cardList} ref={cardListRef}>
 				{data
@@ -36,8 +36,6 @@ export const Carousel = memo(({ data }: { data: CardData[] | null }) => {
 									key={i}
 									duration={1}
 									className={styles.card}
-									baseColor="var(--grey-300)"
-									highlightColor="var(--grey-200)"
 								></Skeleton>
 							))}
 			</section>

@@ -7,7 +7,7 @@ import styles from './admin.module.scss';
 export const AdminPage = () => {
 	const { isLoggedIn } = useAuthContext();
 
-	const { data } = useQuery(['users'], api.getUsers, {
+	const { data } = useQuery(['users'], ({ signal }) => api.getUsers(signal), {
 		refetchInterval: 5000,
 		enabled: isLoggedIn,
 	});

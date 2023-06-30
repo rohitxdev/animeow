@@ -20,23 +20,31 @@ export const Card = ({ data }: { data: CardData | null }) => {
 	const { animeId, animeTitle, animeImg, releaseDate } = data;
 	return (
 		<Link to={`/details/${animeId}`}>
-			<div
-				className={styles.card}
-				style={{
-					background: `linear-gradient(0deg, hsl(0, 0%, 5%) 10% 25%, transparent 85%), url("${animeImg}")`,
-					backgroundSize: 'cover',
-				}}
-			>
-				<button
-					aria-label={isHearted ? 'Add to list' : 'Remove from list'}
-					className={styles.heart}
-					onClick={toggleIsHearted}
+			<div className={styles.card}>
+				<div
+					style={{
+						position: 'absolute',
+						zIndex: 10,
+						background:
+							'linear-gradient(0deg, hsl(0, 0%, 5%) 10% 25%, transparent 85%)',
+						width: '100%',
+						height: '100%',
+						display: 'grid',
+						alignContent: 'end',
+						borderRadius: '1rem',
+					}}
 				>
-					{isHearted ? <HeartedIcon /> : <NotHeartedIcon />}
-				</button>
-				<p className={styles.title}>{animeTitle}</p>
-				<p className={styles.releaseDate}>{releaseDate}</p>
-				{/* <img src={animeImg} alt={animeTitle} /> */}
+					<button
+						aria-label={isHearted ? 'Add to list' : 'Remove from list'}
+						className={styles.heart}
+						onClick={toggleIsHearted}
+					>
+						{isHearted ? <HeartedIcon /> : <NotHeartedIcon />}
+					</button>
+					<p className={styles.title}>{animeTitle}</p>
+					<p className={styles.releaseDate}>{releaseDate}</p>
+				</div>
+				<img src={animeImg} alt={animeTitle} />
 			</div>
 		</Link>
 	);
