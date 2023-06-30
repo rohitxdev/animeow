@@ -87,6 +87,10 @@ export const AuthModal = () => {
 		setShowAuthModal(false);
 	}, [isLoggedIn]);
 
+	useEffect(() => {
+		setIsSubmitting(false);
+	}, [type]);
+
 	return (
 		<Modal showModal={showAuthModal} setShowModal={setShowAuthModal} closeable>
 			<div className={styles.auth}>
