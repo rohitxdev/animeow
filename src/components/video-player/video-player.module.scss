@@ -1,7 +1,92 @@
 .video-player {
+
+    .controls {
+        position: absolute;
+        inset: 0;
+        z-index: 100;
+
+        .play-btn {
+            position: absolute;
+            background-color: transparent;
+            border-radius: 50%;
+            inset: 0;
+            margin: auto;
+            height: fit-content;
+            transition: opacity 200ms linear;
+
+            svg {
+                height: 5rem;
+                width: 5rem;
+                fill: white;
+                border-radius: 50%;
+                vertical-align: bottom;
+            }
+
+            span {
+                background-color: var(--dark);
+                height: 4rem;
+                width: 4rem;
+                border-radius: 50%;
+                position: absolute;
+                inset: 0;
+                margin: auto;
+                z-index: -10;
+
+            }
+        }
+
+        .tool-bar {
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 2.5rem;
+            background-color: black;
+            transform: translateY(100%);
+            display: grid;
+            grid-template-columns: auto auto 1fr auto;
+            gap: 0.5rem;
+            padding-inline: 0.5rem;
+
+            .progress {
+
+                & > input[type="range"] {
+                    background-color: white;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            button {
+                background-color: transparent;
+                padding: 0.25rem;
+
+                svg {
+                    height: 1.5rem;
+                    width: 1.5rem;
+                    fill: white;
+                    color: white;
+                    vertical-align: bottom;
+                }
+            }
+        }
+
+    }
+
+    &:not(:is(:hover)) {
+        .play-btn {
+            opacity: 0;
+        }
+    }
+
+
+
     video {
         height: 100%;
         width: 100%;
         background-color: black;
+
+        &::-webkit-media-controls {
+            background-color: red;
+            display: none;
+        }
     }
 }
