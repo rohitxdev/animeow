@@ -2,7 +2,7 @@ import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg'
 import { ReactComponent as LoaderIcon } from '@assets/icons/loader-2.svg';
 import { ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -16,8 +16,8 @@ export const VideoResolutionPicker = ({
 	availableResolutions: string[];
 	setVideoResolution: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-	const id = useId();
 	const [showOptions, setShowOptions] = useState(false);
+
 	return (
 		<div className={styles.videoResolutionPicker}>
 			<button onClick={() => setShowOptions((val) => !val)}>Options</button>
@@ -82,7 +82,7 @@ export const WatchPage = () => {
 							availableResolutions={data?.sources.map((val) => val.quality)}
 							setVideoResolution={setVideoResolution}
 						/>
-						<VideoPlayer src={src} />
+						<VideoPlayer src={src} sourceId={episodeId} />
 					</>
 				)}
 				{isError && (

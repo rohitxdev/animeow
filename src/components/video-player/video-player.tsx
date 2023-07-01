@@ -1,4 +1,6 @@
 import { ReactComponent as ForwardIcon } from '@assets/icons/forward-10s.svg';
+import { ReactComponent as EnterFullscreenIcon } from '@assets/icons/fullscreen.svg';
+import { ReactComponent as ExitFullscreenIcon } from '@assets/icons/fullscreen-exit.svg';
 import { ReactComponent as PauseIcon } from '@assets/icons/pause.svg';
 import { ReactComponent as PlayIcon } from '@assets/icons/play.svg';
 import { ReactComponent as RewindIcon } from '@assets/icons/rewind-10s.svg';
@@ -9,29 +11,47 @@ import HlsPlayer from 'react-hls-player';
 
 import styles from './video-player.module.scss';
 
-const VideoControls = ({
-	playerRef,
-}: {
-	playerRef: React.MutableRefObject<HTMLVideoElement | null>;
+export const VideoPlayer = ({
+	src,
+	sourceId,
+}: // videoContainerRef,
+{
+	src: string;
+	sourceId?: string;
+	// videoContainerRef?: React.MutableRefObject<HTMLDivElement | null>;
 }) => {
+	const playerRef = useRef<HTMLVideoElement | null>(null);
+	const progressRef = useRef<HTMLInputElement | null>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(Boolean(playerRef.current?.volume));
-	const progressRef = useRef<HTMLInputElement | null>(null);
+	const [isFullscreen, setIsFullscreen] = useState(false);
+	const [showControls, setShowControls] = useState(true);
+	const videoContainerRef = useRef<HTMLDivElement | null>(null);
+	const initialTime = Number(
+		sessionStorage.getItem(`timestamp-${sourceId}`) ?? 0,
+	);
 
-	const rewindBy10Seconds = () => {
+	const rewindByXSeconds = (x: number) => {
 		if (playerRef.current) {
-			playerRef.current.currentTime -= 10;
+			playerRef.current.currentTime -= x;
 		}
 	};
 
-	const forwardBy10Seconds = () => {
+	const forwardByXSeconds = (x: number) => {
 		if (playerRef.current) {
-			playerRef.current.currentTime += 10;
+			playerRef.current.currentTime += x;
 		}
 	};
 
-	const toggleSpeaker = () => {
-		setIsMuted((val) => !val);
+	const saveCurrentTimeToSessionStorage = (currentTime: string) => {
+		sessionStorage.setItem(`timestamp-${sourceId}`, currentTime);
+	};
+
+	const onVideoProgress = () => {
+		if (playerRef.current && progressRef.current) {
+			progressRef.current.value = String(playerRef.current.currentTime);
+			saveCurrentTimeToSessionStorage(progressRef.current.value);
+		}
 	};
 
 	useEffect(() => {
@@ -41,43 +61,54 @@ const VideoControls = ({
 	}, [isPlaying]);
 
 	useEffect(() => {
-		if (playerRef.current) {
-			if (isMuted) {
-				playerRef.current.volume = 0;
-			} else {
-				playerRef.current.volume = 1;
+		if (isFullscreen && videoContainerRef?.current) {
+			videoContainerRef.current.requestFullscreen();
+		} else {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
 			}
 		}
-	}, [isMuted]);
+	}, [isFullscreen]);
 
 	useEffect(() => {
-		const onVideoProgress = () => {
-			if (playerRef.current && progressRef.current) {
-				progressRef.current.value = String(playerRef.current.currentTime);
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.code === 'Space') {
+				setIsPlaying((val) => !val);
+			}
 
-				sessionStorage.setItem(
-					`timestamp-${playerRef.current.src}`,
-					progressRef.current.value,
-				);
+			if (e.code === 'ArrowRight') {
+				forwardByXSeconds(1);
+			}
+			if (e.code === 'ArrowLeft') {
+				rewindByXSeconds(1);
 			}
 		};
 
+		const onFullscreenChange = () =>
+			setIsFullscreen(Boolean(document.fullscreenElement));
+
 		if (playerRef.current) {
-			playerRef.current.currentTime =
-				Number(sessionStorage.getItem(`timestamp-${playerRef.current.src}`)) ??
-				0;
-			playerRef.current.addEventListener('progress', onVideoProgress);
+			playerRef.current.currentTime = initialTime;
 		}
 
+		window.addEventListener('keydown', onKeyDown);
+		document.addEventListener('fullscreenchange', onFullscreenChange);
+
 		return () => {
-			if (playerRef.current) {
-				playerRef.current.removeEventListener('progress', onVideoProgress);
-			}
+			window.removeEventListener('keydown', onKeyDown);
+			document.removeEventListener('fullscreenchange', onFullscreenChange);
 		};
 	}, []);
 
 	return (
-		<div className={styles.controls}>
+		<div
+			className={[
+				styles.videoPlayer,
+				isFullscreen && styles.fullscreen,
+				!showControls && styles.hideControls,
+			].join(' ')}
+			ref={videoContainerRef}
+		>
 			<button
 				className={styles.playBtn}
 				onClick={() => setIsPlaying(!isPlaying)}
@@ -85,11 +116,22 @@ const VideoControls = ({
 				{isPlaying ? <PauseIcon /> : <PlayIcon />}
 				<span></span>
 			</button>
+			<HlsPlayer
+				src={src}
+				muted={isMuted}
+				playerRef={playerRef}
+				onProgress={onVideoProgress}
+				onClick={(e) => {
+					if (isFullscreen) {
+						setShowControls((val) => !val);
+					}
+				}}
+			/>
 			<div className={styles.toolBar}>
-				<button onClick={rewindBy10Seconds}>
+				<button onClick={() => rewindByXSeconds(10)}>
 					<RewindIcon />
 				</button>
-				<button onClick={forwardBy10Seconds}>
+				<button onClick={() => forwardByXSeconds(10)}>
 					<ForwardIcon />
 				</button>
 				<div className={styles.progress}>
@@ -97,34 +139,22 @@ const VideoControls = ({
 						type="range"
 						min={0}
 						max={playerRef.current?.duration ?? 24}
+						ref={progressRef}
 						onInput={(e) => {
+							saveCurrentTimeToSessionStorage(e.currentTarget.value);
 							if (playerRef.current) {
 								playerRef.current.currentTime = Number(e.currentTarget.value);
-								sessionStorage.setItem(
-									`timestamp-${playerRef.current.src}`,
-									e.currentTarget.value,
-								);
 							}
 						}}
-						ref={progressRef}
 					/>
 				</div>
-				<button onClick={toggleSpeaker}>
+				<button onClick={() => setIsMuted((val) => !val)}>
 					{isMuted ? <SpeakerOffIcon /> : <SpeakerOnIcon />}
 				</button>
-				{/* <button>Playback</button> */}
+				<button onClick={() => setIsFullscreen((val) => !val)}>
+					{isFullscreen ? <ExitFullscreenIcon /> : <EnterFullscreenIcon />}
+				</button>
 			</div>
-		</div>
-	);
-};
-
-export const VideoPlayer = ({ src }: { src: string }) => {
-	const playerRef = useRef<HTMLVideoElement | null>(null);
-
-	return (
-		<div className={styles.videoPlayer}>
-			<VideoControls playerRef={playerRef} />
-			<HlsPlayer src={src} playerRef={playerRef} />
 		</div>
 	);
 };

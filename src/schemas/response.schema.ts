@@ -35,7 +35,7 @@ export const searchResponseSchema = z.object({
 			countryOfOrigin: z.string().nonempty().nullish(),
 			lastEpisodeUpdate: z.string().nonempty().nullish(),
 			description: z.string().nonempty(),
-			duration: z.number(),
+			duration: z.number().nullish(),
 			color: z.string().nonempty().nullish(),
 			year: z.number().nullish(),
 			format: z.string().nullish(),
@@ -128,7 +128,7 @@ export const recentAnimeSchema = z.object({
 			titleVariations: z
 				.object({
 					native: z.string().nonempty().nullish(),
-					english: z.string().nonempty(),
+					english: z.string().nonempty().nullish(),
 				})
 				.nullish(),
 			sources: z.array(z.object({ id: z.string().nonempty() })),

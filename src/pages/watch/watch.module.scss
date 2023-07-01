@@ -5,12 +5,12 @@
 
     .video-container {
         --max-width: 80ch;
-        grid-template-columns: min(80vw, var(--max-width));
-        grid-template-rows: calc((9 / 16 * min(80vw, var(--max-width)) + 2.5rem));
+        width: min(80vw, var(--max-width));
+        height: calc((9 / 16 * min(80vw, var(--max-width))));
         position: relative;
         display: grid;
 
-        &:not(:focus-within, :hover) {
+        &:not(:hover) {
             .video-resolution-picker {
                 opacity: 0;
                 pointer-events: none;
