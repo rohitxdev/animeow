@@ -2,7 +2,7 @@ import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg'
 import { ReactComponent as LoaderIcon } from '@assets/icons/loader-2.svg';
 import { ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
-import { useId, useRef, useState } from 'react';
+import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
