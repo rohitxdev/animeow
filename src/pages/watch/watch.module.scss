@@ -6,7 +6,7 @@
     .video-container {
         --max-width: 80ch;
         grid-template-columns: min(80vw, var(--max-width));
-        grid-template-rows: calc(9 / 16 * min(80vw, var(--max-width)));
+        grid-template-rows: calc((9 / 16 * min(80vw, var(--max-width)) + 2.5rem));
         position: relative;
         display: grid;
 
