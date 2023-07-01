@@ -82,6 +82,7 @@ export const sourcesResponseSchema = z.object({
 
 export const animeResponseSchema = z.object({
 	id: z.string().nonempty(),
+	
 	slug: z.string().nonempty().nullish(),
 	anilistId: z.number(),
 	coverImage: z.string().nonempty().nullish(),
