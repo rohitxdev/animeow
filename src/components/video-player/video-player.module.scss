@@ -67,8 +67,7 @@
     }
 
     .tool-bar {
-        height: 2.75rem;
-        background-color: black;
+        height: 3rem;
         display: grid;
         position: absolute;
         inset: auto 0 0 0;
@@ -81,16 +80,17 @@
             right: 0;
             transform: translateY(-50%);
             transition: opacity 200ms linear;
+            height: 0.375rem;
         }
 
         .options {
             display: flex;
             gap: 1rem;
-            justify-content: left;
+            justify-content: space-evenly;
             align-items: center;
-            padding-inline: 0.5rem;
             position: relative;
             z-index: 10;
+            padding-inline: 0.75rem;
 
             button {
                 background-color: transparent;
@@ -109,9 +109,15 @@
                 }
             }
 
+            .time {
+                font-size: 0.75rem;
+            }
+
             .volume {
-                width: clamp(64px, 30%, 20ch);
+                width: clamp(32px, 30%, 20ch);
                 margin-right: auto;
+                border-radius: 2px;
+                height: 0.25rem;
             }
 
 
@@ -181,16 +187,6 @@
     outline: none;
     cursor: pointer;
 
-    &::-webkit-slider-runnable-track {
-        height: 0.375rem;
-        background: var(--coral-100);
-    }
-
-    &::-moz-range-track {
-        height: 0.375rem;
-        background: var(--coral-100);
-    }
-
     &::-webkit-slider-thumb {
         border: 1px solid var(--dark);
         height: 1rem;
@@ -199,38 +195,25 @@
         background: var(--light);
         appearance: none;
         top: 50%;
-        transform: translateY(calc(-0.25rem - 2px));
     }
 
     &::-moz-range-thumb {
         height: 1rem;
         width: 1rem;
         border-radius: 50%;
-        border: 1px solid var(--dark);
+        box-shadow: 0 0 2px 1px var(--dark);
     }
 }
 
 .volume {
-    &::-webkit-slider-runnable-track {
-        border-radius: 2px;
-        height: 0.25rem;
-    }
-
-    &::-moz-range-track {
-        border-radius: 2px;
-        height: 0.25rem;
-    }
-
     &::-webkit-slider-thumb {
         height: 0.75rem;
         width: 0.75rem;
-        transform: translateY(-0.25rem);
     }
 
     &::-moz-range-thumb {
         height: 0.75rem;
         width: 0.75rem;
-
     }
 }
 
@@ -245,21 +228,25 @@
         display: grid;
         top: 0;
         left: 50%;
-        transform: translate(-50%, calc(-100% - 1rem));
+        transform: translate(-50%, calc(-100% - 1.5rem));
         grid-template-columns: max-content;
         transition: all 200ms ease-out;
 
         & > div {
             display: grid;
             overflow: hidden;
-            border-radius: 0.25rem;
+            border-radius: 0.375rem;
             background-color: var(--dark);
-            padding-block: 0.125rem;
 
             button {
                 color: var(--light);
                 padding: 0.5rem 0.75rem;
                 font-size: 0.75rem;
+                font-weight: 500;
+
+                &:is(:focus, :hover) {
+                    background-color: var(--grey-300);
+                }
             }
         }
     }
@@ -301,5 +288,16 @@
 
     p {
         font-size: 0.875rem;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .video-player {
+        .tool-bar {
+            .options {
+                gap: 0.5rem;
+                padding-inline: 0.5rem;
+            }
+        }
     }
 }

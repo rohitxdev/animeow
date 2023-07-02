@@ -9,6 +9,7 @@ import { ReactComponent as RewindIcon } from '@assets/icons/rewind-10s.svg';
 import { ReactComponent as SettingsIcon } from '@assets/icons/settings.svg';
 import { ReactComponent as SpeakerOffIcon } from '@assets/icons/speaker-off.svg';
 import { ReactComponent as SpeakerOnIcon } from '@assets/icons/speaker-on.svg';
+import { getTimeInMMSS } from '@utils';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import HlsPlayer from 'react-hls-player';
 import Skeleton from 'react-loading-skeleton';
@@ -17,16 +18,24 @@ import styles from './video-player.module.scss';
 
 interface VideoResolutionPickerProps
 	extends Omit<ComponentProps<'div'>, 'style' | 'className'> {
+	defaultShowOptions?: boolean;
 	availableResolutions: string[];
 	setVideoResolution: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const VideoResolutionPicker = ({
+	defaultShowOptions,
 	availableResolutions,
 	setVideoResolution,
 	...props
 }: VideoResolutionPickerProps) => {
 	const [showOptions, setShowOptions] = useState(false);
+
+	useEffect(() => {
+		if (!defaultShowOptions) {
+			setShowOptions(false);
+		}
+	}, [defaultShowOptions]);
 
 	return (
 		<div
@@ -35,6 +44,7 @@ export const VideoResolutionPicker = ({
 				styles.videoResolutionPicker,
 				showOptions ? styles.show : styles.hide,
 			].join(' ')}
+			onMouseDown={(e) => e.preventDefault()}
 		>
 			<button
 				className={styles.settings}
@@ -84,6 +94,7 @@ export const VideoPlayer = ({
 	const hideTimerRef = useRef<number | null>(null);
 	const playerRef = useRef<HTMLVideoElement | null>(null);
 	const progressRef = useRef<HTMLInputElement | null>(null);
+	const volumeRef = useRef<HTMLInputElement | null>(null);
 	const videoContainerRef = useRef<HTMLDivElement | null>(null);
 	const initialTime = Number(
 		sessionStorage.getItem(`timestamp-${sourceId}`) ?? 0,
@@ -109,6 +120,16 @@ export const VideoPlayer = ({
 		if (playerRef.current && progressRef.current) {
 			progressRef.current.value = String(playerRef.current.currentTime);
 			saveCurrentTimeToSessionStorage(progressRef.current.value);
+			const value =
+				((Number(progressRef.current.value) - Number(progressRef.current.min)) /
+					(Number(progressRef.current.max) - Number(progressRef.current.min))) *
+				100;
+			progressRef.current.style.background =
+				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
+				value +
+				'%, var(--grey-300) ' +
+				value +
+				'%, var(--grey-300) 100%)';
 		}
 	};
 
@@ -161,6 +182,34 @@ export const VideoPlayer = ({
 	}, [src]);
 
 	useEffect(() => {
+		if (volumeRef.current) {
+			const value =
+				((Number(volumeRef.current.value) - Number(volumeRef.current.min)) /
+					(Number(volumeRef.current.max) - Number(volumeRef.current.min))) *
+				100;
+			volumeRef.current.style.background =
+				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
+				value +
+				'%, var(--grey-300) ' +
+				value +
+				'%, var(--grey-300) 100%)';
+		}
+	}, [hasMetaData]);
+
+	useEffect(() => {
+		if (volumeRef.current) {
+			const value =
+				((Number(volumeRef.current.value) - Number(volumeRef.current.min)) /
+					(Number(volumeRef.current.max) - Number(volumeRef.current.min))) *
+				100;
+			volumeRef.current.style.background =
+				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
+				value +
+				'%, var(--grey-300) ' +
+				value +
+				'%, var(--grey-300) 100%)';
+		}
+
 		const onFullscreenChange = () =>
 			setIsFullscreen(Boolean(document.fullscreenElement));
 
@@ -198,9 +247,8 @@ export const VideoPlayer = ({
 			].join(' ')}
 			onFocus={showVideoControls}
 			onBlur={hideVideoControls}
-			onMouseEnter={showVideoControls}
-			onMouseLeave={hideVideoControls}
 			onMouseMove={showVideoControls}
+			onMouseLeave={hideVideoControls}
 			ref={videoContainerRef}
 		>
 			{isError ? (
@@ -239,6 +287,15 @@ export const VideoPlayer = ({
 							}
 							setHasMetaData(true);
 						}}
+						onClick={(e) => {
+							e.stopPropagation();
+							showControls ? hideVideoControls() : showVideoControls();
+						}}
+						onDoubleClick={() => {
+							if (isFullscreen) {
+								setIsFullscreen(false);
+							}
+						}}
 					/>
 					{hasMetaData && playerRef.current && (
 						<div className={styles.toolBar}>
@@ -266,7 +323,9 @@ export const VideoPlayer = ({
 								<button onClick={() => forwardByXSeconds(10)}>
 									<ForwardIcon />
 								</button>
-
+								<span className={styles.time}>
+									{getTimeInMMSS(playerRef.current.duration)}
+								</span>
 								<button
 									onClick={() =>
 										setVolume((val) => {
@@ -278,6 +337,7 @@ export const VideoPlayer = ({
 								</button>
 								<input
 									className={styles.volume}
+									ref={volumeRef}
 									type="range"
 									value={volume}
 									min={0}
@@ -287,14 +347,27 @@ export const VideoPlayer = ({
 										currentVolumeRef.current = volume;
 										setVolume(volume);
 										showVideoControls();
+										const value =
+											((Number(e.currentTarget.value) -
+												Number(e.currentTarget.min)) /
+												(Number(e.currentTarget.max) -
+													Number(e.currentTarget.min))) *
+											100;
+										e.currentTarget.style.background =
+											'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
+											value +
+											'%, var(--grey-300) ' +
+											value +
+											'%, var(--grey-300) 100%)';
 									}}
 									onKeyDown={(e) => e.stopPropagation()}
 								/>
 								{availableResolutions && setVideoResolution && (
 									<VideoResolutionPicker
-										onClick={showVideoControls}
+										defaultShowOptions={showControls}
 										availableResolutions={availableResolutions}
 										setVideoResolution={setVideoResolution}
+										onClick={showVideoControls}
 									/>
 								)}
 								<button onClick={() => setIsFullscreen((val) => !val)}>
