@@ -17,8 +17,10 @@ export const WatchPage = () => {
 		);
 	}
 
-	const { data: isStreamingEnabled } = useQuery(['is-streaming-enabled'], () =>
-		api.getIsStreamingEnabled(),
+	const { data: isStreamingEnabled } = useQuery(
+		['is-streaming-enabled'],
+		() => api.getIsStreamingEnabled(),
+		{ placeholderData: true },
 	);
 
 	const { data, isError } = useQuery(

@@ -1,11 +1,11 @@
 .video-player {
     display: grid;
     align-items: center;
-    height: 100%;
-    width: 100%;
     position: relative;
     overflow: hidden;
     box-shadow: 0 0 32px 8px var(--grey-300);
+    height: 100%;
+    width: 100%;
 
     .loading-spinner {
         height: 5rem;
@@ -48,7 +48,7 @@
         svg {
             height: 5rem;
             width: 5rem;
-            fill: white;
+            fill: var(--light);
             border-radius: 50%;
             vertical-align: bottom;
         }
@@ -103,8 +103,8 @@
                 svg {
                     height: 1.5rem;
                     width: 1.5rem;
-                    fill: white;
-                    color: white;
+                    fill: var(--light);
+                    color: var(--light);
                     vertical-align: bottom;
                 }
             }
@@ -254,6 +254,7 @@
             overflow: hidden;
             border-radius: 0.25rem;
             background-color: var(--dark);
+            padding-block: 0.125rem;
 
             button {
                 color: var(--light);
@@ -286,20 +287,19 @@
     }
 }
 
+.error {
+    background-color: black;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 1rem;
 
-@media screen and (max-width:450px) {
-
-    .video-player {
-        .video-resolution-picker {
-            .resolutions {
-                transform: translate(-50%, calc(-100% - 0.875rem));
-
-                button {
-                    padding: 0.375rem 0.5rem;
-                    font-size: 0.75rem;
-                }
-            }
-        }
+    svg {
+        fill: var(--light);
+        height: calc(2rem + 2vw);
     }
 
+    p {
+        font-size: 0.875rem;
+    }
 }

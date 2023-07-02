@@ -6,16 +6,12 @@ import {
 	NotFoundPage,
 	WatchPage,
 } from '@pages';
-import { api } from '@utils';
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { RouteWrapper } from './route-wrapper';
 
 export const Router = () => {
-	useQuery(['is-streaming-enabled'], () => api.getIsStreamingEnabled());
-
 	useEffect(() => {
 		const onResize = () => {
 			const root = document.getElementById('root');

@@ -1,12 +1,11 @@
 .watch {
     display: grid;
     justify-content: center;
-    align-content: start;
 
     .video-container {
         --max-width: 80ch;
         width: min(80vw, var(--max-width));
-        height: calc((9 / 16 * min(80vw, var(--max-width))));
+        height: calc((3 / 4 * min(80vw, var(--max-width))));
         position: relative;
         display: grid;
 
@@ -18,7 +17,7 @@
             gap: 1rem;
 
             svg {
-                fill: white;
+                fill: var(--light);
                 height: calc(2rem + 2vw);
             }
 

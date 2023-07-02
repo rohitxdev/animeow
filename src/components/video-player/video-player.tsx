@@ -1,7 +1,8 @@
+import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg';
 import { ReactComponent as ForwardIcon } from '@assets/icons/forward-10s.svg';
 import { ReactComponent as EnterFullscreenIcon } from '@assets/icons/fullscreen.svg';
 import { ReactComponent as ExitFullscreenIcon } from '@assets/icons/fullscreen-exit.svg';
-import { ReactComponent as LoaderIcon } from '@assets/icons/loader-2.svg';
+import { ReactComponent as LoaderIcon } from '@assets/icons/loader.svg';
 import { ReactComponent as PauseIcon } from '@assets/icons/pause.svg';
 import { ReactComponent as PlayIcon } from '@assets/icons/play.svg';
 import { ReactComponent as RewindIcon } from '@assets/icons/rewind-10s.svg';
@@ -70,8 +71,10 @@ export const VideoPlayer = ({
 	availableResolutions?: string[];
 	setVideoResolution?: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+	const [isError, setIsError] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [hasMetaData, setHasMetaData] = useState(false);
 	const [isFullscreen, setIsFullscreen] = useState(false);
 	const [showControls, setShowControls] = useState(true);
 	const [volume, setVolume] = useState(
@@ -126,16 +129,42 @@ export const VideoPlayer = ({
 		hideTimerRef.current = window.setTimeout(hideVideoControls, 4000);
 	};
 
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (e.code === 'Space') {
-			setIsPlaying((val) => !val);
+	const toggleFullscreen = () => {
+		if (isFullscreen && videoContainerRef.current) {
+			videoContainerRef.current.requestFullscreen();
+		} else {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			}
 		}
+		setIsFullscreen((val) => !val);
+	};
 
-		if (e.code === 'ArrowRight') {
-			forwardByXSeconds(1);
+	const togglePlay = () => {
+		if (playerRef.current) {
+			if (playerRef.current.paused) {
+				playerRef.current.play();
+				setIsPlaying(true);
+			} else {
+				playerRef.current.pause();
+				setIsPlaying(false);
+			}
 		}
-		if (e.code === 'ArrowLeft') {
-			rewindByXSeconds(1);
+	};
+
+	const onKeyDown = (e: KeyboardEvent) => {
+		switch (e.code) {
+			case 'Space':
+				togglePlay();
+				break;
+			case 'ArrowRight':
+				forwardByXSeconds(1);
+				break;
+			case 'ArrowLeft':
+				rewindByXSeconds(1);
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -147,39 +176,12 @@ export const VideoPlayer = ({
 	}, [volume]);
 
 	useEffect(() => {
-		if (playerRef.current) {
-			if (isPlaying) {
-				playerRef.current.play();
-			} else {
-				playerRef.current.pause();
-			}
-		}
-	}, [isPlaying]);
-
-	useEffect(() => {
-		if (isFullscreen && videoContainerRef?.current) {
-			videoContainerRef.current.requestFullscreen();
-		} else {
-			if (document.fullscreenElement) {
-				document.exitFullscreen();
-			}
-		}
-	}, [isFullscreen]);
-
-	useEffect(() => {
-		if (isPlaying && playerRef.current) {
-			playerRef.current.currentTime = initialTime;
-			playerRef.current.play();
-		}
+		setHasMetaData(false);
 	}, [src]);
 
 	useEffect(() => {
 		const onFullscreenChange = () =>
 			setIsFullscreen(Boolean(document.fullscreenElement));
-
-		if (playerRef.current) {
-			playerRef.current.currentTime = initialTime;
-		}
 
 		document.addEventListener('keydown', onKeyDown);
 		document.addEventListener('fullscreenchange', onFullscreenChange);
@@ -204,15 +206,17 @@ export const VideoPlayer = ({
 			onMouseMove={showVideoControls}
 			ref={videoContainerRef}
 		>
-			{src ? (
+			{isError ? (
+				<div className={styles.error}>
+					<BrokenFileIcon />
+					<p>Could not load video &nbsp;:&#40;</p>
+				</div>
+			) : src ? (
 				<>
 					{isLoading ? (
 						<LoaderIcon className={styles.loadingSpinner} />
 					) : (
-						<button
-							className={styles.playBtn}
-							onClick={() => setIsPlaying(!isPlaying)}
-						>
+						<button className={styles.playBtn} onClick={togglePlay}>
 							{isPlaying ? <PauseIcon /> : <PlayIcon />}
 							<span></span>
 						</button>
@@ -226,74 +230,85 @@ export const VideoPlayer = ({
 								setIsLoading(true);
 							}
 						}}
-						onPlaying={() => {
-							setIsLoading(false);
+						onPlaying={() => setIsLoading(false)}
+						onError={() => setIsError(true)}
+						onLoadedMetadata={(e) => {
+							e.currentTarget.currentTime = initialTime;
+							if (playerRef.current && isPlaying) {
+								playerRef.current.play();
+							}
+							setHasMetaData(true);
 						}}
 					/>
-					<div className={styles.toolBar}>
-						<input
-							className={styles.progress}
-							type="range"
-							min={0}
-							max={playerRef.current?.duration ?? 24}
-							ref={progressRef}
-							onInput={(e) => {
-								saveCurrentTimeToSessionStorage(e.currentTarget.value);
-								if (playerRef.current) {
-									playerRef.current.currentTime = Number(e.currentTarget.value);
-								}
-								showVideoControls();
-							}}
-						/>
-						<div className={styles.options}>
-							<button onClick={() => rewindByXSeconds(10)}>
-								<RewindIcon />
-							</button>
-							<button onClick={() => forwardByXSeconds(10)}>
-								<ForwardIcon />
-							</button>
-
-							<button
-								onClick={() =>
-									setVolume((val) => {
-										return val ? 0 : currentVolumeRef.current || 100;
-									})
-								}
-							>
-								{volume === 0 ? <SpeakerOffIcon /> : <SpeakerOnIcon />}
-							</button>
+					{hasMetaData && playerRef.current && (
+						<div className={styles.toolBar}>
 							<input
-								className={styles.volume}
+								className={styles.progress}
 								type="range"
-								value={volume}
+								defaultValue={initialTime}
 								min={0}
-								max={100}
+								max={playerRef.current.duration}
+								ref={progressRef}
 								onInput={(e) => {
-									const volume = Number(e.currentTarget.value);
-									currentVolumeRef.current = volume;
-									setVolume(volume);
-									showVideoControls();
+									if (playerRef.current) {
+										playerRef.current.currentTime = Number(
+											e.currentTarget.value,
+										);
+										saveCurrentTimeToSessionStorage(e.currentTarget.value);
+										showVideoControls();
+									}
 								}}
-								onKeyDown={(e) => e.stopPropagation()}
 							/>
+							<div className={styles.options}>
+								<button onClick={() => rewindByXSeconds(10)}>
+									<RewindIcon />
+								</button>
+								<button onClick={() => forwardByXSeconds(10)}>
+									<ForwardIcon />
+								</button>
 
-							{availableResolutions && setVideoResolution && (
-								<VideoResolutionPicker
-									onClick={showVideoControls}
-									availableResolutions={availableResolutions}
-									setVideoResolution={setVideoResolution}
+								<button
+									onClick={() =>
+										setVolume((val) => {
+											return val ? 0 : currentVolumeRef.current || 100;
+										})
+									}
+								>
+									{volume === 0 ? <SpeakerOffIcon /> : <SpeakerOnIcon />}
+								</button>
+								<input
+									className={styles.volume}
+									type="range"
+									value={volume}
+									min={0}
+									max={100}
+									onInput={(e) => {
+										const volume = Number(e.currentTarget.value);
+										currentVolumeRef.current = volume;
+										setVolume(volume);
+										showVideoControls();
+									}}
+									onKeyDown={(e) => e.stopPropagation()}
 								/>
-							)}
 
-							<button onClick={() => setIsFullscreen((val) => !val)}>
-								{isFullscreen ? (
-									<ExitFullscreenIcon />
-								) : (
-									<EnterFullscreenIcon />
+								{availableResolutions && setVideoResolution && (
+									<VideoResolutionPicker
+										onClick={showVideoControls}
+										availableResolutions={availableResolutions}
+										setVideoResolution={setVideoResolution}
+									/>
 								)}
-							</button>
+
+								<button onClick={toggleFullscreen}>
+									{isFullscreen ? (
+										<ExitFullscreenIcon />
+									) : (
+										<EnterFullscreenIcon />
+									)}
+								</button>
+							</div>
 						</div>
-					</div>
+					)}
 				</>
 			) : (
 				<div className={styles.loadingBg}>
