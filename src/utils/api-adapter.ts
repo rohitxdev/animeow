@@ -12,7 +12,8 @@ import {
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-	baseURL: env.API_URL,
+	baseURL:
+		import.meta.env.MODE === 'development' ? env.DEV_API_URL : env.API_URL,
 	withCredentials: true,
 	timeout: 4000,
 });

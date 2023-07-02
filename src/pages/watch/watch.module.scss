@@ -10,28 +10,6 @@
         position: relative;
         display: grid;
 
-        &:not(:hover) {
-            .video-resolution-picker {
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-
-        .loading {
-
-            span:first-of-type {
-                height: 100%;
-                width: 100%;
-            }
-
-            svg {
-                height: calc(4rem + 2vw);
-                position: absolute;
-                inset: 0;
-                z-index: 10;
-            }
-        }
-
         .error {
             background-color: black;
             display: grid;
@@ -48,46 +26,5 @@
                 font-size: 0.875rem;
             }
         }
-    }
-}
-
-.video-resolution-picker {
-    display: grid;
-    gap: 0.25rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    margin: 0.5rem;
-    transition: opacity 200ms linear;
-
-    .options {
-        display: grid;
-        transition: grid-template-rows 200ms ease-out;
-
-        & > div {
-            display: grid;
-            gap: 0.25rem;
-            overflow: hidden;
-        }
-
-        &.hide {
-            grid-template-rows: 0fr;
-        }
-
-        &.show {
-            grid-template-rows: 1fr;
-        }
-    }
-
-    button {
-        all: unset;
-        text-align: center;
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.75);
-        color: var(--light);
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        font-size: 0.625rem;
     }
 }

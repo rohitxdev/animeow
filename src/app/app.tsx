@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ReactComponent as CrossIcon } from '@assets/icons/cross.svg';
 import { AuthModal, ErrorFallback } from '@components';
 import { AuthContextProvider } from '@contexts';
-import { StrictMode, useEffect } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';

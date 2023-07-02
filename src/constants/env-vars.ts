@@ -5,6 +5,7 @@ const envSchema = z
 		IS_PWA_ENABLED: z.union([z.literal('true'), z.literal('false')]),
 		IS_PWA_DEV_ENABLED: z.union([z.literal('true'), z.literal('false')]),
 		API_URL: z.string().url().nonempty(),
+		DEV_API_URL: z.string().url().nonempty(),
 	})
 	.transform((val) => ({
 		...val,
@@ -20,6 +21,7 @@ const envVariables: Partial<Record<keyof z.infer<typeof envSchema>, unknown>> =
 		IS_PWA_ENABLED: import.meta.env.VITE_IS_PWA_ENABLED,
 		IS_PWA_DEV_ENABLED: import.meta.env.VITE_IS_PWA_DEV_ENABLED,
 		API_URL: import.meta.env.VITE_API_URL,
+		DEV_API_URL: import.meta.env.VITE_DEV_API_URL,
 	};
 
 if (import.meta.env.MODE === 'production') {

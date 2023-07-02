@@ -3617,6 +3617,11 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+input-range-scss@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/input-range-scss/-/input-range-scss-1.5.3.tgz#aeb127b1d523f64ac0aed373f4ef679908176aa6"
+  integrity sha512-yI5bUp1kyOVHm6eKPiXjAOi7A0Gv2J8569J5uRwRamy2gD9nB6PWkxQTO+KK40UBvr24/HhADOzEQ5IV9BCSpQ==
+
 internal-slot@^1.0.3, internal-slot@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/internal-slot/-/internal-slot-1.0.5.tgz#f2a2ee21f668f8627a4667f309dc0f4fb6674986"

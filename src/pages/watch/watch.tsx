@@ -1,48 +1,11 @@
 import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg';
-import { ReactComponent as LoaderIcon } from '@assets/icons/loader-2.svg';
 import { ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
 import { useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import styles from './watch.module.scss';
-
-export const VideoResolutionPicker = ({
-	availableResolutions,
-	setVideoResolution,
-}: {
-	availableResolutions: string[];
-	setVideoResolution: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-	const [showOptions, setShowOptions] = useState(false);
-
-	return (
-		<div className={styles.videoResolutionPicker}>
-			<button onClick={() => setShowOptions((val) => !val)}>Options</button>
-			<div
-				className={[
-					styles.options,
-					showOptions ? styles.show : styles.hide,
-				].join(' ')}
-			>
-				<div>
-					{availableResolutions.map((val, i) => (
-						<button
-							onClick={() => {
-								setVideoResolution(val), setShowOptions(false);
-							}}
-							key={val + i}
-						>
-							{val}
-						</button>
-					))}
-				</div>
-			</div>
-		</div>
-	);
-};
 
 export const WatchPage = () => {
 	const { animeId, episodeId } = useParams();
@@ -58,7 +21,7 @@ export const WatchPage = () => {
 		api.getIsStreamingEnabled(),
 	);
 
-	const { data, isLoading, isError } = useQuery(
+	const { data, isError } = useQuery(
 		['watch', episodeId],
 		({ signal }) => api.getEpisodeDetails({ episodeId, signal }),
 		{
@@ -76,32 +39,22 @@ export const WatchPage = () => {
 		<div className={styles.watch}>
 			<div className={styles.videoContainer}>
 				{isStreamingEnabled ? (
-					<>
-						{isLoading && (
-							<div className={styles.loading}>
-								<LoaderIcon />
-								<Skeleton baseColor="black" highlightColor="var(--dark)" />
-							</div>
-						)}
-						{data && src && (
-							<>
-								<VideoResolutionPicker
-									availableResolutions={data?.sources.map((val) => val.quality)}
-									setVideoResolution={setVideoResolution}
-								/>
-								<VideoPlayer src={src} sourceId={episodeId} />
-							</>
-						)}
-						{isError && (
-							<div className={styles.error}>
-								<BrokenFileIcon />
-								<p>Could not load video &nbsp;:&#40;</p>
-							</div>
-						)}
-					</>
+					isError ? (
+						<div className={styles.error}>
+							<BrokenFileIcon />
+							<p>Could not load video &nbsp;:&#40;</p>
+						</div>
+					) : (
+						<VideoPlayer
+							src={src}
+							sourceId={episodeId}
+							availableResolutions={data?.sources.map((val) => val.quality)}
+							setVideoResolution={setVideoResolution}
+						/>
+					)
 				) : (
-					<div>
-						<p style={{ textAlign: 'center' }}>Streaming has been disabled.</p>
+					<div className={styles.error}>
+						<p>Streaming has been disabled.</p>
 					</div>
 				)}
 			</div>

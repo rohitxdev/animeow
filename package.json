@@ -25,6 +25,7 @@
 		"axios": "^1.4.0",
 		"firebase": "^9.23.0",
 		"gsap": "^3.12.1",
+		"input-range-scss": "^1.5.3",
 		"postcss": "^8.4.21",
 		"postcss-preset-env": "^8.0.1",
 		"react": "^18.2.0",

@@ -1,5 +1,6 @@
+import { env } from '@constants';
 import { useAuthContext } from '@hooks';
-import { api } from '@utils';
+import { api, axiosInstance } from '@utils';
 import { useQuery } from 'react-query';
 
 import { ToggleSwitch } from '../../components/toggle-switch/toggle-switch';
@@ -7,6 +8,7 @@ import styles from './admin.module.scss';
 
 export const AdminPage = () => {
 	const { isLoggedIn } = useAuthContext();
+	const isUsingDevAPI = axiosInstance.defaults.baseURL === env.DEV_API_URL;
 
 	const { data } = useQuery(['users'], ({ signal }) => api.getUsers(signal), {
 		refetchInterval: 1000 * 10,
@@ -26,6 +28,19 @@ export const AdminPage = () => {
 					onClick={() => api.setIsStreamingEnabled(!isStreamingEnabled)}
 				/>
 			</div>
+			{import.meta.env.MODE === 'development' && (
+				<div>
+					<p>Use remote API</p>
+					<ToggleSwitch
+						initialValue={!isUsingDevAPI}
+						onClick={() => {
+							axiosInstance.defaults.baseURL = isUsingDevAPI
+								? env.API_URL
+								: env.DEV_API_URL;
+						}}
+					/>
+				</div>
+			)}
 			{data && (
 				<div style={{ overflow: 'auto' }}>
 					<table>
