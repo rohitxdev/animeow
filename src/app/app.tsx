@@ -21,22 +21,6 @@ registerServiceWorker();
 const queryClient = new QueryClient();
 
 export const App = () => {
-	useEffect(() => {
-		const onResize = () => {
-			const root = document.getElementById('root');
-			if (root) {
-				root.style.setProperty('--vh', `${window.innerHeight}px`);
-				root.style.setProperty('--vw', `${window.innerWidth}px`);
-			}
-		};
-
-		onResize();
-		window.addEventListener('resize', onResize);
-
-		return () => {
-			window.removeEventListener('resize', onResize);
-		};
-	}, []);
 	return (
 		<StrictMode>
 			<ErrorBoundary fallbackRender={ErrorFallback}>

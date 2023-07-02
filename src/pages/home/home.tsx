@@ -20,10 +20,6 @@ export const HomePage = () => {
 		cacheTime: Infinity,
 	});
 
-	const { data: isStreamingEnabled } = useQuery(['is-streaming-enabled'], () =>
-		api.getIsStreamingEnabled(),
-	);
-
 	const popularData = data
 		? (data[0].data.map((val) => ({
 				animeId: val.id,

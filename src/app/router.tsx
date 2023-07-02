@@ -6,11 +6,33 @@ import {
 	NotFoundPage,
 	WatchPage,
 } from '@pages';
+import { api } from '@utils';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { RouteWrapper } from './route-wrapper';
 
 export const Router = () => {
+	useQuery(['is-streaming-enabled'], () => api.getIsStreamingEnabled());
+
+	useEffect(() => {
+		const onResize = () => {
+			const root = document.getElementById('root');
+			if (root) {
+				root.style.setProperty('--vh', `${window.innerHeight}px`);
+				root.style.setProperty('--vw', `${window.innerWidth}px`);
+			}
+		};
+
+		onResize();
+		window.addEventListener('resize', onResize);
+
+		return () => {
+			window.removeEventListener('resize', onResize);
+		};
+	}, []);
+
 	const router = createBrowserRouter([
 		{ path: '*', element: <RouteWrapper page={<NotFoundPage />} /> },
 		{
