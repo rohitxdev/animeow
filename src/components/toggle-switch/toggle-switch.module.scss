@@ -1,0 +1,39 @@
+.toggle-switch {
+    --height: 2rem;
+    --bg-on: var(--coral-100);
+    --bg-off: var(--grey-300);
+    --thumb-clr: white;
+    --duration: 100ms;
+
+    height: var(--height);
+    width: calc(2 * var(--height));
+    border-radius: var(--height);
+    position: relative;
+    transform: background-color var(--duration) linear;
+
+    &::before {
+        content: '';
+        background-color: var(--thumb-clr);
+        border-radius: 50%;
+        height: calc(var(--height) - 0.25rem);
+        width: calc(var(--height) - 0.25rem);
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        margin: 0.125rem;
+        transition: transform var(--duration) linear;
+    }
+
+    &.on {
+        background-color: var(--bg-on);
+
+        &::before {
+            transform: translateX(calc(var(--height) - 0.125rem));
+        }
+    }
+
+    &.off {
+        background-color: var(--bg-off);
+    }
+}

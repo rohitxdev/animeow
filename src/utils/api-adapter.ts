@@ -128,7 +128,7 @@ export const api = {
 		return usersSchema.parse(data);
 	},
 	getIsStreamingEnabled: async () => {
-		const data = await axiosInstance.get('/app/is-streaming-enabled');
+		const { data } = await axiosInstance.get('/app/is-streaming-enabled');
 		return isStreamingEnabledSchema.parse(data).is_streaming_enabled;
 	},
 	setIsStreamingEnabled: async (isEnabled: boolean) => {

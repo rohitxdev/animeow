@@ -54,10 +54,8 @@ export const WatchPage = () => {
 		);
 	}
 
-	const { data: isStreamingEnabled } = useQuery(
-		['is-streaming-enabled'],
-		() => api.getIsStreamingEnabled(),
-		{ staleTime: 1000 * 60 * 10 },
+	const { data: isStreamingEnabled } = useQuery(['is-streaming-enabled'], () =>
+		api.getIsStreamingEnabled(),
 	);
 
 	const { data, isLoading, isError } = useQuery(
@@ -103,7 +101,7 @@ export const WatchPage = () => {
 					</>
 				) : (
 					<div>
-						<p>Streaming has been disabled.</p>
+						<p style={{ textAlign: 'center' }}>Streaming has been disabled.</p>
 					</div>
 				)}
 			</div>

@@ -1,13 +1,19 @@
 .admin-page {
     display: grid;
     place-content: center;
+    gap: 1rem;
     color: var(--light);
+
+    & > div:first-child {
+        display: flex;
+        justify-content: space-between;
+    }
+
 }
 
 table {
     border-radius: 1rem;
     border: 1px solid var(--light);
-    overflow: hidden;
     background-color: var(--light);
 
     td {
