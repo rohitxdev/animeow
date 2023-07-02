@@ -129,7 +129,7 @@ export const VideoPlayer = ({
 		hideTimerRef.current = window.setTimeout(hideVideoControls, 4000);
 	};
 
-	const toggleFullscreen = () => {
+	useEffect(() => {
 		if (isFullscreen && videoContainerRef.current) {
 			videoContainerRef.current.requestFullscreen();
 		} else {
@@ -137,36 +137,17 @@ export const VideoPlayer = ({
 				document.exitFullscreen();
 			}
 		}
-		setIsFullscreen((val) => !val);
-	};
+	}, [isFullscreen]);
 
-	const togglePlay = () => {
+	useEffect(() => {
 		if (playerRef.current) {
-			if (playerRef.current.paused) {
+			if (isPlaying) {
 				playerRef.current.play();
-				setIsPlaying(true);
 			} else {
 				playerRef.current.pause();
-				setIsPlaying(false);
 			}
 		}
-	};
-
-	const onKeyDown = (e: KeyboardEvent) => {
-		switch (e.code) {
-			case 'Space':
-				togglePlay();
-				break;
-			case 'ArrowRight':
-				forwardByXSeconds(1);
-				break;
-			case 'ArrowLeft':
-				rewindByXSeconds(1);
-				break;
-			default:
-				break;
-		}
-	};
+	}, [isPlaying]);
 
 	useEffect(() => {
 		if (playerRef.current) {
@@ -182,6 +163,22 @@ export const VideoPlayer = ({
 	useEffect(() => {
 		const onFullscreenChange = () =>
 			setIsFullscreen(Boolean(document.fullscreenElement));
+
+		const onKeyDown = (e: KeyboardEvent) => {
+			switch (e.code) {
+				case 'Space':
+					setIsPlaying((val) => !val);
+					break;
+				case 'ArrowRight':
+					forwardByXSeconds(1);
+					break;
+				case 'ArrowLeft':
+					rewindByXSeconds(1);
+					break;
+				default:
+					break;
+			}
+		};
 
 		document.addEventListener('keydown', onKeyDown);
 		document.addEventListener('fullscreenchange', onFullscreenChange);
@@ -216,7 +213,10 @@ export const VideoPlayer = ({
 					{isLoading ? (
 						<LoaderIcon className={styles.loadingSpinner} />
 					) : (
-						<button className={styles.playBtn} onClick={togglePlay}>
+						<button
+							className={styles.playBtn}
+							onClick={() => setIsPlaying((val) => !val)}
+						>
 							{isPlaying ? <PauseIcon /> : <PlayIcon />}
 							<span></span>
 						</button>
@@ -290,7 +290,6 @@ export const VideoPlayer = ({
 									}}
 									onKeyDown={(e) => e.stopPropagation()}
 								/>
-
 								{availableResolutions && setVideoResolution && (
 									<VideoResolutionPicker
 										onClick={showVideoControls}
@@ -298,8 +297,7 @@ export const VideoPlayer = ({
 										setVideoResolution={setVideoResolution}
 									/>
 								)}
-
-								<button onClick={toggleFullscreen}>
+								<button onClick={() => setIsFullscreen((val) => !val)}>
 									{isFullscreen ? (
 										<ExitFullscreenIcon />
 									) : (
