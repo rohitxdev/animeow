@@ -12,8 +12,18 @@ export const AdminPage = () => {
 		enabled: isLoggedIn,
 	});
 
+	const { data: isStreamingEnabled } = useQuery(
+		['is-streaming-enabled'],
+		() => api.getIsStreamingEnabled(),
+		{ staleTime: 1000 * 60 * 10 },
+	);
+
 	return (
 		<div className={styles.adminPage}>
+			<p>Streaming is {isStreamingEnabled ? 'ENABLED' : 'DISABLED'}</p>
+			<button onClick={() => api.setIsStreamingEnabled(!isStreamingEnabled)}>
+				Toggle Streaming
+			</button>
 			{data && (
 				<table>
 					<thead>

@@ -82,7 +82,7 @@ export const sourcesResponseSchema = z.object({
 
 export const animeResponseSchema = z.object({
 	id: z.string().nonempty(),
-	
+
 	slug: z.string().nonempty().nullish(),
 	anilistId: z.number(),
 	coverImage: z.string().nonempty().nullish(),
@@ -137,4 +137,8 @@ export const recentAnimeSchema = z.object({
 		}),
 	),
 	meta: metaObjectSchema,
+});
+
+export const isStreamingEnabledSchema = z.object({
+	is_streaming_enabled: z.boolean(),
 });

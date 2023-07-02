@@ -54,12 +54,19 @@ export const WatchPage = () => {
 		);
 	}
 
+	const { data: isStreamingEnabled } = useQuery(
+		['is-streaming-enabled'],
+		() => api.getIsStreamingEnabled(),
+		{ staleTime: 1000 * 60 * 10 },
+	);
+
 	const { data, isLoading, isError } = useQuery(
 		['watch', episodeId],
 		({ signal }) => api.getEpisodeDetails({ episodeId, signal }),
 		{
 			refetchOnWindowFocus: false,
 			cacheTime: Infinity,
+			enabled: isStreamingEnabled,
 		},
 	);
 
@@ -70,25 +77,33 @@ export const WatchPage = () => {
 	return (
 		<div className={styles.watch}>
 			<div className={styles.videoContainer}>
-				{isLoading && (
-					<div className={styles.loading}>
-						<LoaderIcon />
-						<Skeleton baseColor="black" highlightColor="var(--dark)" />
-					</div>
-				)}
-				{data && src && (
+				{isStreamingEnabled ? (
 					<>
-						<VideoResolutionPicker
-							availableResolutions={data?.sources.map((val) => val.quality)}
-							setVideoResolution={setVideoResolution}
-						/>
-						<VideoPlayer src={src} sourceId={episodeId} />
+						{isLoading && (
+							<div className={styles.loading}>
+								<LoaderIcon />
+								<Skeleton baseColor="black" highlightColor="var(--dark)" />
+							</div>
+						)}
+						{data && src && (
+							<>
+								<VideoResolutionPicker
+									availableResolutions={data?.sources.map((val) => val.quality)}
+									setVideoResolution={setVideoResolution}
+								/>
+								<VideoPlayer src={src} sourceId={episodeId} />
+							</>
+						)}
+						{isError && (
+							<div className={styles.error}>
+								<BrokenFileIcon />
+								<p>Could not load video &nbsp;:&#40;</p>
+							</div>
+						)}
 					</>
-				)}
-				{isError && (
-					<div className={styles.error}>
-						<BrokenFileIcon />
-						<p>Could not load video &nbsp;:&#40;</p>
+				) : (
+					<div>
+						<p>Streaming has been disabled.</p>
 					</div>
 				)}
 			</div>

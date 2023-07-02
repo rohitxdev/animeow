@@ -1,6 +1,7 @@
 import { env } from '@constants';
 import {
 	animeResponseSchema,
+	isStreamingEnabledSchema,
 	recentAnimeSchema,
 	searchResponseSchema,
 	sourcesResponseSchema,
@@ -125,5 +126,14 @@ export const api = {
 	getUsers: async (signal?: AbortSignal) => {
 		const { data } = await axiosInstance.get('/users', { signal });
 		return usersSchema.parse(data);
+	},
+	getIsStreamingEnabled: async () => {
+		const data = await axiosInstance.get('/app/is-streaming-enabled');
+		return isStreamingEnabledSchema.parse(data).is_streaming_enabled;
+	},
+	setIsStreamingEnabled: async (isEnabled: boolean) => {
+		await axiosInstance.put('/app/is-streaming-enabled', {
+			is_enabled: isEnabled,
+		});
 	},
 };
