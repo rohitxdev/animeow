@@ -22,13 +22,6 @@ export const Card = ({ data }: { data: CardData | null }) => {
 		<Link to={`/details/${animeId}`}>
 			<div className={styles.card}>
 				<div>
-					<button
-						aria-label={isHearted ? 'Add to list' : 'Remove from list'}
-						className={styles.heart}
-						onClick={toggleIsHearted}
-					>
-						{isHearted ? <HeartedIcon /> : <NotHeartedIcon />}
-					</button>
 					<p className={styles.title}>{animeTitle}</p>
 					<p className={styles.releaseDate}>{releaseDate}</p>
 				</div>

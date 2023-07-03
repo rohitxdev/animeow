@@ -87,11 +87,10 @@ export const VideoPlayer = ({
 	const [hasMetaData, setHasMetaData] = useState(false);
 	const [isFullscreen, setIsFullscreen] = useState(false);
 	const [showControls, setShowControls] = useState(true);
-	const [volume, setVolume] = useState(
-		localStorage.getItem('volume') === null
-			? 100
-			: Number(localStorage.getItem('volume')),
-	);
+	const [volume, setVolume] = useState(() => {
+		const val = localStorage.getItem('volume');
+		return val === null ? 100 : Number(val);
+	});
 	const currentVolumeRef = useRef(volume);
 	const hideTimerRef = useRef<number | null>(null);
 	const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -100,9 +99,7 @@ export const VideoPlayer = ({
 	const videoContainerRef = useRef<HTMLDivElement | null>(null);
 	const timeRef = useRef<HTMLSpanElement | null>(null);
 	const timerIdRef = useRef<number | null>(null);
-	const initialTime = Number(
-		sessionStorage.getItem(`timestamp-${sourceId}`) ?? 0,
-	);
+	const initialTime = Number(sessionStorage.getItem(`time-${sourceId}`) ?? 0);
 	const secondsElapsedRef = useRef(initialTime);
 
 	const rewindByXSeconds = (x: number) => {
@@ -118,7 +115,24 @@ export const VideoPlayer = ({
 	};
 
 	const saveCurrentTimeToSessionStorage = (currentTime: string) => {
-		sessionStorage.setItem(`timestamp-${sourceId}`, currentTime);
+		sessionStorage.setItem(`time-${sourceId}`, currentTime);
+	};
+
+	const paintVideoTrackBackground = (
+		ref: React.MutableRefObject<HTMLInputElement | null>,
+	) => {
+		if (ref.current) {
+			const value =
+				((Number(ref.current.value) - Number(ref.current.min)) /
+					(Number(ref.current.max) - Number(ref.current.min))) *
+				100;
+			ref.current.style.background =
+				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
+				value +
+				'%, var(--grey-300) ' +
+				value +
+				'%, var(--grey-300) 100%)';
+		}
 	};
 
 	const onVideoProgress = () => {
@@ -129,18 +143,8 @@ export const VideoPlayer = ({
 			timerIdRef.current
 		) {
 			progressRef.current.value = String(playerRef.current.currentTime);
-			secondsElapsedRef.current = playerRef.current.currentTime;
 			saveCurrentTimeToSessionStorage(progressRef.current.value);
-			const value =
-				((Number(progressRef.current.value) - Number(progressRef.current.min)) /
-					(Number(progressRef.current.max) - Number(progressRef.current.min))) *
-				100;
-			progressRef.current.style.background =
-				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
-				value +
-				'%, var(--grey-300) ' +
-				value +
-				'%, var(--grey-300) 100%)';
+			paintVideoTrackBackground(progressRef);
 		}
 	};
 
@@ -179,7 +183,9 @@ export const VideoPlayer = ({
 				playerRef.current.pause();
 			}
 		}
+	}, [isPlaying]);
 
+	useEffect(() => {
 		if (isPlaying) {
 			timerIdRef.current = setInterval(() => {
 				if (timeRef.current && playerRef.current) {
@@ -194,14 +200,20 @@ export const VideoPlayer = ({
 					}
 				}
 			}, 1000);
-
-			return () => {
-				if (timerIdRef.current) {
-					clearInterval(timerIdRef.current);
-				}
-			};
 		}
-	}, [isPlaying]);
+
+		if (isLoading) {
+			if (timerIdRef.current) {
+				clearInterval(timerIdRef.current);
+			}
+		}
+
+		return () => {
+			if (timerIdRef.current) {
+				clearInterval(timerIdRef.current);
+			}
+		};
+	}, [isPlaying, isLoading]);
 
 	useEffect(() => {
 		if (playerRef.current) {
@@ -215,33 +227,11 @@ export const VideoPlayer = ({
 	}, [src]);
 
 	useEffect(() => {
-		if (volumeRef.current) {
-			const value =
-				((Number(volumeRef.current.value) - Number(volumeRef.current.min)) /
-					(Number(volumeRef.current.max) - Number(volumeRef.current.min))) *
-				100;
-			volumeRef.current.style.background =
-				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
-				value +
-				'%, var(--grey-300) ' +
-				value +
-				'%, var(--grey-300) 100%)';
-		}
+		paintVideoTrackBackground(volumeRef);
 	}, [hasMetaData, volume]);
 
 	useEffect(() => {
-		if (progressRef.current) {
-			const value =
-				((Number(progressRef.current.value) - Number(progressRef.current.min)) /
-					(Number(progressRef.current.max) - Number(progressRef.current.min))) *
-				100;
-			progressRef.current.style.background =
-				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
-				value +
-				'%, var(--grey-300) ' +
-				value +
-				'%, var(--grey-300) 100%)';
-		}
+		paintVideoTrackBackground(progressRef);
 		if (timeRef.current && playerRef.current) {
 			timeRef.current.textContent = `${getTimeInMMSS(
 				secondsElapsedRef.current,
@@ -298,6 +288,7 @@ export const VideoPlayer = ({
 				</div>
 			) : src ? (
 				<>
+					<input type="checkbox" />
 					{isLoading ? (
 						<LoaderIcon className={styles.loadingSpinner} />
 					) : (
@@ -339,11 +330,7 @@ export const VideoPlayer = ({
 							e.stopPropagation();
 							showControls ? hideVideoControls() : showVideoControls();
 						}}
-						onDoubleClick={() => {
-							if (isFullscreen) {
-								setIsFullscreen(false);
-							}
-						}}
+						onDoubleClick={() => setIsFullscreen(false)}
 					/>
 					{hasMetaData && playerRef.current && (
 						<div className={styles.toolBar}>
@@ -362,9 +349,6 @@ export const VideoPlayer = ({
 										saveCurrentTimeToSessionStorage(e.currentTarget.value);
 										showVideoControls();
 										secondsElapsedRef.current = Number(e.currentTarget.value);
-										timeRef.current.textContent = `${getTimeInMMSS(
-											secondsElapsedRef.current,
-										)}/${getTimeInMMSS(playerRef.current.duration)}`;
 									}
 								}}
 							/>
@@ -372,9 +356,9 @@ export const VideoPlayer = ({
 								<span className={styles.time} ref={timeRef}></span>
 								<button
 									onClick={() =>
-										setVolume((val) => {
-											return val ? 0 : currentVolumeRef.current || 100;
-										})
+										setVolume((val) =>
+											val ? 0 : currentVolumeRef.current || 100,
+										)
 									}
 								>
 									{volume === 0 ? <SpeakerOffIcon /> : <SpeakerOnIcon />}

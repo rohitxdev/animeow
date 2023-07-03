@@ -9,7 +9,7 @@
         position: relative;
         z-index: 10;
         transform: scale(1.2);
-        filter: drop-shadow(0 0 0.5rem black);
+        box-shadow: 0 0 8px 2px var(--dark);
 
         .title {
             // white-space: unset;
@@ -40,7 +40,7 @@
         inset: 0;
         display: grid;
         align-content: end;
-        border-radius: 1rem;
+        // border-radius: 1rem;
     }
 
     .title {
@@ -50,7 +50,6 @@
         padding: 0.25em 0.5em;
         color: var(--coral-100);
         font-weight: 600;
-
     }
 
     .release-date {
@@ -66,6 +65,7 @@
         object-fit: cover;
         width: 100%;
         border-radius: 1rem;
+
     }
 }
 

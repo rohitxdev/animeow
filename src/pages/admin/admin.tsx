@@ -10,10 +10,10 @@ export const AdminPage = () => {
 	const { isLoggedIn } = useAuthContext();
 	const isUsingDevAPI = axiosInstance.defaults.baseURL === env.DEV_API_URL;
 
-	const { data } = useQuery(['users'], ({ signal }) => api.getUsers(signal), {
-		refetchInterval: 1000 * 10,
-		enabled: isLoggedIn,
-	});
+	// const { data } = useQuery(['users'], ({ signal }) => api.getUsers(signal), {
+	// 	refetchInterval: 1000 * 10,
+	// 	enabled: isLoggedIn,
+	// });
 
 	const { data: isStreamingEnabled } = useQuery(['is-streaming-enabled'], () =>
 		api.getIsStreamingEnabled(),
@@ -24,7 +24,7 @@ export const AdminPage = () => {
 			<div>
 				<p>Enable/disable streaming</p>
 				<ToggleSwitch
-					initialValue={isStreamingEnabled}
+					defaultChecked={isStreamingEnabled}
 					onClick={() => api.setIsStreamingEnabled(!isStreamingEnabled)}
 				/>
 			</div>
@@ -32,7 +32,7 @@ export const AdminPage = () => {
 				<div>
 					<p>Use remote API</p>
 					<ToggleSwitch
-						initialValue={!isUsingDevAPI}
+						defaultChecked={!isUsingDevAPI}
 						onClick={() => {
 							axiosInstance.defaults.baseURL = isUsingDevAPI
 								? env.API_URL
@@ -41,7 +41,7 @@ export const AdminPage = () => {
 					/>
 				</div>
 			)}
-			{data && (
+			{/* {data && (
 				<div style={{ overflow: 'auto' }}>
 					<table>
 						<thead>
@@ -68,7 +68,7 @@ export const AdminPage = () => {
 						</tbody>
 					</table>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
