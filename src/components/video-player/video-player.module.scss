@@ -37,8 +37,10 @@
 
     .options-2 {
         position: absolute;
+        z-index: 5;
         inset: 0;
         display: grid;
+        pointer-events: none;
         justify-items: center;
         align-items: center;
         grid-template-columns: repeat(3, 1fr);
@@ -49,11 +51,12 @@
         }
 
         button {
+            pointer-events: initial;
             background-color: transparent;
             border-radius: 50%;
             position: relative;
             width: fit-content;
-            filter: drop-shadow(0 0 2px var(--dark));
+            filter: drop-shadow(0 0 4px var(--dark));
 
             svg {
                 height: 6rem;
@@ -77,6 +80,7 @@
 
         .progress {
             position: absolute;
+            z-index: 15;
             top: 0;
             left: 0;
             right: 0;
@@ -91,7 +95,7 @@
             justify-content: space-evenly;
             align-items: center;
             position: relative;
-            z-index: 10;
+            z-index: 5;
             padding-inline: 0.75rem;
 
             button {
@@ -297,6 +301,10 @@
 
 @media screen and (max-width:400px) {
     .video-player {
+        .resolutions {
+            transform: translate(-50%, calc(-100% - 1rem));
+        }
+
         .options-2 {
             button:is(:nth-child(1), :nth-child(3)) {
                 transform: scale(0.375);

@@ -88,7 +88,9 @@ export const VideoPlayer = ({
 	const [isFullscreen, setIsFullscreen] = useState(false);
 	const [showControls, setShowControls] = useState(true);
 	const [volume, setVolume] = useState(
-		Number(localStorage.getItem('volume')) ?? 100,
+		localStorage.getItem('volume') === null
+			? 100
+			: Number(localStorage.getItem('volume')),
 	);
 	const currentVolumeRef = useRef(volume);
 	const hideTimerRef = useRef<number | null>(null);
