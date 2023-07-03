@@ -35,36 +35,37 @@
         }
     }
 
-    .play-btn {
+    .options-2 {
         position: absolute;
-        background-color: transparent;
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        inset: 0;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: repeat(3, 1fr);
         transition: opacity 200ms linear;
-        z-index: 1;
 
-        svg {
-            height: 5rem;
-            width: 5rem;
-            fill: var(--light);
-            border-radius: 50%;
-            vertical-align: bottom;
+        button:is(:nth-child(1), :nth-child(3)) {
+            transform: scale(0.75);
         }
 
-        span {
-            background-color: var(--dark);
-            height: 4rem;
-            width: 4rem;
+        button {
+            background-color: transparent;
             border-radius: 50%;
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            z-index: -1;
+            position: relative;
+            width: fit-content;
+            filter: drop-shadow(0 0 2px var(--dark));
 
+            svg {
+                height: 6rem;
+                width: 6rem;
+                fill: var(--light);
+                border-radius: 50%;
+                vertical-align: bottom;
+            }
         }
     }
+
+
 
     .tool-bar {
         height: 3rem;
@@ -72,6 +73,7 @@
         position: absolute;
         inset: auto 0 0 0;
         transition: transform 200ms linear;
+        background-color: var(--dark);
 
         .progress {
             position: absolute;
@@ -111,11 +113,13 @@
 
             .time {
                 font-size: 0.75rem;
+                font-weight: 500;
+                margin-right: auto;
             }
 
             .volume {
                 width: clamp(32px, 30%, 20ch);
-                margin-right: auto;
+                margin-left: -0.25rem;
                 border-radius: 2px;
                 height: 0.25rem;
             }
@@ -126,7 +130,7 @@
 
     &.hide-controls {
 
-        .play-btn,
+        .options-2,
         .progress {
             opacity: 0;
             pointer-events: none;
@@ -293,10 +297,13 @@
 
 @media screen and (max-width:400px) {
     .video-player {
-        .tool-bar {
-            .options {
-                gap: 0.5rem;
-                padding-inline: 0.5rem;
+        .options-2 {
+            button:is(:nth-child(1), :nth-child(3)) {
+                transform: scale(0.375);
+            }
+
+            button:nth-child(2) {
+                transform: scale(0.625);
             }
         }
     }
