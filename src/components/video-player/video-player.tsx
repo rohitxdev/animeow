@@ -398,7 +398,7 @@ export const VideoPlayer = ({
 								<VideoOptions
 									icon={<PlaybackRateIcon />}
 									show={Boolean(progressRef.current && showControls)}
-									options={['2', '1.75', '1.5', '1.25', '1', '0.5']}
+									options={['1.5', '1.25', '1', '0.75', '0.5']}
 									onSelectOption={(val) => {
 										if (playerRef.current) {
 											playerRef.current.playbackRate = Number(val);
