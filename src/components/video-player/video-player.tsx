@@ -288,7 +288,6 @@ export const VideoPlayer = ({
 				</div>
 			) : src ? (
 				<>
-					<input type="checkbox" />
 					{isLoading ? (
 						<LoaderIcon className={styles.loadingSpinner} />
 					) : (
