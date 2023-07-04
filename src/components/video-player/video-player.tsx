@@ -126,11 +126,7 @@ export const VideoPlayer = ({
 
 	useEffect(() => {
 		if (playerRef.current) {
-			if (isPlaying) {
-				playerRef.current.play();
-			} else {
-				playerRef.current.pause();
-			}
+			isPlaying ? playerRef.current.play() : playerRef.current.pause();
 		}
 	}, [isPlaying]);
 
@@ -233,6 +229,11 @@ export const VideoPlayer = ({
 			onFocus={showVideoControls}
 			onBlur={hideVideoControls}
 			onMouseLeave={hideVideoControls}
+			onMouseMove={() => {
+				if (!showControls) {
+					showVideoControls();
+				}
+			}}
 			ref={videoContainerRef}
 		>
 			{isError ? (
@@ -260,11 +261,6 @@ export const VideoPlayer = ({
 					<HlsPlayer
 						src={src}
 						playerRef={playerRef}
-						onMouseMove={() => {
-							if (!showControls) {
-								showVideoControls();
-							}
-						}}
 						onProgress={onVideoProgress}
 						onWaiting={(e) => {
 							if (e.currentTarget.networkState === 2) {

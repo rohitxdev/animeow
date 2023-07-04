@@ -7,13 +7,13 @@ import { z } from 'zod';
 
 import styles from './banner.module.scss';
 
-interface BannerProps {
+export interface BannerProps {
 	data: {
 		animeTitle: string;
 		episodeId: string;
 		episodeNum: string | number;
 		animeImg: string;
-		subOrDub: string;
+		subOrDub?: string;
 		animeId: string;
 	}[];
 }
@@ -47,8 +47,6 @@ export const Banner = memo(({ data }: BannerProps) => {
 			clearInterval(scrollTimer);
 		};
 	});
-
-	console.log('data', data);
 
 	return (
 		<div className={styles.banner}>
@@ -94,7 +92,7 @@ export const Banner = memo(({ data }: BannerProps) => {
 							/>
 							<div className={styles.details}>
 								<p>{anime.animeTitle}</p>
-								<p className={styles.subOrDub}>{anime.subOrDub}</p>
+								<p className={styles.subOrDub}>{anime?.subOrDub}</p>
 								<Link to={`/details/${anime.animeId}`}>
 									<p className={styles.latestEp}>
 										Latest episode: {anime.episodeNum}

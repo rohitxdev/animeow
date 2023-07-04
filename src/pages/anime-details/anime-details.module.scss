@@ -23,13 +23,13 @@
     }
 
     & > div:nth-child(2) {
-        // width: 100%;
         display: grid;
         align-content: baseline;
         gap: 0.75rem;
 
         h1 {
             font-size: 1.75rem;
+            word-break: break-all;
 
             span {
                 width: min(16ch, 100%);
@@ -90,11 +90,9 @@
     gap: 1rem;
 
     a {
-        display: grid;
+        display: flex;
         gap: 1.25rem;
-        grid-template-columns: auto 1fr auto;
-        grid-template-rows: 1fr;
-        justify-items: center;
+        align-items: center;
         border: 2px solid var(--light);
         color: var(--light);
         padding: 0.75rem 1rem;

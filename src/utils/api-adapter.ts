@@ -1,6 +1,7 @@
 import { env } from '@constants';
 import {
 	animeResponseSchema,
+	episodeObjectSchema,
 	isStreamingEnabledSchema,
 	recentAnimeSchema,
 	searchResponseSchema,
@@ -89,6 +90,16 @@ export const api = {
 	}) => {
 		const { data } = await enime.get(`/anime/${animeId}`, { signal });
 		return animeResponseSchema.parse(data);
+	},
+	getEpisodeDetails: async ({
+		episodeId,
+		signal,
+	}: {
+		episodeId: string;
+		signal?: AbortSignal;
+	}) => {
+		const { data } = await enime.get(`/episode/${episodeId}`, { signal });
+		return episodeObjectSchema.parse(data);
 	},
 	getPopularAnime: async ({
 		page,

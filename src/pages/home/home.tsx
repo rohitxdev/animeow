@@ -51,14 +51,20 @@ export const HomePage = () => {
 				<title>Animeow | Watch HD anime for free</title>
 			</Head>
 			<div className={styles.homePage}>
-				<section>
-					<p>Popular Anime</p>
-					<Carousel data={popularData} />
-				</section>
-				<section>
-					<p>Recently Released</p>
-					<Carousel data={recentData} />
-				</section>
+				{/* <Banner
+					data={[
+						{
+							animeId: 'sweet-reincarnation',
+							animeImg:
+								'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx153339-u8i4Sc28U6En.jpg',
+							animeTitle: 'Dragon Ball',
+							episodeNum: 1,
+							episodeId: '1',
+						},
+					]}
+				/> */}
+				<Carousel name="Popular Anime" data={popularData} href="/popular" />
+				<Carousel name="Recently Released" data={recentData} href="/recent" />
 			</div>
 		</>
 	);

@@ -2,6 +2,7 @@ import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg'
 import { ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -23,8 +24,12 @@ export const WatchPage = () => {
 		{ placeholderData: true },
 	);
 
-	const { data, isError } = useQuery(
-		['watch', episodeId],
+	const { data: episodeData } = useQuery(['episode', episodeId], ({ signal }) =>
+		api.getEpisodeDetails({ episodeId, signal }),
+	);
+
+	const { data: sourceData, isError } = useQuery(
+		['source', episodeId],
 		({ signal }) => api.getEpisodeSources({ episodeId, signal }),
 		{
 			refetchOnWindowFocus: false,
@@ -34,8 +39,9 @@ export const WatchPage = () => {
 	);
 
 	const src =
-		data?.sources.find((val) => val.isM3U8 && val.quality === videoResolution)
-			?.url ?? null;
+		sourceData?.sources.find(
+			(val) => val.isM3U8 && val.quality === videoResolution,
+		)?.url ?? null;
 
 	return (
 		<div className={styles.watch}>
@@ -50,7 +56,9 @@ export const WatchPage = () => {
 						<VideoPlayer
 							src={src}
 							sourceId={episodeId}
-							availableResolutions={data?.sources.map((val) => val.quality)}
+							availableResolutions={sourceData?.sources.map(
+								(val) => val.quality,
+							)}
 							setVideoResolution={setVideoResolution}
 						/>
 					)
@@ -60,6 +68,14 @@ export const WatchPage = () => {
 					</div>
 				)}
 			</div>
+			<h2>{episodeData?.title ?? <Skeleton />}</h2>
+			<p className={styles.description}>
+				{episodeData ? (
+					episodeData?.description ?? 'N/A'
+				) : (
+					<Skeleton count={8} />
+				)}
+			</p>
 		</div>
 	);
 };

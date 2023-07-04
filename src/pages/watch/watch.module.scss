@@ -1,6 +1,14 @@
 .watch {
     display: grid;
-    justify-content: center;
+    justify-items: center;
+
+    h2 {
+        font-size: 1.75rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
 
     .video-container {
         --max-width: 80ch;
@@ -8,6 +16,7 @@
         height: calc((3 / 4 * min(80vw, var(--max-width))));
         position: relative;
         display: grid;
+        margin-block: 1rem 2.5rem;
 
         .error {
             background-color: black;
@@ -25,5 +34,16 @@
                 font-size: 0.875rem;
             }
         }
+    }
+
+    .description {
+        color: var(--grey-100);
+        line-height: 1.375rem;
+        width: 100%;
+
+        span {
+            margin-bottom: 0.375rem;
+        }
+
     }
 }

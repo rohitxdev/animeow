@@ -52,9 +52,7 @@ html {
 
 	svg {
 		vertical-align: bottom;
-		margin-inline: auto;
 	}
-
 }
 
 #root {
@@ -76,7 +74,6 @@ html {
 	color: var(--light);
 	background-color: var(--coral-200);
 	border: 1px solid var(--light);
-	margin: 0 1rem 1rem 1rem !important;
 
 	svg {
 		fill: var(--light);
