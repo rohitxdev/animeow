@@ -34,11 +34,14 @@ export const VideoPlayer = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMetaData, setHasMetaData] = useState(false);
 	const [isFullscreen, setIsFullscreen] = useState(false);
-	const [showControls, setShowControls] = useState(true);
+	const [showControls, setShowControls] = useState<
+		'playback' | 'resolution' | boolean
+	>(true);
 	const [volume, setVolume] = useState(() => {
 		const val = localStorage.getItem('volume');
 		return val === null ? 100 : Number(val);
 	});
+	const [playbackRate, setPlaybackRate] = useState(1);
 	const currentVolumeRef = useRef(volume);
 	const hideTimerRef = useRef<number | null>(null);
 	const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -145,7 +148,7 @@ export const VideoPlayer = ({
 						}
 					}
 				}
-			}, 1000);
+			}, parseInt(`${1000 / playbackRate}`));
 		}
 
 		if (isLoading) {
@@ -159,7 +162,7 @@ export const VideoPlayer = ({
 				clearInterval(timerIdRef.current);
 			}
 		};
-	}, [isPlaying, isLoading]);
+	}, [isPlaying, isLoading, playbackRate]);
 
 	useEffect(() => {
 		if (playerRef.current) {
@@ -184,6 +187,12 @@ export const VideoPlayer = ({
 		}
 		paintVideoTrackBackground(progressRef);
 	}, [hasMetaData]);
+
+	useEffect(() => {
+		if (playerRef.current) {
+			playerRef.current.playbackRate = Number(playbackRate);
+		}
+	}, [playbackRate]);
 
 	useEffect(() => {
 		const onFullscreenChange = () =>
@@ -223,7 +232,6 @@ export const VideoPlayer = ({
 			].join(' ')}
 			onFocus={showVideoControls}
 			onBlur={hideVideoControls}
-			onMouseMove={showVideoControls}
 			onMouseLeave={hideVideoControls}
 			ref={videoContainerRef}
 		>
@@ -252,6 +260,11 @@ export const VideoPlayer = ({
 					<HlsPlayer
 						src={src}
 						playerRef={playerRef}
+						onMouseMove={() => {
+							if (!showControls) {
+								showVideoControls();
+							}
+						}}
 						onProgress={onVideoProgress}
 						onWaiting={(e) => {
 							if (e.currentTarget.networkState === 2) {
@@ -333,22 +346,26 @@ export const VideoPlayer = ({
 								/>
 								<VideoOptions
 									icon={<PlaybackRateIcon />}
-									show={Boolean(progressRef.current && showControls)}
+									show={Boolean(
+										progressRef.current && showControls === 'playback',
+									)}
 									options={['1.5', '1.25', '1', '0.75', '0.5']}
-									onSelectOption={(val) => {
-										if (playerRef.current) {
-											playerRef.current.playbackRate = Number(val);
-										}
-									}}
+									onSelectOption={(val) => setPlaybackRate(Number(val))}
 									onMouseDown={(e) => e.preventDefault()}
+									onClick={() => setShowControls('playback')}
 								/>
 								{availableResolutions && setVideoResolution && (
 									<VideoOptions
 										icon={<SettingsIcon />}
-										show={Boolean(progressRef.current && showControls)}
+										show={Boolean(
+											progressRef.current && showControls === 'resolution',
+										)}
 										options={availableResolutions}
 										onSelectOption={setVideoResolution}
-										onClick={showVideoControls}
+										onClick={() => {
+											showVideoControls();
+											setShowControls('resolution');
+										}}
 										onMouseDown={(e) => e.preventDefault()}
 									/>
 								)}
