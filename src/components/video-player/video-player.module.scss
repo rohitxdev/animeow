@@ -81,7 +81,7 @@
 
 
     .tool-bar {
-        height: 3rem;
+        height: 2.75rem;
         display: grid;
         position: absolute;
         inset: auto 0 0 0;
@@ -89,17 +89,18 @@
         background-color: var(--bg-clr);
 
         .progress {
+            --height: 0.375rem;
             position: absolute;
             z-index: 15;
-            top: 0;
+            top: calc(-1 * var(--height));
             left: 0;
             right: 0;
-            transform: translateY(-50%);
+            transform: translateY(calc(-50% + (var(--thumb-size) - var(--height)) / 2));
             transition: opacity 200ms linear;
-            height: 0.375rem;
+            height: var(--height);
         }
 
-        .options {
+        .tool-options {
             display: flex;
             gap: 0.875rem;
             justify-content: space-evenly;
@@ -121,7 +122,6 @@
                     width: 1.5rem;
                     fill: var(--secondary-clr);
                     color: var(--secondary-clr);
-                    vertical-align: bottom;
                 }
             }
 
@@ -131,6 +131,7 @@
                 font-weight: 500;
                 margin-right: auto;
                 line-height: 0.75rem;
+                min-width: 10ch;
             }
 
             .volume {
@@ -244,15 +245,36 @@
             display: grid;
             overflow: hidden;
 
-            button {
+            .option-btn {
                 color: var(--secondary-clr);
-                padding: 0.5rem 0.75rem;
+                padding: 0.5rem;
                 font-size: 0.75rem;
                 font-weight: 500;
+                display: flex;
+                justify-content: right;
+                align-items: center;
+                gap: 0.375rem;
+
+                span {
+                    margin-inline: auto;
+                }
+
+
+                svg {
+                    height: 1rem;
+                    width: 1rem;
+                    visibility: hidden;
+                }
 
                 &:is(:focus, :hover) {
                     background-color: var(--accent-clr);
                     opacity: 1;
+                }
+
+                &.selected {
+                    svg:nth-of-type(2) {
+                        visibility: initial;
+                    }
                 }
             }
         }
@@ -264,7 +286,6 @@
         }
 
         .select-options {
-            opacity: 0.875;
             grid-template-rows: 1fr;
         }
     }

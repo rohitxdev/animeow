@@ -314,7 +314,7 @@ export const VideoPlayer = ({
 									}
 								}}
 							/>
-							<div className={styles.options}>
+							<div className={styles.toolOptions}>
 								<span className={styles.time} ref={timeRef}></span>
 								<button
 									onClick={() =>
@@ -345,8 +345,9 @@ export const VideoPlayer = ({
 									show={Boolean(
 										progressRef.current && showControls === 'playback',
 									)}
-									options={['1.5', '1.25', '1', '0.75', '0.5']}
-									onSelectOption={(val) => setPlaybackRate(Number(val))}
+									defaultOption={2}
+									options={['1.5x', '1.25x', '1x', '0.75x', '0.5x']}
+									onSelectOption={(val) => setPlaybackRate(parseFloat(val))}
 									onMouseDown={(e) => e.preventDefault()}
 									onClick={() => setShowControls('playback')}
 								/>
@@ -356,6 +357,7 @@ export const VideoPlayer = ({
 										show={Boolean(
 											progressRef.current && showControls === 'resolution',
 										)}
+										defaultOption={availableResolutions.length - 1}
 										options={availableResolutions}
 										onSelectOption={setVideoResolution}
 										onClick={() => {
