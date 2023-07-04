@@ -10,77 +10,13 @@ import { ReactComponent as SettingsIcon } from '@assets/icons/settings.svg';
 import { ReactComponent as SpeakerOffIcon } from '@assets/icons/speaker-off.svg';
 import { ReactComponent as SpeakerOnIcon } from '@assets/icons/speaker-on.svg';
 import { ReactComponent as LoaderIcon } from '@assets/icons/spinner-2.svg';
-import { getRandomNumber, getTimeInMMSS } from '@utils';
-import {
-	ComponentProps,
-	memo,
-	ReactNode,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { getTimeInMMSS } from '@utils';
+import { useEffect, useRef, useState } from 'react';
 import HlsPlayer from 'react-hls-player';
 import Skeleton from 'react-loading-skeleton';
 
+import { VideoOptions } from './video-options';
 import styles from './video-player.module.scss';
-
-interface VideoOptionsProps extends Partial<ComponentProps<'div'>> {
-	show?: boolean;
-	icon: ReactNode;
-	options: string[];
-	onSelectOption: (selectedOption: string) => void;
-}
-
-const VideoOptions = memo(
-	({
-		show,
-		icon,
-		options,
-		onSelectOption,
-		className,
-		...props
-	}: VideoOptionsProps) => {
-		const [showOptions, setShowOptions] = useState(show);
-
-		useEffect(() => {
-			if (!show) {
-				setShowOptions(false);
-			}
-		}, [show]);
-
-		return (
-			<div
-				{...props}
-				className={[
-					styles.videoOptions,
-					showOptions ? styles.show : styles.hide,
-					className,
-				].join(' ')}
-			>
-				<button
-					className={styles.selectBtn}
-					onClick={() => setShowOptions((val) => !val)}
-				>
-					{icon}
-				</button>
-				<div className={styles.selectOptions}>
-					<div>
-						{options.map((val, i) => (
-							<button
-								onClick={() => {
-									onSelectOption(val), setShowOptions(false);
-								}}
-								key={val + i}
-							>
-								{val}
-							</button>
-						))}
-					</div>
-				</div>
-			</div>
-		);
-	},
-);
 
 export const VideoPlayer = ({
 	src,
