@@ -68,7 +68,7 @@ export const api = {
 		});
 		return searchResponseSchema.parse(data);
 	},
-	getEpisodeDetails: async ({
+	getEpisodeSources: async ({
 		episodeId,
 		signal,
 	}: {

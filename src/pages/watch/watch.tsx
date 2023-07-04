@@ -25,7 +25,7 @@ export const WatchPage = () => {
 
 	const { data, isError } = useQuery(
 		['watch', episodeId],
-		({ signal }) => api.getEpisodeDetails({ episodeId, signal }),
+		({ signal }) => api.getEpisodeSources({ episodeId, signal }),
 		{
 			refetchOnWindowFocus: false,
 			cacheTime: Infinity,

@@ -2,73 +2,85 @@ import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg'
 import { ReactComponent as ForwardIcon } from '@assets/icons/forward-10s.svg';
 import { ReactComponent as EnterFullscreenIcon } from '@assets/icons/fullscreen.svg';
 import { ReactComponent as ExitFullscreenIcon } from '@assets/icons/fullscreen-exit.svg';
-import { ReactComponent as LoaderIcon } from '@assets/icons/loader.svg';
 import { ReactComponent as PauseIcon } from '@assets/icons/pause.svg';
 import { ReactComponent as PlayIcon } from '@assets/icons/play.svg';
+import { ReactComponent as PlaybackRateIcon } from '@assets/icons/playback-rate.svg';
 import { ReactComponent as RewindIcon } from '@assets/icons/rewind-10s.svg';
 import { ReactComponent as SettingsIcon } from '@assets/icons/settings.svg';
 import { ReactComponent as SpeakerOffIcon } from '@assets/icons/speaker-off.svg';
 import { ReactComponent as SpeakerOnIcon } from '@assets/icons/speaker-on.svg';
-import { getTimeInMMSS } from '@utils';
-import { ComponentProps, useEffect, useRef, useState } from 'react';
+import { ReactComponent as LoaderIcon } from '@assets/icons/spinner-2.svg';
+import { getRandomNumber, getTimeInMMSS } from '@utils';
+import {
+	ComponentProps,
+	memo,
+	ReactNode,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import HlsPlayer from 'react-hls-player';
 import Skeleton from 'react-loading-skeleton';
 
 import styles from './video-player.module.scss';
 
-interface VideoResolutionPickerProps
-	extends Omit<ComponentProps<'div'>, 'style' | 'className'> {
-	defaultShowOptions?: boolean;
-	availableResolutions: string[];
-	setVideoResolution: React.Dispatch<React.SetStateAction<string>>;
+interface VideoOptionsProps extends Partial<ComponentProps<'div'>> {
+	show?: boolean;
+	icon: ReactNode;
+	options: string[];
+	onSelectOption: (selectedOption: string) => void;
 }
 
-export const VideoResolutionPicker = ({
-	defaultShowOptions,
-	availableResolutions,
-	setVideoResolution,
-	...props
-}: VideoResolutionPickerProps) => {
-	const [showOptions, setShowOptions] = useState(false);
+const VideoOptions = memo(
+	({
+		show,
+		icon,
+		options,
+		onSelectOption,
+		className,
+		...props
+	}: VideoOptionsProps) => {
+		const [showOptions, setShowOptions] = useState(show);
 
-	useEffect(() => {
-		if (!defaultShowOptions) {
-			setShowOptions(false);
-		}
-	}, [defaultShowOptions]);
+		useEffect(() => {
+			if (!show) {
+				setShowOptions(false);
+			}
+		}, [show]);
 
-	return (
-		<div
-			{...props}
-			className={[
-				styles.videoResolutionPicker,
-				showOptions ? styles.show : styles.hide,
-			].join(' ')}
-			onMouseDown={(e) => e.preventDefault()}
-		>
-			<button
-				className={styles.settings}
-				onClick={() => setShowOptions((val) => !val)}
+		return (
+			<div
+				{...props}
+				className={[
+					styles.videoOptions,
+					showOptions ? styles.show : styles.hide,
+					className,
+				].join(' ')}
 			>
-				<SettingsIcon />
-			</button>
-			<div className={styles.resolutions}>
-				<div>
-					{availableResolutions.map((val, i) => (
-						<button
-							onClick={() => {
-								setVideoResolution(val), setShowOptions(false);
-							}}
-							key={val + i}
-						>
-							{val}
-						</button>
-					))}
+				<button
+					className={styles.selectBtn}
+					onClick={() => setShowOptions((val) => !val)}
+				>
+					{icon}
+				</button>
+				<div className={styles.selectOptions}>
+					<div>
+						{options.map((val, i) => (
+							<button
+								onClick={() => {
+									onSelectOption(val), setShowOptions(false);
+								}}
+								key={val + i}
+							>
+								{val}
+							</button>
+						))}
+					</div>
 				</div>
 			</div>
-		</div>
-	);
-};
+		);
+	},
+);
 
 export const VideoPlayer = ({
 	src,
@@ -122,16 +134,14 @@ export const VideoPlayer = ({
 		ref: React.MutableRefObject<HTMLInputElement | null>,
 	) => {
 		if (ref.current) {
-			const value =
+			const progressPercent =
 				((Number(ref.current.value) - Number(ref.current.min)) /
 					(Number(ref.current.max) - Number(ref.current.min))) *
 				100;
-			ref.current.style.background =
-				'linear-gradient(to right, var(--coral-100) 0%, var(--coral-100) ' +
-				value +
-				'%, var(--grey-300) ' +
-				value +
-				'%, var(--grey-300) 100%)';
+			ref.current.style.setProperty(
+				'--progress-percent',
+				`${progressPercent}%`,
+			);
 		}
 	};
 
@@ -231,12 +241,12 @@ export const VideoPlayer = ({
 	}, [hasMetaData, volume]);
 
 	useEffect(() => {
-		paintVideoTrackBackground(progressRef);
 		if (timeRef.current && playerRef.current) {
 			timeRef.current.textContent = `${getTimeInMMSS(
 				secondsElapsedRef.current,
 			)}/${getTimeInMMSS(playerRef.current.duration)}`;
 		}
+		paintVideoTrackBackground(progressRef);
 	}, [hasMetaData]);
 
 	useEffect(() => {
@@ -330,6 +340,15 @@ export const VideoPlayer = ({
 							showControls ? hideVideoControls() : showVideoControls();
 						}}
 						onDoubleClick={() => setIsFullscreen(false)}
+						onSeeking={(e) => {
+							if (timeRef.current && playerRef.current) {
+								secondsElapsedRef.current = e.currentTarget.currentTime;
+								timeRef.current.textContent = `${getTimeInMMSS(
+									secondsElapsedRef.current++,
+								)}/${getTimeInMMSS(playerRef.current.duration)}`;
+							}
+							paintVideoTrackBackground(progressRef);
+						}}
 					/>
 					{hasMetaData && playerRef.current && (
 						<div className={styles.toolBar}>
@@ -347,7 +366,6 @@ export const VideoPlayer = ({
 										);
 										saveCurrentTimeToSessionStorage(e.currentTarget.value);
 										showVideoControls();
-										secondsElapsedRef.current = Number(e.currentTarget.value);
 									}
 								}}
 							/>
@@ -377,12 +395,25 @@ export const VideoPlayer = ({
 									}}
 									onKeyDown={(e) => e.stopPropagation()}
 								/>
+								<VideoOptions
+									icon={<PlaybackRateIcon />}
+									show={Boolean(progressRef.current && showControls)}
+									options={['2', '1.75', '1.5', '1.25', '1', '0.5']}
+									onSelectOption={(val) => {
+										if (playerRef.current) {
+											playerRef.current.playbackRate = Number(val);
+										}
+									}}
+									onMouseDown={(e) => e.preventDefault()}
+								/>
 								{availableResolutions && setVideoResolution && (
-									<VideoResolutionPicker
-										defaultShowOptions={showControls}
-										availableResolutions={availableResolutions}
-										setVideoResolution={setVideoResolution}
+									<VideoOptions
+										icon={<SettingsIcon />}
+										show={Boolean(progressRef.current && showControls)}
+										options={availableResolutions}
+										onSelectOption={setVideoResolution}
 										onClick={showVideoControls}
+										onMouseDown={(e) => e.preventDefault()}
 									/>
 								)}
 								<button onClick={() => setIsFullscreen((val) => !val)}>

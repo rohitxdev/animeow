@@ -47,7 +47,7 @@ export const searchResponseSchema = z.object({
 			genre: z.array(z.string().nonempty()),
 		}),
 	),
-	meta: metaObjectSchema,
+	meta: metaObjectSchema.nullish(),
 });
 
 export const episodeObjectSchema = z
