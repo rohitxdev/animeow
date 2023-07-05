@@ -1,5 +1,5 @@
 import { ReactComponent as CheckIcon } from '@assets/icons/check.svg';
-import { ComponentProps, memo, ReactNode, useEffect, useState } from 'react';
+import { ComponentProps, ReactNode, useEffect, useState } from 'react';
 
 import styles from './video-player.module.scss';
 interface VideoOptionsProps extends Partial<ComponentProps<'div'>> {
@@ -10,62 +10,60 @@ interface VideoOptionsProps extends Partial<ComponentProps<'div'>> {
 	onSelectOption: (selectedOption: string) => void;
 }
 
-export const VideoOptions = memo(
-	({
-		show,
-		icon,
-		defaultOption,
-		options,
-		onSelectOption,
-		...props
-	}: VideoOptionsProps) => {
-		const [showOptions, setShowOptions] = useState(show);
+export const VideoOptions = ({
+	show,
+	icon,
+	defaultOption,
+	options,
+	onSelectOption,
+	...props
+}: VideoOptionsProps) => {
+	const [showOptions, setShowOptions] = useState(show);
 
-		const [selectedOption, setSelectedOption] = useState<string>(
-			options[defaultOption],
-		);
+	const [selectedOption, setSelectedOption] = useState<string>(
+		options[defaultOption],
+	);
 
-		useEffect(() => {
-			setShowOptions(false);
-		}, [show]);
+	useEffect(() => {
+		setShowOptions(show);
+	}, [show]);
 
-		return (
-			<div
-				{...props}
-				className={[
-					styles.videoOptions,
-					showOptions ? styles.show : styles.hide,
-				].join(' ')}
+	return (
+		<div
+			{...props}
+			className={[
+				styles.videoOptions,
+				showOptions ? styles.show : styles.hide,
+			].join(' ')}
+		>
+			<button
+				className={styles.selectBtn}
+				onClick={() => setShowOptions((val) => !val)}
 			>
-				<button
-					className={styles.selectBtn}
-					onClick={() => setShowOptions((val) => !val)}
-				>
-					{icon}
-				</button>
-				<div className={styles.selectOptions}>
-					<div>
-						{options.map((val, i) => (
-							<button
-								onClick={() => {
-									setSelectedOption(val);
-									setShowOptions(false);
-									onSelectOption(val);
-								}}
-								key={val + i}
-								className={[
-									styles.optionBtn,
-									selectedOption === val && styles.selected,
-								].join(' ')}
-							>
-								<CheckIcon />
-								<span>{val}</span>
-								<CheckIcon />
-							</button>
-						))}
-					</div>
+				{icon}
+			</button>
+			<div className={styles.selectOptions}>
+				<div>
+					{options.map((val, i) => (
+						<button
+							onClick={() => {
+								setSelectedOption(val);
+								setShowOptions(false);
+								onSelectOption(val);
+							}}
+							key={val + i}
+							className={[
+								styles.optionBtn,
+								selectedOption === val && styles.selected,
+							].join(' ')}
+						>
+							<CheckIcon />
+							<span>{val}</span>
+							<CheckIcon />
+						</button>
+					))}
 				</div>
 			</div>
-		);
-	},
-);
+		</div>
+	);
+};

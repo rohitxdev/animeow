@@ -50,7 +50,6 @@
         z-index: 5;
         inset: 0;
         display: grid;
-        pointer-events: none;
         justify-items: center;
         align-items: center;
         grid-template-columns: repeat(3, 1fr);
@@ -85,7 +84,7 @@
         display: grid;
         position: absolute;
         inset: auto 0 0 0;
-        transition: transform 200ms linear;
+        transition: transform 200ms linear, opacity 200ms linear;
         background-color: var(--bg-clr);
 
         .progress {
@@ -143,6 +142,16 @@
 
 
         }
+
+        &.show {
+            pointer-events: initial;
+            opacity: 1;
+        }
+
+        &.hide {
+            pointer-events: none;
+            opacity: 0;
+        }
     }
 
     &.hide-controls {
@@ -150,7 +159,7 @@
         .options-2,
         .progress {
             opacity: 0;
-            pointer-events: none;
+
         }
 
         .tool-bar {

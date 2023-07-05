@@ -93,7 +93,7 @@ export const Banner = memo(({ data }: BannerProps) => {
 							<div className={styles.details}>
 								<p>{anime.animeTitle}</p>
 								<p className={styles.subOrDub}>{anime?.subOrDub}</p>
-								<Link to={`/details/${anime.animeId}`}>
+								<Link to={`/anime/${anime.animeId}`}>
 									<p className={styles.latestEp}>
 										Latest episode: {anime.episodeNum}
 									</p>

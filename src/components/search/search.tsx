@@ -108,7 +108,7 @@ export const Search = () => {
 										);
 										setTimeout(() => {
 											inputRef.current?.blur();
-											navigate(`/details/${val.slug}`);
+											navigate(`/anime/${val.slug}`);
 										}, 200);
 									}}
 									onKeyDown={(e) => {
@@ -121,7 +121,7 @@ export const Search = () => {
 											);
 											setTimeout(() => {
 												inputRef.current?.blur();
-												navigate(`/details/${val.slug}`);
+												navigate(`/anime/${val.slug}`);
 											}, 200);
 										}
 									}}

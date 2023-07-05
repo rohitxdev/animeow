@@ -19,7 +19,7 @@ export const Card = ({ data }: { data: CardData | null }) => {
 
 	const { animeId, animeTitle, animeImg, releaseDate } = data;
 	return (
-		<Link to={`/details/${animeId}`}>
+		<Link to={`/anime/${animeId}`}>
 			<div className={styles.card}>
 				<div>
 					<p className={styles.title}>{animeTitle}</p>

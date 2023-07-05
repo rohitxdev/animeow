@@ -1,5 +1,5 @@
 import WatchListIcon from '@assets/icons/bookmark-plus.svg';
-import { ReactComponent as PlayIcon } from '@assets/icons/play.svg';
+import { ReactComponent as PlayIcon } from '@assets/icons/play-2.svg';
 import { Head } from '@components';
 // import { Carousel, EpisodesList, Loader } from '@components';
 import { api } from '@utils';
@@ -8,9 +8,9 @@ import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 
-import styles from './anime-details.module.scss';
+import styles from './anime.module.scss';
 
-export const AnimeDetailsPage = () => {
+export const AnimePage = () => {
 	const params = useParams();
 	const animeId = params.animeId as string;
 
@@ -44,7 +44,7 @@ export const AnimeDetailsPage = () => {
 					<meta property="og:description" content={data.description} />
 				</Head>
 			)}
-			<div className={styles.animeDetailsPage}>
+			<div className={styles.animePage}>
 				<div className={styles.animeInfo}>
 					<div>
 						{data?.coverImage ? (
@@ -108,7 +108,7 @@ export const AnimeDetailsPage = () => {
 				>
 					{data?.episodes.map((episode) => (
 						<Link
-							to={`/details/${animeId}/watch/${episode.id}`}
+							to={`/anime/${animeId}/episode/${episode.id}`}
 							key={episode.id}
 						>
 							<span>{episode.number}</span>

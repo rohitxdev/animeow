@@ -1,10 +1,10 @@
 import {
 	AdminPage,
-	AnimeDetailsPage,
+	AnimePage,
+	EpisodePage,
 	HomePage,
 	MePage,
 	NotFoundPage,
-	WatchPage,
 } from '@pages';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -36,12 +36,12 @@ export const Router = () => {
 			element: <RouteWrapper page={<HomePage />} withLayout />,
 		},
 		{
-			path: '/details/:animeId',
-			element: <RouteWrapper page={<AnimeDetailsPage />} withLayout />,
+			path: '/anime/:animeId',
+			element: <RouteWrapper page={<AnimePage />} withLayout />,
 		},
 		{
-			path: '/details/:animeId/watch/:episodeId',
-			element: <RouteWrapper page={<WatchPage />} withLayout />,
+			path: '/anime/:animeId/episode/:episodeId',
+			element: <RouteWrapper page={<EpisodePage />} withLayout />,
 		},
 		{
 			path: '/me',

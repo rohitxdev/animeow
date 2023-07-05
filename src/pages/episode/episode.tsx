@@ -6,9 +6,9 @@ import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import styles from './watch.module.scss';
+import styles from './episode.module.scss';
 
-export const WatchPage = () => {
+export const EpisodePage = () => {
 	const { animeId, episodeId } = useParams();
 	const [videoResolution, setVideoResolution] = useState<string>('default');
 
@@ -44,7 +44,7 @@ export const WatchPage = () => {
 		)?.url ?? null;
 
 	return (
-		<div className={styles.watch}>
+		<div className={styles.episodePage}>
 			<div className={styles.videoContainer}>
 				{isStreamingEnabled ? (
 					isError ? (
@@ -73,7 +73,7 @@ export const WatchPage = () => {
 				{episodeData ? (
 					episodeData?.description ?? 'N/A'
 				) : (
-					<Skeleton count={8} />
+					<Skeleton count={6} />
 				)}
 			</p>
 		</div>
