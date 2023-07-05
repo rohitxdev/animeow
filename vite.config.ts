@@ -23,11 +23,12 @@ export default defineConfig(({ mode }) => {
 			react(),
 			svgr(),
 			VitePWA({
-				disable: ENV_VARS.VITE_IS_PWA_ENABLED === 'true' ? false : true,
-				registerType: 'prompt',
-				devOptions: { enabled: Boolean(process.env.VITE_IS_PWA_DEV_ENABLED) },
+				disable: ENV_VARS.VITE_IS_PWA_ENABLED !== 'true',
+				registerType: 'autoUpdate',
+				devOptions: { enabled: ENV_VARS.VITE_IS_PWA_DEV_ENABLED === 'true' },
 				workbox: {
 					globPatterns: ['./assets/*'],
+					cleanupOutdatedCaches: true,
 				},
 				manifestFilename: '/manifest.json',
 			}),
