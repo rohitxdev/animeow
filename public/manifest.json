@@ -4,7 +4,7 @@
 	"short_name": "Animeow",
 	"start_url": "/",
 	"theme_color": "#e31c4e",
-	"background_color": "#0a0d12",
+	"background_color": "#000000",
 	"display": "standalone",
 	"orientation": "portrait-primary",
 	"lang": "en",
