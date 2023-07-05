@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
 				workbox: {
 					globPatterns: ['./assets/*'],
 				},
+				manifestFilename: '/manifest.json',
 			}),
 		],
 		css: {

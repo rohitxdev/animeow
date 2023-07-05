@@ -1,7 +1,11 @@
 import { env } from '@constants';
 
 export const registerServiceWorker = () => {
-	if (env.IS_PWA_ENABLED) {
+	if (
+		import.meta.env.MODE === 'development'
+			? env.IS_PWA_DEV_ENABLED
+			: env.IS_PWA_ENABLED
+	) {
 		import('virtual:pwa-register')
 			.then(({ registerSW }) => registerSW({}))
 			.then((updateSW) => updateSW())
