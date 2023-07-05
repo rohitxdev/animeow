@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
 					globPatterns: ['./assets/*'],
 					cleanupOutdatedCaches: true,
 				},
-				manifestFilename: '/manifest.json',
+				manifestFilename: './public/manifest.json',
 			}),
 		],
 		css: {
