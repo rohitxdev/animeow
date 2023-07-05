@@ -1,4 +1,5 @@
 import { env } from '@constants';
+import { toast } from 'react-toastify';
 
 export const registerServiceWorker = () => {
 	if (
@@ -7,7 +8,16 @@ export const registerServiceWorker = () => {
 			: env.IS_PWA_ENABLED
 	) {
 		import('virtual:pwa-register')
-			.then(({ registerSW }) => registerSW({}))
+			.then(({ registerSW }) =>
+				registerSW({
+					onNeedRefresh: () => {
+						toast.info('A new update is available. Reload page to update');
+					},
+					onOfflineReady: () => {
+						toast.info('App can now be used offline');
+					},
+				}),
+			)
 			.then((updateSW) => updateSW())
 			.then(() => {
 				console.log('Service worker registered 🤖');

@@ -43,9 +43,9 @@ export const RouteWrapper = ({
 		};
 	}, []);
 
-	if (!isOnline) {
-		return <NoInternetPage />;
-	}
+	// if (!isOnline) {
+	// 	return <NoInternetPage />;
+	// }
 
 	return (
 		<>

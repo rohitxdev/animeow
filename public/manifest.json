@@ -1,5 +1,14 @@
 {
-	"name": "App",
+	"name": "Animeow",
+	"description": "Watch HD anime for free.",
+	"short_name": "Animeow",
+	"start_url": "/",
+	"theme_color": "#e31c4e",
+	"background_color": "#0a0d12",
+	"display": "standalone",
+	"orientation": "portrait-primary",
+	"lang": "en",
+	"scope": "/",
 	"icons": [
 		{
 			"src": "/android-icon-36x36.png",
