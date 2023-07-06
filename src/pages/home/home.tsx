@@ -1,4 +1,4 @@
-import { Banner, Carousel, Head } from '@components';
+import { Banner, Breadcrumbs, Carousel, Head } from '@components';
 import { CardData } from '@types';
 import { api } from '@utils';
 import { useCallback } from 'react';
@@ -51,6 +51,7 @@ export const HomePage = () => {
 				<title>Animeow | Watch HD anime for free</title>
 			</Head>
 			<div className={styles.homePage}>
+				{/* <Breadcrumbs /> */}
 				{/* <Banner
 					data={[
 						{

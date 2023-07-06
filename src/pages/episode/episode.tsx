@@ -1,5 +1,5 @@
 import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg';
-import { ErrorFallback, VideoPlayer } from '@components';
+import { Breadcrumbs, ErrorFallback, VideoPlayer } from '@components';
 import { api } from '@utils';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -24,8 +24,19 @@ export const EpisodePage = () => {
 		{ placeholderData: true },
 	);
 
-	const { data: episodeData } = useQuery(['episode', episodeId], ({ signal }) =>
-		api.getEpisodeDetails({ episodeId, signal }),
+	const { data: episodeData } = useQuery(
+		['episode', episodeId],
+		({ signal }) => api.getEpisodeDetails({ episodeId, signal }),
+		{ refetchOnWindowFocus: false, cacheTime: 1000 * 60 * 5 },
+	);
+
+	const { data: animeData } = useQuery(
+		['anime', animeId],
+		async ({ signal }) => api.getAnimeDetails({ animeId, signal }),
+		{
+			refetchOnWindowFocus: false,
+			cacheTime: 1000 * 60 * 5,
+		},
 	);
 
 	const { data: sourceData, isError } = useQuery(
@@ -45,6 +56,18 @@ export const EpisodePage = () => {
 
 	return (
 		<div className={styles.episodePage}>
+			<Breadcrumbs
+				data={[
+					{
+						name: 'Anime',
+						to: `/anime/${animeId}`,
+					},
+					{
+						name: 'Episode',
+						to: '.',
+					},
+				]}
+			/>
 			<div className={styles.videoContainer}>
 				{isStreamingEnabled ? (
 					isError ? (
@@ -68,7 +91,7 @@ export const EpisodePage = () => {
 					</div>
 				)}
 			</div>
-			<h2>{episodeData?.title ?? <Skeleton />}</h2>
+			<h2>{episodeData ? episodeData?.title ?? 'N/A' : <Skeleton />}</h2>
 			<p className={styles.description}>
 				{episodeData ? (
 					episodeData?.description ?? 'N/A'

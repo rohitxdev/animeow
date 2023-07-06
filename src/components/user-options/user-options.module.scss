@@ -76,7 +76,7 @@
         & > div {
             overflow: hidden;
             background-color: var(--light);
-            width: max-content;
+            min-width: 16ch;
             color: var(--grey-300);
             border-radius: 0.5rem;
             display: grid;
@@ -90,6 +90,11 @@
                 padding: 0.5rem 1rem;
                 justify-items: left;
 
+                p {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
                 p:first-child {
                     font-weight: 700;
                     font-size: 1rem;
@@ -100,8 +105,6 @@
                     font-weight: 400;
                     font-size: 0.75rem;
                     max-width: 20ch;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
                 }
             }
 
@@ -120,11 +123,10 @@
                 border-radius: 0;
                 padding: 0.875rem 1.5rem;
                 font-size: 0.875rem;
-                min-width: 16ch;
+                width: 100%;
                 display: flex;
-                justify-content: left;
                 align-items: center;
-                gap: 1.25rem;
+                gap: 1rem;
 
                 span {
                     margin-right: auto;

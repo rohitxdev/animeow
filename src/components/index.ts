@@ -1,5 +1,6 @@
 export * from './auth-modal/auth-modal';
 export * from './banner/banner';
+export * from './breadcrumbs/breadcrumbs';
 export * from './card/card';
 export * from './carousel/carousel';
 export * from './error-fallback/error-fallback';

@@ -1,6 +1,6 @@
 .episode-page {
     display: grid;
-    justify-items: center;
+    align-content: start;
 
     h2 {
         font-size: 1.75rem;
@@ -16,13 +16,15 @@
         height: calc((3 / 4 * min(80vw, var(--max-width))));
         position: relative;
         display: grid;
-        margin-block: 1rem 2.5rem;
+        margin-block: 2rem;
+        margin-inline: auto;
+        box-shadow: 0 0 32px 8px var(--grey-300);
 
         .error {
             background-color: black;
             display: grid;
-            place-content: center;
             justify-items: center;
+            align-content: center;
             gap: 1rem;
 
             svg {

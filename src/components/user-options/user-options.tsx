@@ -91,7 +91,7 @@ export const UserOptions = () => {
 					{hasAccess('admin') && (
 						<Link to={'/admin'}>
 							<ServerIcon />
-							<span>Admin Panel</span>
+							<span>Admin</span>
 						</Link>
 					)}
 				</div>

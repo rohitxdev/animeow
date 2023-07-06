@@ -1,8 +1,9 @@
 .admin-page {
     display: grid;
-    place-content: center;
-    gap: 1rem;
+    align-content: start;
+    gap: 1.5rem;
     color: var(--light);
+    grid-template-columns: 1fr;
 
     & > div {
         display: flex;

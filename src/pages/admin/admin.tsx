@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@components';
 import { env } from '@constants';
 import { useAuthContext } from '@hooks';
 import { api, axiosInstance } from '@utils';
@@ -21,6 +22,7 @@ export const AdminPage = () => {
 
 	return (
 		<div className={styles.adminPage}>
+			<Breadcrumbs data={[{ name: 'Admin', to: `.` }]} />
 			<div>
 				<p>Enable/disable streaming</p>
 				<ToggleSwitch

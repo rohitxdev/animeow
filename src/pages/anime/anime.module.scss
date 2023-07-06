@@ -1,6 +1,7 @@
 .anime-page {
     display: grid;
     gap: 2rem;
+    align-content: start;
 }
 
 .anime-info {
@@ -101,7 +102,6 @@
         border-radius: 0.5rem;
         transition: all 200ms linear;
         width: min(45ch, 100%);
-        height: 4rem;
         text-overflow: ellipsis;
 
         span {

@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@components';
 import { useAuthContext } from '@hooks';
 import { api } from '@utils';
 import { useQuery } from 'react-query';
@@ -13,6 +14,7 @@ export const MePage = () => {
 
 	return (
 		<div className={styles.mePage}>
+			<Breadcrumbs data={[{ name: 'Me', to: '.' }]} />
 			{data && (
 				<>
 					<h1>Hi there {data?.username}!</h1>

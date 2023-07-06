@@ -1,5 +1,8 @@
 .me-page {
     display: grid;
-    place-content: center;
+    justify-content: center;
+    align-content: start;
+    gap: 1rem;
     color: var(--light);
+    grid-template-columns: 1fr;
 }
