@@ -1,8 +1,8 @@
 {
-	"name": "react-ts-app",
+	"name": "animeow",
 	"version": "1.0.0",
 	"description": "React app boilerplate setup with vite, vite-pwa, zod and react-router.",
-	"repository": "https://github.com/rohitreddygr8/react-ts-app.git",
+	"repository": "https://github.com/rohitreddygr8/animeow.git",
 	"author": "rohitreddygr8",
 	"license": "GPL-3.0-only",
 	"scripts": {
