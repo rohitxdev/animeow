@@ -45,7 +45,7 @@
         display: grid;
         padding: 1rem 0;
         transform-origin: top right;
-        transition: opacity var(--duration) var(--timing-function), transform var(--duration) var(--timing-function), grid-template-rows var(--duration) var(--timing-function);
+        transition: opacity var(--duration) var(--timing-function), transform var(--duration) var(--timing-function), grid-template var(--duration) var(--timing-function);
 
 
         &::before {
@@ -63,13 +63,13 @@
 
         &.show {
             opacity: 1;
-            grid-template-rows: 1fr;
+            grid-template: 1fr / auto;
             transform: translateX(-100%) scale(1);
         }
 
         &.hide {
             opacity: 0;
-            grid-template-rows: 0fr;
+            grid-template: 0fr / auto;
             transform: translateX(-100%) scale(0);
         }
 
@@ -80,7 +80,7 @@
             color: var(--grey-300);
             border-radius: 0.5rem;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template: auto / 1fr;
             text-align: center;
 
 

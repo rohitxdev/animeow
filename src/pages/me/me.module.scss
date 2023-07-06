@@ -4,5 +4,5 @@
     align-content: start;
     gap: 1rem;
     color: var(--light);
-    grid-template-columns: 1fr;
+    grid-template: auto / 1fr;
 }

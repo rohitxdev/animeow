@@ -51,7 +51,7 @@
         display: grid;
         justify-items: center;
         align-items: center;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template: auto / repeat(3, 1fr);
         transition: opacity 200ms linear;
         pointer-events: initial;
 
@@ -167,7 +167,7 @@
         }
 
         .video-options > .select-options {
-            grid-template-rows: 0fr;
+            grid-template: 0fr / auto;
         }
     }
 
@@ -247,7 +247,6 @@
         filter: drop-shadow(0 0 2px var(--grey-200));
         overflow: hidden;
         border-radius: 0.375rem;
-        grid-template-columns: max-content;
         transition: all 200ms ease-out;
 
         & > div {
@@ -295,7 +294,7 @@
         }
 
         .select-options {
-            grid-template-rows: 1fr;
+            grid-template: 1fr / max-content;
         }
     }
 
@@ -306,7 +305,7 @@
 
         .select-options {
             opacity: 0;
-            grid-template-rows: 0fr;
+            grid-template: 0fr / max-content;
         }
     }
 }

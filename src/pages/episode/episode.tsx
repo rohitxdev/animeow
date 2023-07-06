@@ -30,15 +30,6 @@ export const EpisodePage = () => {
 		{ refetchOnWindowFocus: false, cacheTime: 1000 * 60 * 5 },
 	);
 
-	const { data: animeData } = useQuery(
-		['anime', animeId],
-		async ({ signal }) => api.getAnimeDetails({ animeId, signal }),
-		{
-			refetchOnWindowFocus: false,
-			cacheTime: 1000 * 60 * 5,
-		},
-	);
-
 	const { data: sourceData, isError } = useQuery(
 		['source', episodeId],
 		({ signal }) => api.getEpisodeSources({ episodeId, signal }),

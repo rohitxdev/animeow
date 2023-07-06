@@ -1,5 +1,3 @@
-import { ReactComponent as ForbiddenIcon } from '@assets/icons/403-error.svg';
-import { ReactComponent as LogoIcon } from '@assets/icons/logo.svg';
 import { ReactComponent as NoInternetIcon } from '@assets/icons/no-internet.svg';
 import stopImgSrc from '@assets/images/stop.png';
 import { useAuthContext } from '@hooks';
@@ -37,7 +35,7 @@ export const NotFoundPage = () => {
 export const NoInternetPage = () => {
 	return (
 		<div className={styles.noInternetPage}>
-			<NoInternetIcon aria-label="No internet icon" />
+			<NoInternetIcon aria-label="No internet" />
 			<p>Please connect to the internet.</p>
 		</div>
 	);
@@ -46,7 +44,7 @@ export const NoInternetPage = () => {
 export const LoadingPage = () => {
 	return (
 		<div className={styles.loadingPage}>
-			<LogoIcon />
+			<img src="/animeow-transparent.png" alt="Logo" />
 		</div>
 	);
 };

@@ -1,6 +1,5 @@
 import { Breadcrumbs } from '@components';
 import { env } from '@constants';
-import { useAuthContext } from '@hooks';
 import { api, axiosInstance } from '@utils';
 import { useQuery } from 'react-query';
 
@@ -8,7 +7,6 @@ import { ToggleSwitch } from '../../components/toggle-switch/toggle-switch';
 import styles from './admin.module.scss';
 
 export const AdminPage = () => {
-	const { isLoggedIn } = useAuthContext();
 	const isUsingDevAPI = axiosInstance.defaults.baseURL === env.DEV_API_URL;
 
 	// const { data } = useQuery(['users'], ({ signal }) => api.getUsers(signal), {

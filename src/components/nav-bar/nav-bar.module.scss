@@ -1,8 +1,7 @@
 .nav-bar {
     display: grid;
     align-items: center;
-    grid-template-rows: 1fr;
-    grid-template-columns: min-content auto min-content;
+    grid-template: 1fr / min-content auto min-content;
     gap: 1rem;
 
     .logo {

@@ -3,7 +3,6 @@ import { ReactComponent as ForwardIcon } from '@assets/icons/chevron-forward-out
 import { ReactComponent as InfoIcon } from '@assets/icons/info.svg';
 import { memo, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { z } from 'zod';
 
 import styles from './banner.module.scss';
 

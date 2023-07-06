@@ -1,9 +1,6 @@
-import WatchListIcon from '@assets/icons/bookmark-plus.svg';
 import { ReactComponent as PlayIcon } from '@assets/icons/play-2.svg';
 import { Breadcrumbs, Head } from '@components';
-// import { Carousel, EpisodesList, Loader } from '@components';
 import { api } from '@utils';
-import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';

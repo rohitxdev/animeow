@@ -8,9 +8,9 @@
         transition: width var(--duration) linear;
 
         .search-bar + .results {
-            grid-template-rows: 1fr;
+            grid-template: 1fr / auto;
             opacity: 1;
-            transition: grid-template-rows var(--duration) 200ms linear, opacity var(--duration) 200ms linear;
+            transition: grid-template var(--duration) 200ms linear, opacity var(--duration) 200ms linear;
         }
     }
 
@@ -19,9 +19,9 @@
         transition: width var(--duration) 200ms linear;
 
         .search-bar + .results {
-            grid-template-rows: 0fr;
+            grid-template: 0fr / auto;
             opacity: 0;
-            transition: grid-template-rows var(--duration) linear, opacity var(--duration) linear;
+            transition: grid-template var(--duration) linear, opacity var(--duration) linear;
         }
     }
 

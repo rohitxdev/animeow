@@ -60,8 +60,7 @@ html {
 	overflow: hidden auto;
 	scroll-behavior: smooth;
 	display: grid;
-	grid-template-rows: 1fr;
-	grid-template-columns: 1fr;
+	grid-template: 1fr / 1fr;
 	padding: 1rem;
 	height: var(--vh, 100vh);
 	width: var(--vw, 100vw);

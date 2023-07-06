@@ -2,6 +2,6 @@
     display: grid;
     place-content: center;
     gap: 2rem;
-    grid-template-rows: auto minmax(auto, 1fr) auto;
+    grid-template: auto minmax(auto, 1fr) auto / auto;
 
 }

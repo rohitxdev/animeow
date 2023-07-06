@@ -43,10 +43,10 @@ export const Carousel = memo(
 					</button>
 					<section className={styles.cardList} ref={cardListRef}>
 						{data
-							? data.map((anime: any, i: any) => <Card data={anime} key={i} />)
+							? data.map((anime, i) => <Card data={anime} key={i} />)
 							: new Array(20)
 									.fill(null)
-									.map((anime, i: any) => (
+									.map((_, i) => (
 										<Skeleton
 											key={i}
 											duration={1}

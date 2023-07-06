@@ -40,7 +40,7 @@ export const Modal = ({
 				showModal ? styles.fadeIn : styles.fadeOut,
 			].join(' ')}
 			ref={dialogRef}
-			onClick={(e) => {
+			onClick={() => {
 				if (closeable) {
 					setShowModal(false);
 				}
