@@ -1,5 +1,5 @@
-import { ReactComponent as BrokenFileIcon } from '@assets/icons/broken-file.svg';
 import { Breadcrumbs, ErrorFallback, VideoPlayer } from '@components';
+import { ReactComponent as BrokenFileIcon } from '@icons/broken-file.svg';
 import { api } from '@utils';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';

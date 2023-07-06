@@ -1,4 +1,4 @@
-import { ReactComponent as CheckIcon } from '@assets/icons/check.svg';
+import { ReactComponent as CheckIcon } from '@icons/check.svg';
 import { ComponentProps, ReactNode, useEffect, useState } from 'react';
 
 import styles from './video-player.module.scss';

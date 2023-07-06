@@ -1,5 +1,5 @@
-import { ReactComponent as EyeOffIcon } from '@assets/icons/eye-off.svg';
-import { ReactComponent as EyeOnIcon } from '@assets/icons/eye-on.svg';
+import { ReactComponent as EyeOffIcon } from '@icons/eye-off.svg';
+import { ReactComponent as EyeOnIcon } from '@icons/eye-on.svg';
 import { InputHTMLAttributes, useState } from 'react';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>;

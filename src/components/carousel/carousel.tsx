@@ -1,5 +1,5 @@
-import { ReactComponent as BackwardIcon } from '@assets/icons/arrow-backward.svg';
-import { ReactComponent as ForwardIcon } from '@assets/icons/arrow-forward.svg';
+import { ReactComponent as BackwardIcon } from '@icons/arrow-backward.svg';
+import { ReactComponent as ForwardIcon } from '@icons/arrow-forward.svg';
 import { CardData } from '@types';
 import { memo, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';

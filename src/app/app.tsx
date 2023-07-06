@@ -2,9 +2,9 @@ import './globals.scss';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { ReactComponent as CrossIcon } from '@assets/icons/cross.svg';
 import { AuthModal, ErrorFallback } from '@components';
 import { AuthContextProvider } from '@contexts';
+import { ReactComponent as CrossIcon } from '@icons/cross.svg';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';

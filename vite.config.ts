@@ -27,10 +27,56 @@ export default defineConfig(({ mode }) => {
 				includeAssets: ['*.woff2'],
 				registerType: 'autoUpdate',
 				devOptions: { enabled: ENV_VARS.VITE_IS_PWA_DEV_ENABLED === 'true' },
-				workbox: {
-					globPatterns: ['./src/assets/images/*'],
+				manifest: {
+					name: 'Animeow',
+					description: 'Watch HD anime for free.',
+					short_name: 'Animeow',
+					start_url: '/',
+					theme_color: '#e31c4e',
+					background_color: '#000000',
+					display: 'standalone',
+					orientation: 'portrait-primary',
+					lang: 'en',
+					scope: '/',
+					icons: [
+						{
+							src: 'favicon-32x32.png',
+							sizes: '32x32',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-96x96.png',
+							sizes: '96x96',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-120x120.png',
+							sizes: '120x120',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-152x152.png',
+							sizes: '152x152',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-180x180.png',
+							sizes: '180x180',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-192x192.png',
+							sizes: '192x192',
+							type: 'image/png',
+						},
+						{
+							src: 'favicon-maskable-512x512.png',
+							sizes: '512x512',
+							type: 'image/png',
+							purpose: 'maskable',
+						},
+					],
 				},
-				manifestFilename: './public/manifest.json',
 			}),
 		],
 		css: {
@@ -45,7 +91,7 @@ export default defineConfig(({ mode }) => {
 		},
 		resolve: {
 			alias: {
-				'@assets': resolve(__dirname, './src/assets'),
+				'@icons': resolve(__dirname, './src/icons'),
 				'@components': resolve(__dirname, './src/components'),
 				'@constants': resolve(__dirname, './src/constants'),
 				'@contexts': resolve(__dirname, './src/contexts'),

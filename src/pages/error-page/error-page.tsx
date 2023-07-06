@@ -1,6 +1,5 @@
-import { ReactComponent as NoInternetIcon } from '@assets/icons/no-internet.svg';
-import stopImgSrc from '@assets/images/stop.png';
 import { useAuthContext } from '@hooks';
+import { ReactComponent as NoInternetIcon } from '@icons/no-internet.svg';
 import { Link } from 'react-router-dom';
 
 import styles from './error-page.module.scss';
@@ -10,7 +9,7 @@ export const UnauthorizedPage = () => {
 	return (
 		<>
 			<div className={styles.unauthorizedPage}>
-				<img src={stopImgSrc} alt="Stop sign" />
+				<img src="stop.png" alt="Stop sign" />
 				{/* <ForbiddenIcon /> */}
 
 				<h1>YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE</h1>

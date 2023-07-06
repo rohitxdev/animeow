@@ -1,5 +1,5 @@
-import { ReactComponent as PlayIcon } from '@assets/icons/play-2.svg';
 import { Breadcrumbs, Head } from '@components';
+import { ReactComponent as PlayIcon } from '@icons/play-2.svg';
 import { api } from '@utils';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';

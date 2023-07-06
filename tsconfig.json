@@ -21,8 +21,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@assets/*": [
-        "./src/assets/*"
+      "@icons/*": [
+        "./src/icons/*"
       ],
       "@components": [
         "./src/components"

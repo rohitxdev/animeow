@@ -1,7 +1,7 @@
-import { ReactComponent as AlertIcon } from '@assets/icons/alert.svg';
-import { ReactComponent as GoogleLogo } from '@assets/icons/logo-google.svg';
-import { ReactComponent as SpinnerIcon } from '@assets/icons/spinner.svg';
 import { useAuthContext } from '@hooks';
+import { ReactComponent as AlertIcon } from '@icons/alert.svg';
+import { ReactComponent as GoogleLogo } from '@icons/logo-google.svg';
+import { ReactComponent as SpinnerIcon } from '@icons/spinner.svg';
 import { loginFormSchema, signUpFormSchema } from '@schemas';
 import { getFormData } from '@utils';
 import { AxiosError } from 'axios';

@@ -1,6 +1,5 @@
-import { ReactComponent as DiscordLogoIcon } from '@assets/icons/logo-discord.svg';
-import { ReactComponent as GithubLogoIcon } from '@assets/icons/logo-github.svg';
-import buyMeAcoffeeSrc from '@assets/images/buy-me-a-coffee.png';
+import { ReactComponent as DiscordLogoIcon } from '@icons/logo-discord.svg';
+import { ReactComponent as GithubLogoIcon } from '@icons/logo-github.svg';
 
 import styles from './footer.module.scss';
 
@@ -27,7 +26,7 @@ export const Footer = () => {
 					title="Buy me a coffee"
 					target="_blank"
 				>
-					<img src={buyMeAcoffeeSrc} />
+					<img src="buy-me-a-coffee.png" />
 				</a>
 			</span>
 			<p>

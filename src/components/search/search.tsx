@@ -1,9 +1,9 @@
-import { ReactComponent as AlertIcon } from '@assets/icons/alert.svg';
-import { ReactComponent as CrossIcon } from '@assets/icons/cross.svg';
-import { ReactComponent as RatingIcon } from '@assets/icons/rating.svg';
-import { ReactComponent as SearchIcon } from '@assets/icons/search.svg';
-import { ReactComponent as SpinnerIcon } from '@assets/icons/spinner.svg';
 import { useDebounce } from '@hooks';
+import { ReactComponent as AlertIcon } from '@icons/alert.svg';
+import { ReactComponent as CrossIcon } from '@icons/cross.svg';
+import { ReactComponent as RatingIcon } from '@icons/rating.svg';
+import { ReactComponent as SearchIcon } from '@icons/search.svg';
+import { ReactComponent as SpinnerIcon } from '@icons/spinner.svg';
 import { SearchResultProps } from '@types';
 import { api } from '@utils';
 import { useId, useRef, useState } from 'react';

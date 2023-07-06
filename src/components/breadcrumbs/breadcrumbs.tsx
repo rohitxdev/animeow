@@ -1,5 +1,5 @@
-import { ReactComponent as ChevronIcon } from '@assets/icons/chevron-forward-outline.svg';
-import { ReactComponent as HomeIcon } from '@assets/icons/home.svg';
+import { ReactComponent as ChevronIcon } from '@icons/chevron-forward-outline.svg';
+import { ReactComponent as HomeIcon } from '@icons/home.svg';
 import { Link } from 'react-router-dom';
 
 import styles from './breadcrumbs.module.scss';

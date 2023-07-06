@@ -1,6 +1,6 @@
-import { ReactComponent as BackIcon } from '@assets/icons/chevron-back-outline.svg';
-import { ReactComponent as ForwardIcon } from '@assets/icons/chevron-forward-outline.svg';
-import { ReactComponent as InfoIcon } from '@assets/icons/info.svg';
+import { ReactComponent as BackIcon } from '@icons/chevron-back-outline.svg';
+import { ReactComponent as ForwardIcon } from '@icons/chevron-forward-outline.svg';
+import { ReactComponent as InfoIcon } from '@icons/info.svg';
 import { memo, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 

@@ -1,10 +1,10 @@
-import { ReactComponent as AnonymousIcon } from '@assets/icons/anonymous.svg';
-import { ReactComponent as LogInIcon } from '@assets/icons/log-in.svg';
-import { ReactComponent as LogOutIcon } from '@assets/icons/log-out.svg';
-import { ReactComponent as PersonIcon } from '@assets/icons/person.svg';
-import { ReactComponent as ServerIcon } from '@assets/icons/server.svg';
-import { ReactComponent as UserIcon } from '@assets/icons/user.svg';
 import { useAuthContext } from '@hooks';
+import { ReactComponent as AnonymousIcon } from '@icons/anonymous.svg';
+import { ReactComponent as LogInIcon } from '@icons/log-in.svg';
+import { ReactComponent as LogOutIcon } from '@icons/log-out.svg';
+import { ReactComponent as PersonIcon } from '@icons/person.svg';
+import { ReactComponent as ServerIcon } from '@icons/server.svg';
+import { ReactComponent as UserIcon } from '@icons/user.svg';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
