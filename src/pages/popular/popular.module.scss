@@ -1,0 +1,20 @@
+.popular-page {
+    display: grid;
+    align-items: start;
+    gap: 2rem;
+
+    & > div:first-of-type {
+        display: flex;
+        gap: 2rem 1rem;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        --height: 14em;
+        --border-radius: 1em;
+        height: var(--height);
+        width: calc(3/4 * var(--height));
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+}

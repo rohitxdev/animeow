@@ -1,0 +1,31 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    button {
+        background-color: transparent;
+        color: var(--light);
+    }
+
+    & > div:first-of-type {
+        display: flex;
+        gap: 0.5rem;
+        overflow: auto;
+
+        button {
+            background-color: transparent;
+            color: var(--grey-200);
+
+            &.current {
+                color: var(--light);
+            }
+
+            &:is(:focus, :hover) {
+                color: var(--light);
+            }
+        }
+    }
+
+
+}

@@ -5,6 +5,7 @@ import {
 	HomePage,
 	MePage,
 	NotFoundPage,
+	PopularPage,
 } from '@pages';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -42,6 +43,10 @@ export const Router = () => {
 		{
 			path: '/anime/:animeId/episode/:episodeId',
 			element: <RouteWrapper page={<EpisodePage />} withLayout />,
+		},
+		{
+			path: '/popular',
+			element: <RouteWrapper page={<PopularPage />} withLayout />,
 		},
 		{
 			path: '/me',
