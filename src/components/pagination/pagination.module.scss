@@ -2,32 +2,62 @@
     display: flex;
     justify-content: center;
     gap: 1.5rem;
+    height: 2rem;
+    align-items: center;
 
     button {
         background-color: transparent;
         color: var(--light);
         font-weight: 500;
         font-size: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: fit-content;
+
+        &:focus-visible {
+            outline: var(--light) 1px solid;
+        }
+
+        svg {
+            height: 1rem;
+            width: 1rem;
+            fill: white;
+        }
     }
 
     & > div:first-of-type {
         display: flex;
+        align-items: center;
         gap: 0.5rem;
-        overflow: auto;
+        height: 100%;
+        overflow: hidden auto;
 
         button {
             background-color: transparent;
             color: var(--grey-200);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
 
             &.current {
-                color: var(--light);
+                color: var(--dark);
+                background-color: var(--light);
+                font-weight: 600;
             }
 
-            &:is(:focus, :hover) {
+            &:not(.current):is(:focus, :hover) {
                 color: var(--light);
             }
         }
     }
+}
 
+@media screen and (max-width:500px) {
+    .pagination {
+        gap: 0.5rem;
 
+        & > div:first-of-type {
+            gap: 0.25rem;
+        }
+    }
 }

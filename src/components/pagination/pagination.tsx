@@ -1,3 +1,5 @@
+import { ReactComponent as ChevronBackwardIcon } from '@icons/chevron-back-outline.svg';
+import { ReactComponent as ChevronForwardIcon } from '@icons/chevron-forward-outline.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -45,7 +47,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
 					setCurrentPage((val) => (val ? (val > 1 ? val - 1 : 1) : 1))
 				}
 			>
-				Previous
+				<ChevronBackwardIcon />
 			</button>
 			<div>
 				{pages.map((_, i) => (
@@ -65,7 +67,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
 					)
 				}
 			>
-				Next
+				<ChevronForwardIcon />
 			</button>
 		</div>
 	);

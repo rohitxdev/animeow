@@ -12,7 +12,7 @@ export const PopularPage = () => {
 	const totalPagesRef = useRef<number | null>(null);
 	const currentPage = searchParams.get('page') ?? '1';
 	const { data } = useQuery(['popular', currentPage], ({ signal }) =>
-		api.getPopularAnime({ signal, page: Number(currentPage) }),
+		api.getPopularAnime({ signal, page: Number(currentPage), perPage: 24 }),
 	);
 
 	if (!totalPagesRef.current) {
@@ -35,15 +35,15 @@ export const PopularPage = () => {
 								key={val.id}
 							/>
 					  ))
-					: new Array(20)
+					: new Array(24)
 							.fill(null)
 							.map((_, i) => <Card data={null} key={i} />)}
 			</div>
-			<div style={{ width: '40ch', marginInline: 'auto' }}>
+			<div style={{ marginInline: 'auto' }}>
 				{totalPagesRef.current ? (
 					<Pagination totalPages={totalPagesRef.current} />
 				) : (
-					<Skeleton />
+					<Skeleton style={{ width: 'min(75vw, 35ch)' }} />
 				)}
 			</div>
 		</div>

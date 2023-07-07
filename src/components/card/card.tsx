@@ -7,8 +7,8 @@ import styles from './card.module.scss';
 export const Card = ({ data }: { data: CardData | null }) => {
 	if (!data) {
 		return (
-			<div className={styles.card}>
-				<Skeleton />
+			<div className={styles.cardContainer}>
+				<Skeleton className={styles.card} />
 			</div>
 		);
 	}

@@ -11,7 +11,7 @@ export const RecentPage = () => {
 	const totalPagesRef = useRef<number | null>(null);
 	const currentPage = searchParams.get('page') ?? '1';
 	const { data } = useQuery(['recent', currentPage], ({ signal }) =>
-		api.getRecentAnime({ signal, page: Number(currentPage) }),
+		api.getRecentAnime({ signal, page: Number(currentPage), perPage: 24 }),
 	);
 
 	if (!totalPagesRef.current) {
@@ -41,7 +41,7 @@ export const RecentPage = () => {
 								key={val.id}
 							/>
 					  ))
-					: new Array(20)
+					: new Array(24)
 							.fill(null)
 							.map((_, i) => <Card data={null} key={i} />)}
 			</div>
