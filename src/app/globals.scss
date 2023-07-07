@@ -74,7 +74,8 @@ html {
 	color: var(--light);
 	background-color: var(--coral-200);
 	border: 1px solid var(--light);
-	margin-bottom: 1rem;
+	margin-bottom: 2rem !important;
+	margin-inline: 1rem !important;
 
 	svg {
 		fill: var(--light);

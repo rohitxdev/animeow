@@ -1,7 +1,7 @@
 import { ReactComponent as ChevronBackwardIcon } from '@icons/chevron-back-outline.svg';
 import { ReactComponent as ChevronForwardIcon } from '@icons/chevron-forward-outline.svg';
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import styles from './pagination.module.scss';
 
