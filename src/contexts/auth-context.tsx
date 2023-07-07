@@ -2,7 +2,6 @@ import { authRoles } from '@constants';
 import { authRoleSchema } from '@schemas';
 import { AuthRole, User } from '@types';
 import { api, axiosInstance } from '@utils';
-import { AxiosError } from 'axios';
 import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
