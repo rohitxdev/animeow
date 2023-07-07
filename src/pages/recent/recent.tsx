@@ -5,32 +5,38 @@ import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 
-import styles from './popular.module.scss';
-
-export const PopularPage = () => {
+import styles from './recent.module.scss';
+export const RecentPage = () => {
 	const [searchParams] = useSearchParams();
 	const totalPagesRef = useRef<number | null>(null);
 	const currentPage = searchParams.get('page') ?? '1';
-	const { data } = useQuery(['popular', currentPage], ({ signal }) =>
-		api.getPopularAnime({ signal, page: Number(currentPage) }),
+	const { data } = useQuery(['recent', currentPage], ({ signal }) =>
+		api.getRecentAnime({ signal, page: Number(currentPage) }),
 	);
 
 	if (!totalPagesRef.current) {
 		totalPagesRef.current = data?.meta?.total ?? null;
 	}
 	return (
-		<div className={styles.popularPage}>
-			<Breadcrumbs data={[{ name: 'Popular', to: '.' }]} />
-			<h1>Popular Anime</h1>
+		<div className={styles.recentPage}>
+			<Breadcrumbs data={[{ name: 'Recent', to: '.' }]} />
+			<h1>Recently Released</h1>
 			<div>
 				{data
 					? data.data.map((val) => (
 							<Card
 								data={{
-									animeId: val.id,
-									animeImg: val.coverImage,
-									animeTitle: val.title.english ?? val.title.native,
-									releaseDate: String(val.year),
+									animeId: val.animeId,
+									animeImg: val.anime.coverImage ?? val.image ?? '',
+									animeTitle:
+										val.anime.title.userPreferred ??
+										val.anime.title.english ??
+										val.anime.title.native,
+									releaseDate: String(
+										val.anime.year ??
+											new Date(val.anime.updatedAt ?? '').getFullYear() ??
+											'N/A',
+									),
 								}}
 								key={val.id}
 							/>

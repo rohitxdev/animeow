@@ -2,7 +2,6 @@ import { ReactComponent as BackwardIcon } from '@icons/arrow-backward.svg';
 import { ReactComponent as ForwardIcon } from '@icons/arrow-forward.svg';
 import { CardData } from '@types';
 import { memo, useRef } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 
 import { Card } from '../card/card';
@@ -46,13 +45,7 @@ export const Carousel = memo(
 							? data.map((anime, i) => <Card data={anime} key={i} />)
 							: new Array(20)
 									.fill(null)
-									.map((_, i) => (
-										<Skeleton
-											key={i}
-											duration={1}
-											className={styles.card}
-										></Skeleton>
-									))}
+									.map((_, i) => <Card data={null} key={i} />)}
 					</section>
 					<button onClick={scrollRight} className={styles.scrollBtn}>
 						<ForwardIcon />

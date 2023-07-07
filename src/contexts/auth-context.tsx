@@ -101,16 +101,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 			const data = await api.refreshAccessToken();
 			setAuthData(data);
 		} catch (err) {
-			if (
-				err instanceof AxiosError &&
-				(err.response?.status === 401 || err.response?.status === 422)
-			) {
-				if (timerId.current) {
-					window.clearInterval(timerId.current);
-				}
+			if (timerId.current) {
+				window.clearInterval(timerId.current);
 				return clearAuthData();
 			}
-			throw err;
 		}
 	};
 

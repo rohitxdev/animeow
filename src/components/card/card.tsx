@@ -1,11 +1,16 @@
 import { CardData } from '@types';
+import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 
 import styles from './card.module.scss';
 
 export const Card = ({ data }: { data: CardData | null }) => {
 	if (!data) {
-		return <div className={styles.card}></div>;
+		return (
+			<div className={styles.card}>
+				<Skeleton />
+			</div>
+		);
 	}
 
 	const { animeId, animeTitle, animeImg, releaseDate } = data;

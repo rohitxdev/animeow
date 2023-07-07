@@ -34,7 +34,7 @@ export const searchResponseSchema = z.object({
 			currentEpisode: z.number().nullish(),
 			countryOfOrigin: z.string().nonempty().nullish(),
 			lastEpisodeUpdate: z.string().nonempty().nullish(),
-			description: z.string().nonempty().nullish(),
+			description: z.string().nullish(),
 			duration: z.number().nullish(),
 			color: z.string().nonempty().nullish(),
 			year: z.number().nullish(),
