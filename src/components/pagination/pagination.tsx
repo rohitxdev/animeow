@@ -10,9 +10,8 @@ interface PaginationProps {
 }
 
 export const Pagination = ({ totalPages }: PaginationProps) => {
-	const navigate = useNavigate();
 	const location = useLocation();
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const pages = useMemo(
 		() => new Array(totalPages > 10 ? 10 : totalPages).fill(null),
 		[totalPages],
@@ -36,8 +35,14 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
 	const [currentPage, setCurrentPage] = useState(getCurrentPage());
 
 	useEffect(() => {
-		searchParams.set('page', `${currentPage}`);
-		navigate(`${location.pathname}?${searchParams.toString()}`);
+		setCurrentPage(getCurrentPage());
+	}, [location]);
+
+	useEffect(() => {
+		if (currentPage !== getCurrentPage()) {
+			searchParams.set('page', `${currentPage}`);
+			setSearchParams(searchParams);
+		}
 	}, [currentPage]);
 
 	return (
