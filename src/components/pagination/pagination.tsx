@@ -47,11 +47,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
 
 	return (
 		<div className={styles.pagination}>
-			<button
-				onClick={() =>
-					setCurrentPage((val) => (val ? (val > 1 ? val - 1 : 1) : 1))
-				}
-			>
+			<button onClick={() => setCurrentPage((val) => (val > 1 ? val - 1 : 1))}>
 				<ChevronBackwardIcon />
 			</button>
 			<div>
@@ -67,9 +63,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
 			</div>
 			<button
 				onClick={() =>
-					setCurrentPage((val) =>
-						val ? (val < pages.length ? val + 1 : val) : pages.length,
-					)
+					setCurrentPage((val) => (val < pages.length ? val + 1 : val))
 				}
 			>
 				<ChevronForwardIcon />

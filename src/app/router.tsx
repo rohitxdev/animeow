@@ -5,8 +5,7 @@ import {
 	HomePage,
 	MePage,
 	NotFoundPage,
-	PopularPage,
-	RecentPage,
+	ViewAllPage,
 } from '@pages';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -47,11 +46,13 @@ export const Router = () => {
 		},
 		{
 			path: '/popular',
-			element: <RouteWrapper page={<PopularPage />} withLayout />,
+			element: (
+				<RouteWrapper page={<ViewAllPage page="popular" />} withLayout />
+			),
 		},
 		{
 			path: '/recent',
-			element: <RouteWrapper page={<RecentPage />} withLayout />,
+			element: <RouteWrapper page={<ViewAllPage page="recent" />} withLayout />,
 		},
 		{
 			path: '/me',

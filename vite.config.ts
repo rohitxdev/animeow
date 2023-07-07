@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
 			svgr(),
 			VitePWA({
 				disable: ENV_VARS.VITE_IS_PWA_ENABLED !== 'true',
-				includeAssets: ['*.woff2', 'animeow-*.png'],
+				includeAssets: ['*.woff2', '*.png'],
 				registerType: 'autoUpdate',
 				devOptions: { enabled: ENV_VARS.VITE_IS_PWA_DEV_ENABLED === 'true' },
 				manifest: {

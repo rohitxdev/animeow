@@ -56,6 +56,10 @@
     .pagination {
         gap: 0.5rem;
 
+        button {
+            font-size: 0.875rem;
+        }
+
         & > div:first-of-type {
             gap: 0.25rem;
         }

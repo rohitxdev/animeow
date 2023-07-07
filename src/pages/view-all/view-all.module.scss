@@ -1,4 +1,4 @@
-.recent-page {
+.view-all-page {
     display: grid;
     align-items: center;
     gap: 2rem;
@@ -7,5 +7,6 @@
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
+        justify-content: center;
     }
 }

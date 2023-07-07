@@ -10,8 +10,6 @@ export const UnauthorizedPage = () => {
 		<>
 			<div className={styles.unauthorizedPage}>
 				<img src="stop.png" alt="Stop sign" />
-				{/* <ForbiddenIcon /> */}
-
 				<h1>YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE</h1>
 				<div>
 					<button onClick={() => setShowAuthModal(true)}>Log In</button>

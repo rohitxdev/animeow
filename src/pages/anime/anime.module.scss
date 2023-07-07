@@ -164,3 +164,20 @@
         }
     }
 }
+
+
+.error {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 1rem;
+
+    svg {
+        fill: var(--light);
+        height: calc(2rem + 2vw);
+    }
+
+    p {
+        font-size: 0.875rem;
+    }
+}

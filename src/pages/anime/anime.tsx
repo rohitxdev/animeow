@@ -1,4 +1,5 @@
 import { Breadcrumbs, Head } from '@components';
+import { ReactComponent as BrokenFileIcon } from '@icons/broken-file.svg';
 import { ReactComponent as PlayIcon } from '@icons/play-2.svg';
 import { api } from '@utils';
 import Skeleton from 'react-loading-skeleton';
@@ -11,7 +12,7 @@ export const AnimePage = () => {
 	const params = useParams();
 	const animeId = params.animeId as string;
 
-	const { data, isError } = useQuery(
+	const { data, isError, error } = useQuery(
 		['anime', animeId],
 		async ({ signal }) => api.getAnimeDetails({ animeId, signal }),
 		{
@@ -20,17 +21,17 @@ export const AnimePage = () => {
 		},
 	);
 
-	if (isError) {
+	if (isError && error instanceof Error) {
 		return (
-			<p style={{ backgroundColor: 'red', color: 'var(--light)' }}>Error</p>
+			<div className={styles.error}>
+				<BrokenFileIcon />
+				<p>Could not get data &nbsp;:&#40;</p>
+			</div>
 		);
 	}
 
-	// const addToWatchList = async () => {
-	// 	const res = await api.addToWatchList(animeId as string);
-	// };
-
-	const title = data?.title.english ?? data?.title.native;
+	const title =
+		data?.title.english ?? data?.title.userPreferred ?? data?.title.native;
 
 	return (
 		<>

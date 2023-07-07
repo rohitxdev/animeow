@@ -26,7 +26,7 @@ export const Footer = () => {
 					title="Buy me a coffee"
 					target="_blank"
 				>
-					<img src="buy-me-a-coffee.png" />
+					<img src="/buy-me-a-coffee.png" />
 				</a>
 			</span>
 			<p>
