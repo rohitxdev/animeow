@@ -152,4 +152,6 @@ export const api = {
 			is_enabled: isEnabled,
 		});
 	},
+	sendPasswordResetEmail: async (email: string) =>
+		await axios.get('/auth/send-password-reset-email', { params: { email } }),
 };
