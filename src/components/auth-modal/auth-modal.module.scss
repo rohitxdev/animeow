@@ -30,6 +30,10 @@
             text-align: right;
             color: var(--grey-100);
             background-color: transparent;
+
+            &:is(:focus, :hover) {
+                color: var(--light);
+            }
         }
 
         button[type=submit] {
@@ -74,6 +78,31 @@
                     text-decoration: underline;
                     text-underline-offset: 4px;
                 }
+            }
+        }
+
+        &.forgot-password-form {
+            p:first-child {
+                font-size: 1.25rem;
+            }
+
+            .error {
+                margin-bottom: -0.5rem;
+            }
+
+            button:last-child {
+                background-color: transparent;
+                color: var(--grey-200);
+                font-weight: 600;
+
+                &:is(:focus, :hover) {
+                    color: var(--light);
+                }
+            }
+
+            button:disabled {
+                filter: brightness(0.75);
+                cursor: not-allowed;
             }
         }
     }
