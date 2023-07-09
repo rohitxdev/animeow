@@ -10,6 +10,7 @@
         background-color: var(--light);
         border-radius: 100%;
         cursor: pointer;
+        display: flex;
 
         & > :is(img, svg) {
             height: 100%;
@@ -22,7 +23,7 @@
         }
 
         & > img {
-            box-shadow: 0 0 1px 1px var(--dark);
+            object-fit: cover;
         }
 
         animation: scale-up 300ms cubic-bezier(.59, 1.12, .75, .98) 1 forwards;
@@ -100,6 +101,7 @@
                 p {
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    max-width: 16ch;
                 }
 
                 p:first-child {
@@ -111,7 +113,6 @@
                 p:nth-child(2) {
                     font-weight: 400;
                     font-size: 0.75rem;
-                    max-width: 20ch;
                 }
             }
 

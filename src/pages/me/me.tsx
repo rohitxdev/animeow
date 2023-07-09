@@ -16,6 +16,7 @@ export const MePage = () => {
 	const { isLoggedIn } = useAuthContext();
 	const queryClient = useQueryClient();
 	const [isUploading, setIsUploading] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 
 	const { data: user } = useQuery(
 		['me'],
@@ -32,6 +33,19 @@ export const MePage = () => {
 		[user],
 	);
 
+	const deleteProfilePicture = async () => {
+		try {
+			setIsDeleting(true);
+			await api.deleteProfilePicture();
+			await queryClient.refetchQueries(['me']);
+			toast.success('Deleted profile picture successfully');
+		} catch (err) {
+			toast.error('Could not delete profile picture');
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+
 	const updateProfilePicture: React.FormEventHandler<HTMLInputElement> = async (
 		e,
 	) => {
@@ -39,7 +53,10 @@ export const MePage = () => {
 		try {
 			if (file) {
 				setIsUploading(true);
-				const compressedFile = await imageCompression(file, { maxSizeMB: 2 });
+				const compressedFile = await imageCompression(file, {
+					maxSizeMB: 2,
+					maxWidthOrHeight: 200,
+				});
 				await api.uploadProfilePicture(compressedFile);
 				await queryClient.refetchQueries(['me']);
 				toast.success('Profile picture has been changed successfully');
@@ -56,28 +73,38 @@ export const MePage = () => {
 			<Breadcrumbs data={[{ name: 'Me', to: '.' }]} />
 			{user && (
 				<div>
-					<div className={styles.profilePicture}>
-						{user?.image_url ? (
-							<img src={user.image_url} alt="Profile picture" />
-						) : (
-							<UserIcon aria-label="User placeholder picture" />
+					<div className={styles.pfpContainer}>
+						<div className={styles.profilePicture}>
+							{user?.image_url ? (
+								<img src={user.image_url} alt="Profile picture" />
+							) : (
+								<UserIcon aria-label="User placeholder picture" />
+							)}
+							<input
+								type="file"
+								accept="image/*"
+								id={id}
+								onInput={updateProfilePicture}
+								required
+								hidden
+							/>
+							{isUploading && (
+								<div className={styles.uploading}>
+									<SpinnerIcon />
+								</div>
+							)}
+							<label htmlFor={id} title="Change profile picture">
+								<EditIcon />
+							</label>
+						</div>
+						{user?.image_url && (
+							<button
+								className={styles.deletePfp}
+								onClick={deleteProfilePicture}
+							>
+								{isDeleting ? <SpinnerIcon /> : 'Delete'}
+							</button>
 						)}
-						<input
-							type="file"
-							accept="image/*"
-							id={id}
-							onInput={updateProfilePicture}
-							required
-							hidden
-						/>
-						{isUploading && (
-							<div className={styles.uploading}>
-								<SpinnerIcon />
-							</div>
-						)}
-						<label htmlFor={id} title="Change profile picture">
-							<EditIcon />
-						</label>
 					</div>
 					<p className={styles.username}>{user.username}</p>
 					<div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

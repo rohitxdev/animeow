@@ -11,10 +11,17 @@
         place-content: start;
         gap: 1rem;
 
+        .pfp-container {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
         .profile-picture {
             position: relative;
             height: fit-content;
             width: fit-content;
+            display: flex;
 
             & > :is(img, svg) {
                 height: 100px;
@@ -27,7 +34,7 @@
             }
 
             & > img {
-                box-shadow: 0 0 1px 1px var(--dark);
+                object-fit: cover;
             }
 
             input[type=file] {
@@ -69,6 +76,23 @@
                     height: 1.5rem;
                     width: 1.5rem;
                 }
+            }
+        }
+
+        .delete-pfp {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: var(--light);
+            background-color: var(--error-clr);
+            width: 8ch;
+            display: grid;
+            place-content: center;
+
+            svg {
+                height: 1rem;
+                width: 1rem;
+                fill: var(--light);
             }
         }
 

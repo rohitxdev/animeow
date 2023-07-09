@@ -160,5 +160,7 @@ export const api = {
 		await axiosInstance.putForm('/users/profile-picture', {
 			file,
 		}),
+	deleteProfilePicture: async () =>
+		await axiosInstance.delete('/users/profile-picture'),
 	googleLogin: async () => await axiosInstance.get('auth/oauth2/google'),
 };
