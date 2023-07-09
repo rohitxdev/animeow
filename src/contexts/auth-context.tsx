@@ -102,8 +102,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		} catch (err) {
 			if (timerId.current) {
 				window.clearInterval(timerId.current);
-				return clearAuthData();
 			}
+			return clearAuthData();
 		}
 	};
 

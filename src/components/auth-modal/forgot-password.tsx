@@ -16,7 +16,6 @@ interface ForgotPasswordProps extends ComponentProps<'form'> {
 export const ForgotPassword = ({
 	defaultEmail,
 	setShowResetPassword,
-	onSubmit,
 	...props
 }: ForgotPasswordProps) => {
 	const [email, setEmail] = useState(defaultEmail);

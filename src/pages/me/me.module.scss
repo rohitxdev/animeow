@@ -5,4 +5,59 @@
     gap: 1rem;
     color: var(--light);
     grid-template: auto / 1fr;
+
+    & > div:first-of-type {
+        display: grid;
+        place-content: start;
+        gap: 1rem;
+
+        .profile-picture {
+            position: relative;
+            height: fit-content;
+            width: fit-content;
+
+            img {
+                border-radius: 50%;
+                height: 100px;
+                width: 100px;
+                object-fit: cover;
+            }
+
+            input[type=file] {
+                display: none;
+            }
+
+            label {
+                position: absolute;
+                height: 2rem;
+                width: 2rem;
+                padding: 0.375rem;
+                bottom: 0;
+                right: 0;
+                background-color: var(--coral-100);
+                transform: translate(-0.25rem, -0.25rem);
+                border-radius: 50%;
+                z-index: 5;
+                cursor: pointer;
+
+                svg {
+                    height: 100%;
+                    width: 100%;
+                    fill: var(--light);
+                }
+            }
+        }
+
+        .username {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .email {}
+
+        .joined-date {
+            font-size: 0.75rem;
+            color: var(--grey-200);
+        }
+    }
 }

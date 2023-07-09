@@ -3,7 +3,7 @@ import { ReactComponent as AlertIcon } from '@icons/alert.svg';
 import { ReactComponent as GoogleLogo } from '@icons/logo-google.svg';
 import { ReactComponent as SpinnerIcon } from '@icons/spinner.svg';
 import { loginFormSchema, signUpFormSchema } from '@schemas';
-import { api, getFormData } from '@utils';
+import { getFormData } from '@utils';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 

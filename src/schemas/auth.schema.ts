@@ -16,6 +16,7 @@ export const userSchema = z.object({
 	role: authRoleSchema,
 	is_banned: z.boolean(),
 	image_url: z.string().nonempty().nullish(),
+	createdAt: z.number().nonnegative(),
 });
 
 export const usersSchema = z.array(userSchema);
