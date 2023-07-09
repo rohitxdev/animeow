@@ -19,7 +19,7 @@ export const UserOptions = () => {
 	const timerIdRef = useRef<number | null>(null);
 	const { data: user } = useQuery(
 		['me'],
-		({ signal }) => api.getMyProfile(signal),
+		async ({ signal }) => await api.getMyProfile(signal),
 		{
 			enabled: isLoggedIn,
 		},

@@ -20,7 +20,7 @@ export const MePage = () => {
 
 	const { data: user } = useQuery(
 		['me'],
-		({ signal }) => api.getMyProfile(signal),
+		async ({ signal }) => await api.getMyProfile(signal),
 		{
 			enabled: isLoggedIn,
 		},

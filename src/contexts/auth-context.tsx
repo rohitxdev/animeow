@@ -3,6 +3,7 @@ import { authRoleSchema } from '@schemas';
 import { AuthRole, User } from '@types';
 import { api, axiosInstance } from '@utils';
 import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 interface AuthContext {
@@ -38,7 +39,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(parsed.success);
 	const [accessToken, setAccessToken] = useState<string | null>(null);
 	const [showAuthModal, setShowAuthModal] = useState(false);
-	const [user, setUser] = useState<Partial<User> | null>(null);
+	const queryClient = useQueryClient();
+	const { data: user } = useQuery(
+		['me'],
+		async ({ signal }) => await api.getMyProfile(signal),
+		{ enabled: Boolean(accessToken), initialData: null },
+	);
 
 	const hasAccess = (requiredAuthRole?: AuthRole) => {
 		if (!requiredAuthRole) {
@@ -119,11 +125,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		});
 	};
 
-	const getUser = async () => {
-		const data = await api.getMyProfile();
-		setUser(data);
-	};
-
 	useEffect(() => {
 		if (authRole) {
 			localStorage.setItem('role', authRole);
@@ -145,7 +146,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		}
 		updateAccessTokenInInterceptor(accessToken);
 		if (accessToken) {
-			getUser();
+			queryClient.refetchQueries(['me']);
 		}
 	}, [accessToken]);
 
@@ -158,7 +159,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 				refreshAccessToken,
 				isLoggedIn,
 				hasAccess,
-				user,
+				user: user ?? null,
 				showAuthModal,
 				setShowAuthModal,
 			}}

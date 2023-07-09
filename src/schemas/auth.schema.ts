@@ -10,8 +10,6 @@ export const authRoleSchema = z.union([
 export const userSchema = z.object({
 	id: z.string().nonempty(),
 	email: z.string().nonempty(),
-	password_hash: z.string().nonempty(),
-	salt: z.string().nonempty(),
 	username: z.string().nonempty(),
 	role: authRoleSchema,
 	is_banned: z.boolean(),
