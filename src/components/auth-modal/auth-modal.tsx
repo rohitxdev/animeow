@@ -1,9 +1,10 @@
+import { env } from '@constants';
 import { useAuthContext } from '@hooks';
 import { ReactComponent as AlertIcon } from '@icons/alert.svg';
 import { ReactComponent as GoogleLogo } from '@icons/logo-google.svg';
 import { ReactComponent as SpinnerIcon } from '@icons/spinner.svg';
 import { loginFormSchema, signUpFormSchema } from '@schemas';
-import { getFormData } from '@utils';
+import { api, getFormData } from '@utils';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -72,10 +73,6 @@ export const AuthModal = () => {
 		} finally {
 			setIsSubmitting(false);
 		}
-	};
-
-	const logInWithGoogle = () => {
-		console.log('logged in');
 	};
 
 	useEffect(() => {
@@ -183,9 +180,16 @@ export const AuthModal = () => {
 							<span>OR</span>
 							<span className={styles.hLine}></span>
 						</div>
-						<button className={styles.googleBtn} onClick={logInWithGoogle}>
+						<a
+							className={styles.googleBtn}
+							href={`${
+								import.meta.env.MODE === 'production'
+									? env.API_URL
+									: env.DEV_API_URL
+							}/auth/oauth2/google`}
+						>
 							<GoogleLogo /> Log in with Google
-						</button>
+						</a>
 					</>
 				)}
 			</div>

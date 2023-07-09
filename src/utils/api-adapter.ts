@@ -156,4 +156,9 @@ export const api = {
 		await axiosInstance.get('/auth/send-password-reset-email', {
 			params: { email },
 		}),
+	uploadProfilePicture: async (file: File) =>
+		await axiosInstance.putForm('/users/profile-picture', {
+			file,
+		}),
+	googleLogin: async () => await axiosInstance.get('auth/oauth2/google'),
 };

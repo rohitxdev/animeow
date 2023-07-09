@@ -16,11 +16,18 @@
             height: fit-content;
             width: fit-content;
 
-            img {
-                border-radius: 50%;
+            & > :is(img, svg) {
                 height: 100px;
                 width: 100px;
-                object-fit: cover;
+                border-radius: 50%;
+            }
+
+            & > svg {
+                padding: 0.25rem;
+            }
+
+            & > img {
+                box-shadow: 0 0 1px 1px var(--dark);
             }
 
             input[type=file] {
@@ -44,6 +51,23 @@
                     height: 100%;
                     width: 100%;
                     fill: var(--light);
+                }
+            }
+
+            .uploading {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: grid;
+                place-content: center;
+                border-radius: 50%;
+                top: 0;
+
+                svg {
+                    fill: var(--light);
+                    height: 1.5rem;
+                    width: 1.5rem;
                 }
             }
         }

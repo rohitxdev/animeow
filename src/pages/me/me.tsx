@@ -1,27 +1,35 @@
 import { Breadcrumbs } from '@components';
 import { useAuthContext } from '@hooks';
 import { ReactComponent as EditIcon } from '@icons/edit.svg';
-import { api, axiosInstance } from '@utils';
-import { useId, useMemo } from 'react';
+import { ReactComponent as SpinnerIcon } from '@icons/spinner.svg';
+import { ReactComponent as UserIcon } from '@icons/user.svg';
+import { api } from '@utils';
+import imageCompression from 'browser-image-compression';
+import { useId, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 import styles from './me.module.scss';
 
 export const MePage = () => {
+	const id = useId();
 	const { isLoggedIn } = useAuthContext();
 	const queryClient = useQueryClient();
-	const id = useId();
+	const [isUploading, setIsUploading] = useState(false);
 
-	const { data } = useQuery(['me'], ({ signal }) => api.getMyProfile(signal), {
-		enabled: isLoggedIn,
-	});
+	const { data: user } = useQuery(
+		['me'],
+		({ signal }) => api.getMyProfile(signal),
+		{
+			enabled: isLoggedIn,
+		},
+	);
 
 	const joinedDate = useMemo(
 		() =>
-			data &&
-			new Date(data.createdAt).toDateString().split(' ').slice(1).join(' '),
-		[data],
+			user &&
+			new Date(user.createdAt).toDateString().split(' ').slice(1).join(' '),
+		[user],
 	);
 
 	const updateProfilePicture: React.FormEventHandler<HTMLInputElement> = async (
@@ -29,40 +37,51 @@ export const MePage = () => {
 	) => {
 		const file = e.currentTarget.files && e.currentTarget.files[0];
 		try {
-			await axiosInstance.putForm('/users/profile-picture', {
-				file,
-			});
-			await queryClient.refetchQueries(['me']);
-			toast.success('Profile picture has been changed successfully');
+			if (file) {
+				setIsUploading(true);
+				const compressedFile = await imageCompression(file, { maxSizeMB: 2 });
+				await api.uploadProfilePicture(compressedFile);
+				await queryClient.refetchQueries(['me']);
+				toast.success('Profile picture has been changed successfully');
+			}
 		} catch {
 			toast.error('Could not change profile picture');
+		} finally {
+			setIsUploading(false);
 		}
 	};
 
 	return (
 		<div className={styles.mePage}>
 			<Breadcrumbs data={[{ name: 'Me', to: '.' }]} />
-			{data && (
+			{user && (
 				<div>
 					<div className={styles.profilePicture}>
-						<img
-							src={data.image_url ?? 'https://picsum.photos/100'}
-							alt="Profile picture"
-						/>
+						{user?.image_url ? (
+							<img src={user.image_url} alt="Profile picture" />
+						) : (
+							<UserIcon aria-label="User placeholder picture" />
+						)}
 						<input
 							type="file"
 							accept="image/*"
 							id={id}
 							onInput={updateProfilePicture}
+							required
 							hidden
 						/>
+						{isUploading && (
+							<div className={styles.uploading}>
+								<SpinnerIcon />
+							</div>
+						)}
 						<label htmlFor={id} title="Change profile picture">
 							<EditIcon />
 						</label>
 					</div>
-					<p className={styles.username}>{data.username}</p>
+					<p className={styles.username}>{user.username}</p>
 					<div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-						<span className={styles.email}>{data.email}</span>
+						<span className={styles.email}>{user.email}</span>
 						<span className={styles.joinedDate}>{joinedDate}</span>
 					</div>
 				</div>
