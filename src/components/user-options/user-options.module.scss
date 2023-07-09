@@ -7,7 +7,6 @@
 
         height: var(--size);
         width: var(--size);
-        background-color: var(--light);
         border-radius: 100%;
         cursor: pointer;
         display: flex;
@@ -19,7 +18,8 @@
         }
 
         & > svg {
-            padding: 0.25rem;
+            background-color: var(--dark);
+            color: var(--light);
         }
 
         & > img {
