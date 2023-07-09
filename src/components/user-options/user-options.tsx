@@ -5,18 +5,25 @@ import { ReactComponent as LogOutIcon } from '@icons/log-out.svg';
 import { ReactComponent as PersonIcon } from '@icons/person.svg';
 import { ReactComponent as ServerIcon } from '@icons/server.svg';
 import { ReactComponent as UserIcon } from '@icons/user.svg';
+import { api } from '@utils';
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Link, useLocation } from 'react-router-dom';
 
 import styles from './user-options.module.scss';
 
 export const UserOptions = () => {
 	const location = useLocation();
-	const { isLoggedIn, setShowAuthModal, logOut, hasAccess, user } =
-		useAuthContext();
+	const { isLoggedIn, setShowAuthModal, logOut, hasAccess } = useAuthContext();
 	const [showOptions, setShowOptions] = useState(false);
 	const timerIdRef = useRef<number | null>(null);
-
+	const { data: user } = useQuery(
+		['me'],
+		({ signal }) => api.getMyProfile(signal),
+		{
+			enabled: isLoggedIn,
+		},
+	);
 	const clearHideTimer = () => {
 		if (timerIdRef.current) {
 			clearTimeout(timerIdRef.current);
@@ -46,7 +53,7 @@ export const UserOptions = () => {
 			>
 				{isLoggedIn ? (
 					user?.image_url ? (
-						<img src={user?.image_url} alt="Profile picture" />
+						<img src={user.image_url} alt="Profile picture" />
 					) : (
 						<UserIcon aria-label="User placeholder picture" />
 					)

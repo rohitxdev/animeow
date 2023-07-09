@@ -8,7 +8,6 @@
         height: var(--size);
         width: var(--size);
         background-color: var(--light);
-        padding: 0.25rem;
         border-radius: 100%;
         cursor: pointer;
 
@@ -16,6 +15,14 @@
             height: 100%;
             width: 100%;
             border-radius: 100%;
+        }
+
+        & > svg {
+            padding: 0.25rem;
+        }
+
+        & > img {
+            box-shadow: 0 0 1px 1px var(--dark);
         }
 
         animation: scale-up 300ms cubic-bezier(.59, 1.12, .75, .98) 1 forwards;
